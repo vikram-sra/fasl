@@ -2,7 +2,8 @@
 const Scene3D=(()=>{
   let renderer,scene,camera,plant,roots,water,pond,rainGroup,pumpGroup,particles,infiltrationGroup,fertilizerGroup,host,currentStage='',cloudGroup,uptakeGroup,rechargeGroup,grainMaterialRef,reproductiveMaterialRef,plantMaterials=[],seedMesh,moisture,dischargeGroup,pipeCurve,outletCurve,waterLine,poolLine;
   const T=THREE,V=(x,y,z)=>new T.Vector3(x,y,z),rng=Sim.random(630126);
-  let strawGroup,fireGroup,smokeGroup,themeSeen='',slowFrames=0;
+  let strawGroup,fireGroup,smokeGroup,themeSeen='',slowFrames=0,fieldGroup,fieldSurface,fieldLines,fieldRoots,fieldCrop='',viewMode='bowl',viewBlend=0,baseHeight=9.8,fieldBatches=[];
+  const fieldCount=48,fieldUniforms={growth:{value:1},grain:{value:0},cut:{value:4},time:{value:0},wind:{value:1}};
   const materials={},mat=(color,extra={})=>new T.MeshStandardMaterial({color,roughness:.84,...extra});
   const stemMat=mat('#71814b'),rootMat=mat('#d7c49b'),metal=mat('#6f8079',{metalness:.65,roughness:.42});
   function mesh(geometry,material,parent=scene){const m=new T.Mesh(geometry,material);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m;}
@@ -92,20 +93,55 @@ const Scene3D=(()=>{
     strawGroup=dotGroup(70,.035,'#b9a167');fireGroup=dotGroup(42,.085,'#ff9e32');smokeGroup=dotGroup(22,.09,'#77776b');smokeGroup.userData.batch.geometry.dispose();smokeGroup.userData.batch.geometry=new T.SphereGeometry(.09,12,8);
     resize();window.addEventListener('resize',resize);return true;
   }
-  function resize(){if(!renderer)return;const w=host.clientWidth,h=host.clientHeight,aspect=w/h,height=aspect<.8?(h<600?12.4:h<720?11:9.8):8.8,width=height*aspect;camera.left=-width/2;camera.right=width/2;camera.top=height/2;camera.bottom=-height/2;camera.updateProjectionMatrix();renderer.setSize(w,h);positionMarker();renderer.render(scene,camera);}
+
+  // Small reusable botanical clumps keep a full field economical on phones.
+  function buildField(id){
+    if(fieldGroup){fieldGroup.traverse(o=>{if(o.isMesh){o.geometry.dispose();o.material.dispose();}});scene.remove(fieldGroup);}
+    fieldGroup=new T.Group();scene.add(fieldGroup);fieldBatches=[];fieldCrop=id;
+    const positions=[],ears=[],rice=id==='rice';
+    function triangle(a,b,c,list=positions){list.push(...a,...b,...c);}
+    for(let stem=0;stem<3;stem++){
+      const x=(stem-1)*.07,h=1.3+stem*.08;
+      triangle([x-.009,0,0],[x+.009,0,0],[x+.045,h,0]);
+      for(let j=0;j<4;j++){const y=.2+j*.23,side=(j+stem)%2?1:-1;triangle([x,y,0],[x+side*.29,y+.23,0],[x+side*.17,y+.13,.01]);}
+      for(let j=0;j<6;j++){const xx=x+.045+(rice?j*.018:0),yy=h+(rice?-.025*j:.03*j);triangle([xx-.025,yy,0],[xx+.03,yy+.045,0],[xx+.02,yy-.015,0],ears);}
+    }
+    for(const [points,grain] of [[positions,false],[ears,true]]){
+      const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(points,3));geo.computeVertexNormals();const material=new T.MeshBasicMaterial({color:grain?'#d2b76f':'#708f49',side:T.DoubleSide,transparent:true,opacity:1,depthWrite:!grain});
+      material.onBeforeCompile=shader=>{Object.assign(shader.uniforms,{fGrowth:fieldUniforms.growth,fGrain:fieldUniforms.grain,fCut:fieldUniforms.cut,fTime:fieldUniforms.time,fWind:fieldUniforms.wind});shader.vertexShader='uniform float fGrowth,fTime,fWind; varying float fHeight;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','vec3 transformed=vec3(position);fHeight=position.y;transformed.y*=fGrowth;transformed.x+=sin(fTime*1.3+position.y*2.0)*.035*position.y*fWind;');shader.fragmentShader='uniform float fCut,fGrain;varying float fHeight;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif(fHeight>fCut)discard;'+(grain?'if(fGrain<.01)discard;':''));};material.customProgramCacheKey=()=>grain?'field-grain-v1':'field-leaf-v1';
+      const batch=new T.InstancedMesh(geo,material,fieldCount);batch.frustumCulled=false;batch.userData.grain=grain;fieldGroup.add(batch);fieldBatches.push(batch);
+    }
+    if(!fieldSurface){const surfaceGeo=new T.BufferGeometry();surfaceGeo.setAttribute('position',new T.Float32BufferAttribute([-.5,0,-.8,.5,0,-.8,-.43,.48,-.8,.5,0,-.8,.43,.48,-.8,-.43,.48,-.8],3));fieldSurface=new T.Mesh(surfaceGeo,new T.MeshBasicMaterial({color:'#b5a272',transparent:true,opacity:.9,side:T.DoubleSide}));scene.add(fieldSurface);fieldRoots=new T.LineSegments(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#dec79e',transparent:true,opacity:.65}));scene.add(fieldRoots);fieldLines=new T.LineSegments(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#c1ae80',transparent:true,opacity:.65}));scene.add(fieldLines);}
+  }
+  const fieldDummy=new T.Object3D();
+  function updateField(v,{motion,time,dark}){
+    if(fieldCrop!==v.id)buildField(v.id);
+    const visible=viewBlend>.02,width=(camera.right-camera.left)*.80;fieldGroup.visible=fieldSurface.visible=fieldLines.visible=fieldRoots.visible=visible;
+    fieldUniforms.growth.value=v.growth.height;fieldUniforms.grain.value=v.growth.grain;fieldUniforms.cut.value=1.9-v.growth.harvest*1.82;fieldUniforms.time.value=time;fieldUniforms.wind.value=motion?0:1;
+    fieldSurface.scale.x=width;fieldSurface.material.color.set(dark?'#617450':'#b5a272');fieldSurface.material.opacity=.9*viewBlend;
+    const rootPoints=[];for(let j=0;j<12;j++){const x=-width/2+(j+.5)*width/12;for(let k=0;k<5;k++){const spread=(k-2)*.025*v.growth.root,depth=(.2+k*.04)*v.growth.root;rootPoints.push(x,-.02,1.35,x+spread,-depth,1.35,x+spread,-depth,1.35,x+spread*1.3,-depth-.07*v.growth.root,1.35);}}fieldRoots.geometry.setAttribute('position',new T.Float32BufferAttribute(rootPoints,3));fieldRoots.material.opacity=viewBlend*.65;
+    const linePoints=[];for(let j=0;j<13;j++){const x=-width/2+j/12*width;linePoints.push(x,0,1.1,x*.86,.48,1.1);}fieldLines.geometry.setAttribute('position',new T.Float32BufferAttribute(linePoints,3));
+    fieldBatches.forEach(batch=>{batch.material.opacity=viewBlend*(batch.userData.grain?v.growth.grain:1);batch.material.color.set(batch.userData.grain?'#d5bd76':dark?'#a5c878':v.growth.ripe>.6?'#baaa65':'#728f4d');for(let j=0;j<fieldCount;j++){const row=Math.floor(j/12),column=j%12,back=(3-row)/3;fieldDummy.position.set((-width/2+(column+.5)*width/12)*(1-back*.1),back*.40+.02,1.25+row*.08);fieldDummy.scale.setScalar((.82-back*.15)*(1-viewBlend*.06));fieldDummy.updateMatrix();batch.setMatrixAt(j,fieldDummy.matrix);}batch.instanceMatrix.needsUpdate=true;});
+  }
+
+  function resize(){if(!renderer)return;lastPosition=null;const w=host.clientWidth,h=host.clientHeight,aspect=w/h; baseHeight=aspect<.8?(h<600?12.4:h<720?11:9.8):8.8;const height=baseHeight*(1+viewBlend*.13),width=height*aspect;camera.left=-width/2;camera.right=width/2;camera.top=height/2;camera.bottom=-height/2;camera.updateProjectionMatrix();renderer.setSize(w,h);positionMarker();renderer.render(scene,camera);}
   function positionMarker(){if(!camera)return;const label=document.getElementById('groundwater-marker'),p=V(0,waterSurface,0).project(camera);if(label)label.style.top=((1-p.y)*host.clientHeight/2)+'px';}
   const ease=(value,target,dt,rate=4)=>value+(target-value)*(1-Math.exp(-dt*rate));
   const wavePoints=[];for(let i=0;i<48;i++)wavePoints.push(V(0,0,0));
   function wave(line,level,time,amplitude){const width=camera.right-camera.left;for(let i=0;i<wavePoints.length;i++){const x=-width/2+i/(wavePoints.length-1)*width;wavePoints[i].set(x,level+amplitude*(Math.sin(x*3+time*.9)+Math.sin(x*5-time*.65)*.45),1.2);}line.geometry.setFromPoints(wavePoints);}
-  function update(v,{motion,time,dt}){
+  function update(v,{motion,time,dt,displayMode='bowl'}){
     if(failed||!renderer&&!initialize())return;
     const dark=document.documentElement.dataset.theme==='dark',themeKey=dark?'dark':'light';
     if(themeSeen!==themeKey){themeSeen=themeKey;renderer.setClearColor(dark?0x14231e:0xf3f0e5,1);scene.children.filter(o=>o.isMesh&&o.geometry.type==='PlaneGeometry').forEach(o=>{if(!o.userData.originalColor)o.userData.originalColor=o.material.color.clone();o.material.color.copy(o.userData.originalColor).multiplyScalar(dark?.57:1);});lastPosition=null;}
     if(dt>.028&&!motion)slowFrames++;else slowFrames=Math.max(0,slowFrames-1);if(slowFrames>120&&renderer.getPixelRatio()>1){renderer.setPixelRatio(1);resize();slowFrames=0;}
+    if(viewMode!==displayMode){viewMode=displayMode;lastPosition=null;}
+    const oldBlend=viewBlend;viewBlend=motion?(viewMode==='acre'?1:0):ease(viewBlend,viewMode==='acre'?1:0,dt,6);if(Math.abs(viewBlend-oldBlend)>.00001){const height=baseHeight*(1+viewBlend*.13),width=height*host.clientWidth/host.clientHeight;camera.left=-width/2;camera.right=width/2;camera.top=height/2;camera.bottom=-height/2;camera.updateProjectionMatrix();}
     if(motion&&lastMotion&&v.position===lastPosition)return;lastPosition=v.position;lastMotion=motion;
     if(currentStage!==v.id)buildPlant(v.id,8);
     uniforms.time.value=motion?0:time;uniforms.wind.value=motion?0:1;uniforms.height.value=v.growth.height;uniforms.spread.value=v.growth.spread;uniforms.root.value=v.growth.root;uniforms.cut.value=4-v.growth.harvest*3.82;
     const green=new T.Color(dark?'#95b96a':v.id==='rice'?'#668946':'#7a914e'),gold=new T.Color(dark?'#dac676':'#b8a15b');plantMaterials.forEach(m=>{if(m!==grainMaterialRef)m.color.copy(green).lerp(gold,v.growth.ripe);});grainMaterialRef.color.set('#c8b47a');grainMaterialRef.opacity=v.growth.grain;reproductiveMaterialRef.opacity=Timeline.phase(v.das,v.def.stages[5].start_das,v.def.stages[6].start_das+3);rootMat.color.set(v.fallow?'#b7a686':'#d5c39e');plant.visible=roots.visible=true;seedMesh.visible=!v.fallow&&v.das<5;
+    updateField(v,{motion,time,dark});
+    plant.visible=viewBlend<.85;plant.scale.setScalar(1-viewBlend*.4);seedMesh.visible=seedMesh.visible&&viewBlend<.5;roots.visible=viewBlend<.85;roots.scale.setScalar(1-viewBlend*.42);
     // All values are driven by the same continuously sampled, conserved daily ledger.
     const oldWater=waterSurface;waterGoal=-2.75+v.aquiferL/Sim.H.aquifer_capacity_L*1.05;waterSurface=motion?waterGoal:ease(waterSurface,waterGoal,dt,7);waterDirection=Math.sign(waterSurface-oldWater);water.position.y=waterSurface-6;positionMarker();
     const moistureFraction=v.soilL/(Sim.A*Sim.H.soil_capacity_mm);soilSurface.material.color.set(dark?(moistureFraction>.75?'#4d4535':'#685740'):(moistureFraction>.75?'#83694d':'#9d805c'));moisture.material.opacity=.03+Math.min(1,moistureFraction)*.16;
@@ -132,5 +168,5 @@ const Scene3D=(()=>{
     for(const group of [particles,dischargeGroup,infiltrationGroup,uptakeGroup,rechargeGroup,fertilizerGroup,strawGroup,fireGroup,smokeGroup]){if(!group.visible)continue;group.userData.dots.forEach((p,i)=>{p.updateMatrix();group.userData.batch.setMatrixAt(i,p.matrix);});group.userData.batch.instanceMatrix.needsUpdate=true;}
     water.material.color.set(dark?'#285a65':v.flow.recharge>0?'#79aaa9':'#699fa5');wave(waterLine,waterSurface,motion?0:time,motion?0:.009);if(pond.visible)wave(poolLine,surfaceHeight+.003,motion?0:time,motion?0:.004);renderer.render(scene,camera);renderedFrames++;lastDay=v.day;
   }
-  return{update,resize,info:()=>({representation:'continuous lateral',revision:T.REVISION,locked:true,renderer:!!renderer,crop:currentStage,geometryBuilds,renderedFrames,waterSurface,waterGoal,waterDirection,surfacePoolHeight:surfaceHeight,pumpStrength,rainStrength,cloudsVisible:!!cloudGroup?.visible,infiltrationAnimating:!!infiltrationGroup?.visible,uptakeAnimating:!!uptakeGroup?.visible,rechargeAnimating:!!rechargeGroup?.visible,rainAnimating:!!rainGroup?.visible,pumpAnimating:!!particles?.visible,dischargeAnimating:!!dischargeGroup?.visible,growth:uniforms.height.value,windTime:uniforms.time.value,day:lastDay,cropCenterX:plant?new T.Vector3(plant.position.x,0,0).project(camera).x:null,drawCalls:renderer?.info.render.calls,theme:themeSeen,fireVisible:!!fireGroup?.visible,residueVisible:!!strawGroup?.visible,fertilizerVisible:!!fertilizerGroup?.visible,pixelRatio:renderer?.getPixelRatio()})};
+  return{update,resize,info:()=>({representation:viewMode==='acre'?'flat field rows':'continuous lateral',viewMode,zoomBlend:viewBlend,visiblePlantClumps:viewBlend>.5?(lastDay>=121&&lastDay<Sim.wheatStart()?0:fieldCount):1,revision:T.REVISION,locked:true,renderer:!!renderer,crop:currentStage,geometryBuilds,renderedFrames,waterSurface,waterGoal,waterDirection,surfacePoolHeight:surfaceHeight,pumpStrength,rainStrength,cloudsVisible:!!cloudGroup?.visible,infiltrationAnimating:!!infiltrationGroup?.visible,uptakeAnimating:!!uptakeGroup?.visible,rechargeAnimating:!!rechargeGroup?.visible,rainAnimating:!!rainGroup?.visible,pumpAnimating:!!particles?.visible,dischargeAnimating:!!dischargeGroup?.visible,growth:uniforms.height.value,windTime:uniforms.time.value,day:lastDay,cropCenterX:plant?new T.Vector3(plant.position.x,0,0).project(camera).x:null,drawCalls:renderer?.info.render.calls,theme:themeSeen,fireVisible:!!fireGroup?.visible,residueVisible:!!strawGroup?.visible,fertilizerVisible:!!fertilizerGroup?.visible,pixelRatio:renderer?.getPixelRatio()})};
 })();

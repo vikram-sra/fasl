@@ -28,3 +28,7 @@ See `ANIMATION_AUDIT.md` for findings, changes and physical limits.
 ## UX audit and live unit quantities · 2026-10-02
 
 Added 19 passing UX/metrics browser checks and a passing pure metric-allocation test. The existing 15 live-flow and 16 farmer-interface checks also pass (50 browser checks total). Centering and non-overlapping controls were checked on four portrait/desktop sizes. Population and grain presentation assumptions, unit semantics and source details are recorded in UX_AUDIT.md.
+
+## Acre field visualization
+
+12 new browser checks pass for instanced field rows, smooth zoom, reversible view switching, mobile fit, wheat and reduced motion. Metric allocation and residue model tests pass. Representative plant rendering does not modify the model population or water balance.

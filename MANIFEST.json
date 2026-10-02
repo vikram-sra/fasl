@@ -26,8 +26,8 @@
   },
   {
     "path": "app/application.js",
-    "bytes": 30854,
-    "sha256": "d8d816949328fd22ff9d215541a3c410fd4cb81cec793f8df2f087527c7d1f25"
+    "bytes": 31011,
+    "sha256": "359899b2e4b97a27a8b7baea3f1fa155f6cd311a48a6653db66cff990841ca67"
   },
   {
     "path": "app/metrics.js",
@@ -36,8 +36,8 @@
   },
   {
     "path": "app/scene3d.js",
-    "bytes": 25190,
-    "sha256": "78436cb265526d9ef9d617f31be85dface073df2ab7f7dc1b9aa44cf8b7b15aa"
+    "bytes": 31032,
+    "sha256": "2c706bfdd01425a851df04793807e12c4c008c79d95e0e35df57ac44c5d0ff20"
   },
   {
     "path": "app/shell.html",
@@ -126,8 +126,8 @@
   },
   {
     "path": "docs/ACCEPTANCE_RESULTS.md",
-    "bytes": 3657,
-    "sha256": "44ec50b4731b913c41983cf70bd0866ef75a5274f80d195c9b7bd856af8641bf"
+    "bytes": 3952,
+    "sha256": "21b8f95cd7544978803d4cdeef7557a27bbc5bf422e9466a4c954877369cb41b"
   },
   {
     "path": "docs/ANIMATION_AUDIT.md",
@@ -161,13 +161,18 @@
   },
   {
     "path": "docs/UX_AUDIT.md",
-    "bytes": 2909,
-    "sha256": "abe01f507a9052b1945dab6a73bcbed198d7837851531b81c8f27374d715a94a"
+    "bytes": 3751,
+    "sha256": "3bc4c352815a9c398503fd0f6914d3b93ec2892d1a501caa0d6e6561f3de6dc9"
   },
   {
     "path": "index.html",
-    "bytes": 846513,
-    "sha256": "17f47a403da210701b5e84e3e3f8d50c1ac90ea0ab3bfc67f38be5a88bdd9fec"
+    "bytes": 852512,
+    "sha256": "db94ca11053555d6ee9df75c0684fc33538c5082a026c80c58ea1537271209ac"
+  },
+  {
+    "path": "tests/acre-view.js",
+    "bytes": 3078,
+    "sha256": "c38875096358521880dca0d890647a4455e4477129716c76c8d9866a48c16423"
   },
   {
     "path": "tests/automatic-irrigation.cjs",

@@ -19,3 +19,9 @@ Rice population target is derived from PAU flat-puddled transplant spacing of 20
 - `tests/metrics.cjs`: both crop/strategy allocations, product units, emergence, stable plant count during tillering, increasing shoots, harvest removal, grain accumulation, reversible sampling and final 100g bowl.
 - `tests/ux-metrics.js`: 19 browser checks covering unit preservation, partial-input drawer labels, crop centering, controls and groundwater separation at 390×844, 390×667, 320×568 and 1440×1000, wheat metrics, harvest and preference persistence.
 - Existing water-model, continuous-timeline, residue, live-flow and bilingual/theme checks remain part of regression validation.
+
+## Acre field view
+
+Acre mode now smoothly zooms out 13% and presents a flat trapezoid field surface with 48 representative clumps in four rows. The field uses lightweight instanced botanical geometry, matching continuous height, grain filling, wind and harvest from the active timeline. Root fans span the front row. Bowl mode returns to the enlarged centered crop. These drawn clumps represent the field; the population metric still reports the modeled acre count. Water and timelines are unchanged. Reduced motion switches views immediately. Resize invalidates the rendered frame so reduced-motion rows also adapt to the new viewport.
+
+`tests/acre-view.js` adds 12 passing checks: rows, preserved date/state, geometry reuse, seedling growth, small/large viewport fit, bowl restoration, reduced-motion switching, wheat and browser errors.
