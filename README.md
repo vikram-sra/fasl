@@ -5,6 +5,8 @@ A full-screen educational crop game for Punjab, linking rice and wheat through t
 
 ## Play
 
+Play online: [vikram-sra.github.io/fasl](https://vikram-sra.github.io/fasl/).
+
 Open `index.html` in a modern browser. The application is standalone: all code, Three.js and model data are embedded, so no install or network is required.
 
 For a local server:

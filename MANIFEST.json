@@ -5,9 +5,14 @@
     "sha256": "df04fa7f2a4377144ce3c879e5262c98310542ae2f1e12bfe855a39849eb6d98"
   },
   {
+    "path": ".nojekyll",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
     "path": "README.md",
-    "bytes": 3376,
-    "sha256": "e6799a458ffcc51c2d1c5ca23ab8bb4705de080d06134befea2e7626ad89f070"
+    "bytes": 3455,
+    "sha256": "168e7d0d0924b170781734dea743e538789cda02374df101599f8c70c6306e3c"
   },
   {
     "path": "START_HERE.md",
@@ -116,8 +121,8 @@
   },
   {
     "path": "docs/BUILD_AND_RUN.md",
-    "bytes": 6654,
-    "sha256": "9f31316d9ab8013f9d9ed9f5810a3705c62aef48f7b8f9aba2c0437dc4622a6b"
+    "bytes": 6903,
+    "sha256": "091f3d7714c4521450945c416d8a4be450a1400052937bb08c9f9448e5f89c28"
   },
   {
     "path": "docs/EVIDENCE_AND_GAPS.md",

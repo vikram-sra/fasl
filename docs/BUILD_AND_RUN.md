@@ -62,3 +62,7 @@ The persistent bottom information card has been removed. The main view contains 
 Current UI acceptance: `tests/plot-first.js`, results in `output/playwright/plot-first-results.txt`. Older browser flows document earlier UI versions.
 
 The soil begins near the middle of the viewport, with a thicker section between the crop and groundwater. Month groups above the bottom stages follow the configured dates: rice nursery sowing in June, transplanting in July, harvest in October; wheat November–April. A small counter beside the pump shows cumulative litres for the current crop on the model acre. Rainy events show drifting clouds and falling rain. Water particles show actual daily infiltration, crop evapotranspiration, queued drainage and arriving recharge; the groundwater level remains tied to storage. The seven-day recharge lag is preserved. Monthly average rain amounts come from the supplied IMD dataset, while individual rainy dates are deterministic synthetic timing.
+
+## GitHub Pages
+
+The public application is at https://vikram-sra.github.io/fasl/. GitHub Pages publishes the root of `main`; `.nojekyll` serves the self-contained HTML directly. To publish changes, rebuild `index.html`, commit, and push to `main`.
