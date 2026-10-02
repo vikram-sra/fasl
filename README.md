@@ -57,3 +57,5 @@ Original publications/photos are linked rather than redistributed. No external i
 
 ## Confirmed unit toggle
 Provide a prominent **Per bowl ↔ 1 acre** toggle in the main scene. Both modes show the same simulation. Switch all water, product and harvest quantities together; preserve crop progress and aquifer history. Acre mode shows kg/quintals and fertilizer bag equivalents; bowl mode shows allocated grams/millilitres/litres per 100 g dry food. The field-detail drawer is supplementary, not a substitute for this toggle.
+
+The main scene now includes **Per bowl / 1 acre** controls and live plant, water and dry-grain quantities. Tap those values for detailed metrics. See [UX audit and quantity definitions](docs/UX_AUDIT.md).

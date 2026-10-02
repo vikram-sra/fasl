@@ -24,3 +24,7 @@ See `ANIMATION_AUDIT.md` for findings, changes and physical limits.
 - Local Chrome, 390×844 mature crop: 120-frame sample median 16.7ms, p95 16.7ms, 24 draw calls. This is desktop-browser testing, not a claim about every phone.
 - In the illustrative normal-rain run, burning and mulch produce equal wheat grain output while mulch lowers cumulative pumping. No guaranteed yield penalty is imposed.
 - Scientific and translation limitations are documented in FARMER_UI_AND_RESIDUE.md.
+
+## UX audit and live unit quantities · 2026-10-02
+
+Added 19 passing UX/metrics browser checks and a passing pure metric-allocation test. The existing 15 live-flow and 16 farmer-interface checks also pass (50 browser checks total). Centering and non-overlapping controls were checked on four portrait/desktop sizes. Population and grain presentation assumptions, unit semantics and source details are recorded in UX_AUDIT.md.

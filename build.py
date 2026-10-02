@@ -10,6 +10,7 @@ html = html.replace('/* THREE */', (root/'app/vendor/three.bundle.js').read_text
 html = html.replace('/* SCENE_3D */', (root/'app/scene3d.js').read_text())
 html = html.replace('/* SIMULATION */', (root/'app/simulation.js').read_text())
 html = html.replace('/* TIMELINE */', (root/'app/timeline.js').read_text())
+html = html.replace('/* METRICS */', (root/'app/metrics.js').read_text())
 html = html.replace('/* APPLICATION */', (root/'app/application.js').read_text())
 (root/'index.html').write_text(html)
 print('Built index.html — embedded art, simulation and all package data.')

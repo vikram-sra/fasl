@@ -63,7 +63,7 @@
   "nursery_hydrology": "Subplot of same acre until transplant; remaining area is fallow. Allocate nursery pumping to rice and record fallow pumping separately.",
   "labels": [
     "Educational simulation",
-    "Monthly rain: IMD 1991\u20132020 normal; event timing simulated",
+    "Monthly rain: IMD 1991–2020 normal; event timing simulated",
     "Groundwater storage: illustrative model",
     "Stage dates: approximate game schedule"
   ],
@@ -74,5 +74,17 @@
     "burn_n_loss_fraction": 0.9,
     "decay_days": 180,
     "initial_et_reduction": 0.12
+  },
+  "population": {
+    "rice_row_m": 0.2,
+    "rice_spacing_m": 0.15,
+    "rice_seedlings_per_hill": 2,
+    "rice_spacing_source": "PAU_K26",
+    "wheat_plants_per_m2": 250,
+    "max_shoots_per_plant": {
+      "rice": 3.5,
+      "wheat": 3
+    },
+    "status": "Rice target derived from PAU 20×15 cm spacing and 2 seedlings/hill. Wheat density, emergence, shoot development and absence of mortality are illustrative assumptions; no measured stand count."
   }
 }

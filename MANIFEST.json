@@ -11,8 +11,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 3948,
-    "sha256": "a0f0de1f70e27bfe5c270e830f9124b2b6b05959bd01e9833efbe5425a6e9c25"
+    "bytes": 4154,
+    "sha256": "8b5a9c4d0ceaaef99416067c5c43ae1cef2aeca567ca1e71364622d17cbd20ab"
   },
   {
     "path": "START_HERE.md",
@@ -26,18 +26,23 @@
   },
   {
     "path": "app/application.js",
-    "bytes": 24457,
-    "sha256": "3ea83679d27f7a5e2437578d272d23910ae4f21d16b49dc2be66e8cba626ac22"
+    "bytes": 30854,
+    "sha256": "d8d816949328fd22ff9d215541a3c410fd4cb81cec793f8df2f087527c7d1f25"
+  },
+  {
+    "path": "app/metrics.js",
+    "bytes": 1671,
+    "sha256": "1e3b74fd975cb7d49519e7574117f4741987abf18b88bb42c65cbd7b8cff10a0"
   },
   {
     "path": "app/scene3d.js",
-    "bytes": 25091,
-    "sha256": "bb17b3a9d2c2792596500edb2f4265ca1f0e30f81d4b6679007b5b7db7637cb6"
+    "bytes": 25190,
+    "sha256": "78436cb265526d9ef9d617f31be85dface073df2ab7f7dc1b9aa44cf8b7b15aa"
   },
   {
     "path": "app/shell.html",
-    "bytes": 3444,
-    "sha256": "6328d8adc0b1df23eeed7228285c4b1b419b1a9580dad2fd5557599215fd9302"
+    "bytes": 4027,
+    "sha256": "0cd522affdb173d70608dd077e664d0fdacbc541e2352b0111cf66074f460985"
   },
   {
     "path": "app/simulation.js",
@@ -46,8 +51,8 @@
   },
   {
     "path": "app/style.css",
-    "bytes": 12718,
-    "sha256": "abcd0ba9b3eb14daf0d06bff4894d3d8be208fced29357cea18014eb96e2ad3f"
+    "bytes": 15195,
+    "sha256": "abcf2a3e6109fa70d752e4fc680d4be066e9a534e8ba417a18d0d1abcefda826"
   },
   {
     "path": "app/timeline.js",
@@ -76,8 +81,8 @@
   },
   {
     "path": "build.py",
-    "bytes": 978,
-    "sha256": "4b54cd2d86a2b404ccf9fb6b02d643fc8a45fb5c465ca667dd48ce98293cebae"
+    "bytes": 1052,
+    "sha256": "fe701ff1bd32e126a7fee74f7292b80a22aae4371e5e7580c197676f7bbeead7"
   },
   {
     "path": "data/crops.json",
@@ -101,8 +106,8 @@
   },
   {
     "path": "data/model_assumptions.json",
-    "bytes": 2152,
-    "sha256": "2b86c939c0a109558792fa0e812536718a5cd1cdb458a9e7093a454b929497b2"
+    "bytes": 2609,
+    "sha256": "3f323f00e6cc3b857ed245e425a3fb0e6f1f27b6f87b4222ff7d700ed7c766d4"
   },
   {
     "path": "data/rainfall.json",
@@ -121,8 +126,8 @@
   },
   {
     "path": "docs/ACCEPTANCE_RESULTS.md",
-    "bytes": 3230,
-    "sha256": "473b3c6bfd9b5a415a17de19f7de4f4f290f21d1ccd0bc7c30e3edd6e1006f38"
+    "bytes": 3657,
+    "sha256": "44ec50b4731b913c41983cf70bd0866ef75a5274f80d195c9b7bd856af8641bf"
   },
   {
     "path": "docs/ANIMATION_AUDIT.md",
@@ -131,8 +136,8 @@
   },
   {
     "path": "docs/BUILD_AND_RUN.md",
-    "bytes": 3752,
-    "sha256": "fb0fdd176017ad90c4c2611485db260882d14162ce1567e43476412167e81867"
+    "bytes": 4025,
+    "sha256": "b53c0713983aa59b5d8d015254b319f140fd17c695ae425206f6b3d44e327188"
   },
   {
     "path": "docs/EVIDENCE_AND_GAPS.md",
@@ -155,9 +160,14 @@
     "sha256": "83132a4200e253aa48cadabf66464738f35c9462c4efff7806d3a02b756e7b10"
   },
   {
+    "path": "docs/UX_AUDIT.md",
+    "bytes": 2909,
+    "sha256": "abe01f507a9052b1945dab6a73bcbed198d7837851531b81c8f27374d715a94a"
+  },
+  {
     "path": "index.html",
-    "bytes": 834891,
-    "sha256": "d278e3fef22a248ce7d5ea887742ca0eb1b117fc9fb1294ed9406321b5d67249"
+    "bytes": 846513,
+    "sha256": "17f47a403da210701b5e84e3e3f8d50c1ac90ea0ab3bfc67f38be5a88bdd9fec"
   },
   {
     "path": "tests/automatic-irrigation.cjs",
@@ -205,6 +215,11 @@
     "sha256": "3ed5b920ed93e74fc4bcb9314f528a18747ceb8ba4c22d2f8c0ec2a821513ddf"
   },
   {
+    "path": "tests/metrics.cjs",
+    "bytes": 1848,
+    "sha256": "98ee5c077f563c200cf216dc6fbcc93166b582ec52cd33f766801b334eb85d7b"
+  },
+  {
     "path": "tests/playwright.config.json",
     "bytes": 202,
     "sha256": "b1bf779920635811bc739e153609bfe9b83afb3b8a73d9a85f2e3c416a7e82b1"
@@ -223,6 +238,11 @@
     "path": "tests/simulation.cjs",
     "bytes": 6975,
     "sha256": "141b8ebec273503aa5186b9ee1e63bf58187d5146df07b391b2332ba9acfc722"
+  },
+  {
+    "path": "tests/ux-metrics.js",
+    "bytes": 3579,
+    "sha256": "905341004d2d5ef79989388aae3edaa5b34aac83999bc61afa9367c02e663f61"
   },
   {
     "path": "validate_package.py",

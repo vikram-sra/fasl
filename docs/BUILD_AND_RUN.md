@@ -49,3 +49,5 @@ The daily visual sequence applies arriving recharge during fraction 0–0.2, rai
 ## Publish
 
 GitHub Pages publishes the root of `main`. `.nojekyll` serves the self-contained HTML directly. After edits, rebuild `index.html`, verify, update the manifest, commit and push to `main`. No CDN or remote asset is needed. Three.js r182 is bundled with its MIT license in `app/vendor/THREE-LICENSE.txt`.
+
+The standalone build also embeds `app/metrics.js`: a read-only presentation sampler for plant/shoot estimates and per-bowl allocations. Run `node tests/metrics.cjs` and the browser flow `tests/ux-metrics.js` to validate unit behavior. See UX_AUDIT.md for the definitions.
