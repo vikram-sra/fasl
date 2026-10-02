@@ -25,3 +25,7 @@ Rice population target is derived from PAU flat-puddled transplant spacing of 20
 Acre mode now smoothly zooms out 13% and presents a flat trapezoid field surface with 48 representative clumps in four rows. The field uses lightweight instanced botanical geometry, matching continuous height, grain filling, wind and harvest from the active timeline. Root fans span the front row. Bowl mode returns to the enlarged centered crop. These drawn clumps represent the field; the population metric still reports the modeled acre count. Water and timelines are unchanged. Reduced motion switches views immediately. Resize invalidates the rendered frame so reduced-motion rows also adapt to the new viewport.
 
 `tests/acre-view.js` adds 12 passing checks: rows, preserved date/state, geometry reuse, seedling growth, small/large viewport fit, bowl restoration, reduced-motion switching, wheat and browser errors.
+
+## Tubewell placement
+
+The tubewell motor now anchors at 86% of viewport width, toward the field's right edge, with a shorter above-ground profile. On short screens it moves inward when its motor would collide with the input controls. Pipe, internal water particles and discharge share the same horizontal transform. Resize and zoom recalculate the anchor, including reduced-motion mode. Both views were checked at 320×568, 390×667, 390×844 and 1440×1000; all 15 live-flow regression checks pass.

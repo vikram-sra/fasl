@@ -36,8 +36,8 @@
   },
   {
     "path": "app/scene3d.js",
-    "bytes": 31032,
-    "sha256": "2c706bfdd01425a851df04793807e12c4c008c79d95e0e35df57ac44c5d0ff20"
+    "bytes": 31789,
+    "sha256": "4f5392634fa6aad29b3920496b72e8c4cdf42751d3780ace1880f731c3df5213"
   },
   {
     "path": "app/shell.html",
@@ -161,13 +161,13 @@
   },
   {
     "path": "docs/UX_AUDIT.md",
-    "bytes": 3751,
-    "sha256": "3bc4c352815a9c398503fd0f6914d3b93ec2892d1a501caa0d6e6561f3de6dc9"
+    "bytes": 4253,
+    "sha256": "8a4590c656b26ceed5987811eaa89a8276910fa2c13d96146d818926e040f520"
   },
   {
     "path": "index.html",
-    "bytes": 852512,
-    "sha256": "db94ca11053555d6ee9df75c0684fc33538c5082a026c80c58ea1537271209ac"
+    "bytes": 853269,
+    "sha256": "94fe9067e472372ffdff5debc3bd3162b8373e7422cb638045f8a822b4f98cc9"
   },
   {
     "path": "tests/acre-view.js",

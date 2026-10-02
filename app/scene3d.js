@@ -2,7 +2,7 @@
 const Scene3D=(()=>{
   let renderer,scene,camera,plant,roots,water,pond,rainGroup,pumpGroup,particles,infiltrationGroup,fertilizerGroup,host,currentStage='',cloudGroup,uptakeGroup,rechargeGroup,grainMaterialRef,reproductiveMaterialRef,plantMaterials=[],seedMesh,moisture,dischargeGroup,pipeCurve,outletCurve,waterLine,poolLine;
   const T=THREE,V=(x,y,z)=>new T.Vector3(x,y,z),rng=Sim.random(630126);
-  let strawGroup,fireGroup,smokeGroup,themeSeen='',slowFrames=0,fieldGroup,fieldSurface,fieldLines,fieldRoots,fieldCrop='',viewMode='bowl',viewBlend=0,baseHeight=9.8,fieldBatches=[];
+  let strawGroup,fireGroup,smokeGroup,themeSeen='',slowFrames=0,fieldGroup,fieldSurface,fieldLines,fieldRoots,fieldCrop='',viewMode='bowl',viewBlend=0,baseHeight=9.8,fieldBatches=[],pumpAnchor=1.37,pumpOffset=0;
   const fieldCount=48,fieldUniforms={growth:{value:1},grain:{value:0},cut:{value:4},time:{value:0},wind:{value:1}};
   const materials={},mat=(color,extra={})=>new T.MeshStandardMaterial({color,roughness:.84,...extra});
   const stemMat=mat('#71814b'),rootMat=mat('#d7c49b'),metal=mat('#6f8079',{metalness:.65,roughness:.42});
@@ -83,9 +83,9 @@ const Scene3D=(()=>{
     water=plane(100,12,0,waterSurface-6,-1.1,'#699fa5');pond=plane(100,1,0,.03,.5,'#96c9c4',scene,.55);pond.visible=false;
     waterLine=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#a2d2d0',transparent:true,opacity:.8}));poolLine=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#bddeda',transparent:true,opacity:.9}));scene.add(waterLine,poolLine);
     const dirt=new T.Group();scene.add(dirt);const geo=new T.SphereGeometry(1,5,4),dirtMat=mat('#dfcdac');for(let j=0;j<80;j++){const m=mesh(geo,dirtMat,dirt);m.position.set((rng()-.5)*14,-rng()*2.6,.2);m.scale.set(.006+rng()*.012,.004,.003);}instanceRepeats(dirt);
-    pumpGroup=new T.Group();scene.add(pumpGroup);pipeCurve=new T.CatmullRomCurve3([V(1.37,-2.8,1.4),V(1.37,.31,1.4),V(1.29,.43,1.4),V(.94,.43,1.4),V(.87,.14,1.4)],false,'centripetal');
-    mesh(new T.TubeGeometry(pipeCurve,55,.035,7,false),metal,pumpGroup);plane(.47,.045,1.36,.028,1.5,'#b8b49e',pumpGroup);plane(.36,.16,1.36,.13,1.5,'#748b73',pumpGroup);for(let j=0;j<5;j++)plane(.011,.1,1.24+j*.05,.14,1.7,'#adba9f',pumpGroup);
-    outletCurve=new T.QuadraticBezierCurve3(V(.87,.14,1.8),V(.75,.18,1.8),V(.64,.016,1.8));
+    pumpGroup=new T.Group();scene.add(pumpGroup);pipeCurve=new T.CatmullRomCurve3([V(1.37,-2.8,1.4),V(1.37,.16,1.4),V(1.29,.24,1.4),V(.94,.24,1.4),V(.87,.10,1.4)],false,'centripetal');
+    mesh(new T.TubeGeometry(pipeCurve,55,.035,7,false),metal,pumpGroup);plane(.47,.045,1.36,.028,1.5,'#b8b49e',pumpGroup);plane(.36,.12,1.36,.085,1.5,'#748b73',pumpGroup);for(let j=0;j<5;j++)plane(.011,.07,1.24+j*.05,.095,1.7,'#adba9f',pumpGroup);
+    outletCurve=new T.QuadraticBezierCurve3(V(.87,.10,1.8),V(.75,.13,1.8),V(.64,.016,1.8));
     dischargeGroup=dotGroup(18,.017,'#9bd9da');particles=dotGroup(25,.019,'#94d3d9');
     rainGroup=new T.Group();scene.add(rainGroup);const rainMat=new T.LineBasicMaterial({color:'#7fa5b1',transparent:true,opacity:.65});for(let j=0;j<70;j++){const drop=new T.Line(new T.BufferGeometry().setFromPoints([V(0,0,0),V(-.025,-.13,0)]),rainMat);drop.userData.phase=j/70;drop.userData.x=(rng()-.5)*8;rainGroup.add(drop);}
     cloudGroup=new T.Group();scene.add(cloudGroup);const cloudMat=new T.MeshBasicMaterial({color:'#d8e1de',transparent:true,opacity:.7,depthWrite:false});for(let c=0;c<3;c++){const cloud=new T.Group();cloud.position.set(-1.4+c*1.05,2.85+(c%2)*.25,2.2);cloud.userData.baseX=cloud.position.x;for(let j=0;j<5;j++){const puff=mesh(new T.SphereGeometry(1,12,8),cloudMat,cloud);puff.position.set((j-2)*.15,Math.sin(j*1.8)*.07,0);puff.scale.set(.26,.12+(j%2)*.07,.025);}cloudGroup.add(cloud);}
@@ -124,7 +124,17 @@ const Scene3D=(()=>{
     fieldBatches.forEach(batch=>{batch.material.opacity=viewBlend*(batch.userData.grain?v.growth.grain:1);batch.material.color.set(batch.userData.grain?'#d5bd76':dark?'#a5c878':v.growth.ripe>.6?'#baaa65':'#728f4d');for(let j=0;j<fieldCount;j++){const row=Math.floor(j/12),column=j%12,back=(3-row)/3;fieldDummy.position.set((-width/2+(column+.5)*width/12)*(1-back*.1),back*.40+.02,1.25+row*.08);fieldDummy.scale.setScalar((.82-back*.15)*(1-viewBlend*.06));fieldDummy.updateMatrix();batch.setMatrixAt(j,fieldDummy.matrix);}batch.instanceMatrix.needsUpdate=true;});
   }
 
-  function resize(){if(!renderer)return;lastPosition=null;const w=host.clientWidth,h=host.clientHeight,aspect=w/h; baseHeight=aspect<.8?(h<600?12.4:h<720?11:9.8):8.8;const height=baseHeight*(1+viewBlend*.13),width=height*aspect;camera.left=-width/2;camera.right=width/2;camera.top=height/2;camera.bottom=-height/2;camera.updateProjectionMatrix();renderer.setSize(w,h);positionMarker();renderer.render(scene,camera);}
+
+  function positionPump(){
+    // Anchor the motor at the field edge, allowing room for the side controls.
+    const side=document.querySelector('.inputs').getBoundingClientRect(),motorTop=V(0,.24,0).project(camera),top=(1-motorTop.y)*host.clientHeight/2;
+    let screenX=host.clientWidth*.86;
+    if(top<side.bottom&&top+32>side.top)screenX=Math.min(screenX,side.left-25);
+    pumpAnchor=(screenX/host.clientWidth*2-1)*camera.right;pumpOffset=pumpAnchor-1.37*.85;
+    for(const group of [pumpGroup,particles,dischargeGroup]){group.position.x=pumpOffset;group.scale.x=.85;}
+  }
+
+  function resize(){if(!renderer)return;lastPosition=null;const w=host.clientWidth,h=host.clientHeight,aspect=w/h; baseHeight=aspect<.8?(h<600?12.4:h<720?11:9.8):8.8;const height=baseHeight*(1+viewBlend*.13),width=height*aspect;camera.left=-width/2;camera.right=width/2;camera.top=height/2;camera.bottom=-height/2;camera.updateProjectionMatrix();renderer.setSize(w,h);positionPump();positionMarker();renderer.render(scene,camera);}
   function positionMarker(){if(!camera)return;const label=document.getElementById('groundwater-marker'),p=V(0,waterSurface,0).project(camera);if(label)label.style.top=((1-p.y)*host.clientHeight/2)+'px';}
   const ease=(value,target,dt,rate=4)=>value+(target-value)*(1-Math.exp(-dt*rate));
   const wavePoints=[];for(let i=0;i<48;i++)wavePoints.push(V(0,0,0));
@@ -140,6 +150,7 @@ const Scene3D=(()=>{
     if(currentStage!==v.id)buildPlant(v.id,8);
     uniforms.time.value=motion?0:time;uniforms.wind.value=motion?0:1;uniforms.height.value=v.growth.height;uniforms.spread.value=v.growth.spread;uniforms.root.value=v.growth.root;uniforms.cut.value=4-v.growth.harvest*3.82;
     const green=new T.Color(dark?'#95b96a':v.id==='rice'?'#668946':'#7a914e'),gold=new T.Color(dark?'#dac676':'#b8a15b');plantMaterials.forEach(m=>{if(m!==grainMaterialRef)m.color.copy(green).lerp(gold,v.growth.ripe);});grainMaterialRef.color.set('#c8b47a');grainMaterialRef.opacity=v.growth.grain;reproductiveMaterialRef.opacity=Timeline.phase(v.das,v.def.stages[5].start_das,v.def.stages[6].start_das+3);rootMat.color.set(v.fallow?'#b7a686':'#d5c39e');plant.visible=roots.visible=true;seedMesh.visible=!v.fallow&&v.das<5;
+    positionPump();
     updateField(v,{motion,time,dark});
     plant.visible=viewBlend<.85;plant.scale.setScalar(1-viewBlend*.4);seedMesh.visible=seedMesh.visible&&viewBlend<.5;roots.visible=viewBlend<.85;roots.scale.setScalar(1-viewBlend*.42);
     // All values are driven by the same continuously sampled, conserved daily ledger.
@@ -168,5 +179,5 @@ const Scene3D=(()=>{
     for(const group of [particles,dischargeGroup,infiltrationGroup,uptakeGroup,rechargeGroup,fertilizerGroup,strawGroup,fireGroup,smokeGroup]){if(!group.visible)continue;group.userData.dots.forEach((p,i)=>{p.updateMatrix();group.userData.batch.setMatrixAt(i,p.matrix);});group.userData.batch.instanceMatrix.needsUpdate=true;}
     water.material.color.set(dark?'#285a65':v.flow.recharge>0?'#79aaa9':'#699fa5');wave(waterLine,waterSurface,motion?0:time,motion?0:.009);if(pond.visible)wave(poolLine,surfaceHeight+.003,motion?0:time,motion?0:.004);renderer.render(scene,camera);renderedFrames++;lastDay=v.day;
   }
-  return{update,resize,info:()=>({representation:viewMode==='acre'?'flat field rows':'continuous lateral',viewMode,zoomBlend:viewBlend,visiblePlantClumps:viewBlend>.5?(lastDay>=121&&lastDay<Sim.wheatStart()?0:fieldCount):1,revision:T.REVISION,locked:true,renderer:!!renderer,crop:currentStage,geometryBuilds,renderedFrames,waterSurface,waterGoal,waterDirection,surfacePoolHeight:surfaceHeight,pumpStrength,rainStrength,cloudsVisible:!!cloudGroup?.visible,infiltrationAnimating:!!infiltrationGroup?.visible,uptakeAnimating:!!uptakeGroup?.visible,rechargeAnimating:!!rechargeGroup?.visible,rainAnimating:!!rainGroup?.visible,pumpAnimating:!!particles?.visible,dischargeAnimating:!!dischargeGroup?.visible,growth:uniforms.height.value,windTime:uniforms.time.value,day:lastDay,cropCenterX:plant?new T.Vector3(plant.position.x,0,0).project(camera).x:null,drawCalls:renderer?.info.render.calls,theme:themeSeen,fireVisible:!!fireGroup?.visible,residueVisible:!!strawGroup?.visible,fertilizerVisible:!!fertilizerGroup?.visible,pixelRatio:renderer?.getPixelRatio()})};
+  return{update,resize,info:()=>({representation:viewMode==='acre'?'flat field rows':'continuous lateral',viewMode,zoomBlend:viewBlend,visiblePlantClumps:viewBlend>.5?(lastDay>=121&&lastDay<Sim.wheatStart()?0:fieldCount):1,revision:T.REVISION,locked:true,renderer:!!renderer,crop:currentStage,geometryBuilds,renderedFrames,waterSurface,waterGoal,waterDirection,surfacePoolHeight:surfaceHeight,pumpStrength,rainStrength,cloudsVisible:!!cloudGroup?.visible,infiltrationAnimating:!!infiltrationGroup?.visible,uptakeAnimating:!!uptakeGroup?.visible,rechargeAnimating:!!rechargeGroup?.visible,rainAnimating:!!rainGroup?.visible,pumpAnimating:!!particles?.visible,dischargeAnimating:!!dischargeGroup?.visible,growth:uniforms.height.value,windTime:uniforms.time.value,day:lastDay,tubewellScreenX:camera?(pumpAnchor/camera.right+1)*host.clientWidth/2:null,tubewellOutletX:pumpOffset+.87*.85,cropCenterX:plant?new T.Vector3(plant.position.x,0,0).project(camera).x:null,drawCalls:renderer?.info.render.calls,theme:themeSeen,fireVisible:!!fireGroup?.visible,residueVisible:!!strawGroup?.visible,fertilizerVisible:!!fertilizerGroup?.visible,pixelRatio:renderer?.getPixelRatio()})};
 })();
