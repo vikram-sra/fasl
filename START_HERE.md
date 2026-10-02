@@ -1,4 +1,4 @@
-> Current implementation: an automatic baseline crop simulation with a continuous timeline slider. The user has superseded the decision-game UI in the original brief below. Do not restore decision prompts or snapshot stage navigation unless explicitly requested. See `docs/BUILD_AND_RUN.md` and `docs/ANIMATION_AUDIT.md`.
+> Current implementation: an automatic baseline crop simulation with a continuous timeline slider. The user has superseded the decision-game UI in the original brief below. The user has now explicitly requested one rice-residue choice at harvest; all other care stays automatic. See docs/FARMER_UI_AND_RESIDUE.md. Do not restore other decision prompts or snapshot stage navigation. See `docs/BUILD_AND_RUN.md` and `docs/ANIMATION_AUDIT.md`.
 
 # Codex build instruction
 

@@ -144,5 +144,23 @@
     "accessed": "2026-10-02",
     "scope": "Official wheat visual and agronomy reference; image reuse not established",
     "primary_source": true
+  },
+  {
+    "id": "RESIDUE_SOIL_2025",
+    "title": "Rice residue management interventions and irrigation regimes: soil properties under wheat",
+    "url": "https://epubs.icar.org.in/index.php/JSWC/article/view/165436",
+    "publication_or_baseline": "2025-02-28 (2024 issue)",
+    "accessed": "2026-10-02",
+    "primary_source": true,
+    "scope": "Abstract: HS surface SOC 5.15 g/kg vs conventional 4.61 g/kg; study observations, not initial field conditions or burn comparison."
+  },
+  {
+    "id": "RESIDUE_WHEAT_2024",
+    "title": "PAU: Growth and Yield of Wheat as Affected by Rice Residue Management and Irrigation Scheduling",
+    "url": "https://indianjournals.com/article/jre-61-2-007",
+    "publication_or_baseline": "2024",
+    "accessed": "2026-10-02",
+    "primary_source": true,
+    "scope": "No significant residue-management effect on plant height, biomass and tiller density in trial; no fixed burn yield penalty."
   }
 ]

@@ -12,3 +12,15 @@ The application is a full-screen automatic rice → fallow → wheat simulation 
 The largest absolute daily conservation error in the automatic rotation is approximately 1.99e-9 L. This demonstrates numerical closure, not physical calibration. Images and current browser logs are generated locally under `output/playwright/`; temporary outputs are not published to the repository. Superseded decision UI tests are retained under `tests/legacy/` and are not current acceptance criteria.
 
 See `ANIMATION_AUDIT.md` for findings, changes and physical limits.
+
+## Farmer interface and residue update · 2026-10-02
+
+- Existing core model: 13 groups pass; automatic irrigation and 5 continuous-timeline groups pass.
+- New residue test: branches share pre-harvest history, remain deterministic and conserve water; residue events and fertilizer products are unique; N accounting uses correct product fractions; sampled nutrient application is reversible.
+- Existing live browser flow: 15 checks pass.
+- New farmer browser flow: 16 checks pass, covering choice gating, fire/ash/mulch, branch changes, rewind, evidence, Punjabi, dark mode persistence, fertilizer animation, reduced-motion rendering and theme refresh.
+- Automatic playback stops at harvest and resumes after a choice.
+- Visual checks at 390×844, 390×667, 320×568 and 1440×1000; no document overflow. Explicit Punjabi month names avoid missing browser locale data.
+- Local Chrome, 390×844 mature crop: 120-frame sample median 16.7ms, p95 16.7ms, 24 draw calls. This is desktop-browser testing, not a claim about every phone.
+- In the illustrative normal-rain run, burning and mulch produce equal wheat grain output while mulch lowers cumulative pumping. No guaranteed yield penalty is imposed.
+- Scientific and translation limitations are documented in FARMER_UI_AND_RESIDUE.md.

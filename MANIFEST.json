@@ -11,13 +11,13 @@
   },
   {
     "path": "README.md",
-    "bytes": 3667,
-    "sha256": "c0581f7d829ed96d3cfb48f8099e8c479d760330c14ced9ee7da97534239fb68"
+    "bytes": 3948,
+    "sha256": "a0f0de1f70e27bfe5c270e830f9124b2b6b05959bd01e9833efbe5425a6e9c25"
   },
   {
     "path": "START_HERE.md",
-    "bytes": 4636,
-    "sha256": "b39e104b0c08b35e9712a1d469b269de0cf462616d0f8bbc478605c40ed1b71e"
+    "bytes": 4755,
+    "sha256": "4374583c90901d47998bccd727268cda7ab52c325baa3db73b63286c329f2ce4"
   },
   {
     "path": "VALIDATION.txt",
@@ -26,33 +26,33 @@
   },
   {
     "path": "app/application.js",
-    "bytes": 9863,
-    "sha256": "4f218d94e215a6e37ca44c2a34348d29c78457934aac5278627072761314945d"
+    "bytes": 24457,
+    "sha256": "3ea83679d27f7a5e2437578d272d23910ae4f21d16b49dc2be66e8cba626ac22"
   },
   {
     "path": "app/scene3d.js",
-    "bytes": 22361,
-    "sha256": "ea004f79a62a5469e64a5f8199fdaa5123c9a876dc3ed80eaf185d3971fc4d85"
+    "bytes": 25091,
+    "sha256": "bb17b3a9d2c2792596500edb2f4265ca1f0e30f81d4b6679007b5b7db7637cb6"
   },
   {
     "path": "app/shell.html",
-    "bytes": 3141,
-    "sha256": "ace944bebabbe2c374a6a06956968d59a8b3119b6098bbc119a51f42af04067c"
+    "bytes": 3444,
+    "sha256": "6328d8adc0b1df23eeed7228285c4b1b419b1a9580dad2fd5557599215fd9302"
   },
   {
     "path": "app/simulation.js",
-    "bytes": 21259,
-    "sha256": "2fa4753399a409954995741ae36f4db36b58c0bfe087471e30eef76eee73bda3"
+    "bytes": 22641,
+    "sha256": "44f8d29a3f802a19ac647c8a26d1a0430f5e14023cdd2182cb0b3843e9ec3528"
   },
   {
     "path": "app/style.css",
-    "bytes": 6531,
-    "sha256": "b9fc77bb3a8afe31543b8f9bfd7a2499692848ee90ecc5d8dc15461d6216062b"
+    "bytes": 12718,
+    "sha256": "abcd0ba9b3eb14daf0d06bff4894d3d8be208fced29357cea18014eb96e2ad3f"
   },
   {
     "path": "app/timeline.js",
-    "bytes": 3381,
-    "sha256": "08a4d712edd5fb5f8ec704f2296c161e90ea9ad8313611415b16f5d4afc16782"
+    "bytes": 3762,
+    "sha256": "51bdea9b6490904f3120927b2e1780e762ec39005dec514d4242792341b784b1"
   },
   {
     "path": "app/vendor/THREE-LICENSE.txt",
@@ -101,8 +101,8 @@
   },
   {
     "path": "data/model_assumptions.json",
-    "bytes": 1902,
-    "sha256": "93f637372075199f9b2790cc2ee45ba41479086cefd7eb7521523d5e4ad71cde"
+    "bytes": 2152,
+    "sha256": "2b86c939c0a109558792fa0e812536718a5cd1cdb458a9e7093a454b929497b2"
   },
   {
     "path": "data/rainfall.json",
@@ -111,8 +111,8 @@
   },
   {
     "path": "data/sources.json",
-    "bytes": 5559,
-    "sha256": "ff2c16fec5443e18a0da2e94b32eadb297423d8e9e36972172fcb577a0de7ff3"
+    "bytes": 6493,
+    "sha256": "83c8dec3950788ffcea40e96aa41f3fde993e9b674956afef62a091515ce7aa5"
   },
   {
     "path": "docs/ACCEPTANCE.md",
@@ -121,23 +121,28 @@
   },
   {
     "path": "docs/ACCEPTANCE_RESULTS.md",
-    "bytes": 1947,
-    "sha256": "cb7449f8df34b2ab9159e242256656a1136768c41ae6ce85fe0c2cb032839277"
+    "bytes": 3230,
+    "sha256": "473b3c6bfd9b5a415a17de19f7de4f4f290f21d1ccd0bc7c30e3edd6e1006f38"
   },
   {
     "path": "docs/ANIMATION_AUDIT.md",
-    "bytes": 3542,
-    "sha256": "30c01314b67d65d5fc53504bea596828d834def5c8d8d1ab962676a2ae28f423"
+    "bytes": 3818,
+    "sha256": "dc7659820b65f5a7d3a4583a035e8c2997fe4e2b1d46555954c7040efa6b1eee"
   },
   {
     "path": "docs/BUILD_AND_RUN.md",
-    "bytes": 3476,
-    "sha256": "c38acfc5b7d7ff9b82da676805c206b62b12c3d71983d8cce1f66b0b040da87d"
+    "bytes": 3752,
+    "sha256": "fb0fdd176017ad90c4c2611485db260882d14162ce1567e43476412167e81867"
   },
   {
     "path": "docs/EVIDENCE_AND_GAPS.md",
-    "bytes": 4476,
-    "sha256": "cc3908f344675a6b9df3d9475cf08df18305e0c585455d1831437efb079b5419"
+    "bytes": 4752,
+    "sha256": "c54defa7857ddf3d408716a067530c8018a99a6897199fa084ef28d78acc6e90"
+  },
+  {
+    "path": "docs/FARMER_UI_AND_RESIDUE.md",
+    "bytes": 3433,
+    "sha256": "a763c7f5340d8f9ebddb0a51c2a08e23b4d7152af700b70c56e1f2a57ed86739"
   },
   {
     "path": "docs/PRODUCT_AND_VISUALS.md",
@@ -151,8 +156,8 @@
   },
   {
     "path": "index.html",
-    "bytes": 808231,
-    "sha256": "5fa8ff890239ae14b8228975027a323841803eb9eeecef23e799315f1b90644c"
+    "bytes": 834891,
+    "sha256": "d278e3fef22a248ce7d5ea887742ca0eb1b117fc9fb1294ed9406321b5d67249"
   },
   {
     "path": "tests/automatic-irrigation.cjs",
@@ -163,6 +168,11 @@
     "path": "tests/continuous.cjs",
     "bytes": 2791,
     "sha256": "0fcd27a9f83dfaec508b3141ca989f37ff668da00def12b47e1c212bb9304ea8"
+  },
+  {
+    "path": "tests/farmer-ui.js",
+    "bytes": 3960,
+    "sha256": "f1daf13b640ea8a02c4d4ce7149aa21cf4a79408f91cdc706f642f05bfa91838"
   },
   {
     "path": "tests/legacy/browser-flow.js",
@@ -191,13 +201,18 @@
   },
   {
     "path": "tests/live-flow.js",
-    "bytes": 5596,
-    "sha256": "c63272632010a1452f115a161a479f391f3ef3564c61bf467521014d89c4d28f"
+    "bytes": 5847,
+    "sha256": "3ed5b920ed93e74fc4bcb9314f528a18747ceb8ba4c22d2f8c0ec2a821513ddf"
   },
   {
     "path": "tests/playwright.config.json",
     "bytes": 202,
     "sha256": "b1bf779920635811bc739e153609bfe9b83afb3b8a73d9a85f2e3c416a7e82b1"
+  },
+  {
+    "path": "tests/residue.cjs",
+    "bytes": 2295,
+    "sha256": "8c3c476ee8849fc8ac2a457af1c31117be951cf52c789f9ff37ec81778b8b3f0"
   },
   {
     "path": "tests/run_browser.py",

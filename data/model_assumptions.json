@@ -63,8 +63,16 @@
   "nursery_hydrology": "Subplot of same acre until transplant; remaining area is fallow. Allocate nursery pumping to rice and record fallow pumping separately.",
   "labels": [
     "Educational simulation",
-    "Monthly rain: IMD 1991–2020 normal; event timing simulated",
+    "Monthly rain: IMD 1991\u20132020 normal; event timing simulated",
     "Groundwater storage: illustrative model",
     "Stage dates: approximate game schedule"
-  ]
+  ],
+  "residue": {
+    "status": "Illustrative educational parameters, not field calibration",
+    "straw_kg_per_acre": 3000,
+    "straw_n_fraction": 0.006,
+    "burn_n_loss_fraction": 0.9,
+    "decay_days": 180,
+    "initial_et_reduction": 0.12
+  }
 }

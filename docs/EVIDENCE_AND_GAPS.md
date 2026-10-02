@@ -1,3 +1,5 @@
+> Farmer interface update: bilingual controls, themes, and one rice-residue choice are now implemented. See [farmer UI and residue model](FARMER_UI_AND_RESIDUE.md) for current behavior, evidence and assumptions. Earlier automatic-only descriptions below predate this update.
+
 # Evidence and limits
 
 ## What was established

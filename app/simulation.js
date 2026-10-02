@@ -113,7 +113,7 @@ const Sim = (() => {
       const paddy=z.crop==='rice'&&day>=27&&day<=120,pondCap=paddy?h.paddy_pond_capacity_mm*z.area:0;
       const infiltration=Math.min(z.pond,h.daily_infiltration_limit_mm*z.area,Math.max(0,h.soil_capacity_mm*z.area-z.soil));z.pond-=infiltration;z.soil+=infiltration;s.lastFlows.infiltration+=infiltration;
       const runoff=Math.max(0,z.pond-pondCap);z.pond-=runoff;flow('runoff',runoff,z.crop);
-      const monthly=new Date(date+'T00:00:00Z').getUTCMonth(),potential=h.monthly_reference_et_mm_day[monthly]*h.crop_demand_multiplier[z.crop]*z.area;
+      const monthly=new Date(date+'T00:00:00Z').getUTCMonth(),potential=h.monthly_reference_et_mm_day[monthly]*h.crop_demand_multiplier[z.crop]*z.area*(cfg.residueStrategy==='mulch'&&day>=121?(1-cfg.residue.initial_et_reduction*Math.exp(-(day-121)/cfg.residue.decay_days)):1);
       const fromPond=Math.min(z.pond,potential);z.pond-=fromPond;const fromSoil=Math.min(z.soil,potential-fromPond);z.soil-=fromSoil;flow('et',fromPond+fromSoil,z.crop);
       if(z.crop!=='fallow'){const cc=s.cropStates[z.crop];cc.etPotential+=potential;cc.etDeficit+=potential-fromPond-fromSoil;}
       const drain=Math.min(Math.max(0,z.soil-h.soil_drainage_threshold_mm*z.area),h.daily_drainage_limit_mm*z.area);z.soil-=drain;const queued=drain*h.recharge_fraction_of_drainage;flow('deep',drain-queued,z.crop);s.lastFlows.drainage+=drain;s.lastFlows.queuedRecharge+=queued;if(queued)s.pending.push({day:day+h.recharge_lag_days,litres:queued,crop:z.crop});
@@ -129,10 +129,19 @@ const Sim = (() => {
     }
     const lossNames=['et','runoff','conveyance','deep','overflow'],out=lossNames.reduce((v,k)=>v+s.water[k]-state.water[k],0);
     s.balanceError=stocks(s)-before-(s.water.rain-state.water.rain)+out;s.maxBalanceError=Math.max(s.maxBalanceError,Math.abs(s.balanceError));
+    // Residue stocks are illustrative: 3 t/acre straw, 0.6% N, 180-day decay time.
+    // Released residue N is reported separately; no unsupported available-soil-N estimate.
+    const age=Math.max(0,day-121),managed=day>=121&&cfg.residueStrategy,r=cfg.residue;
+    const retained=managed&&cfg.residueStrategy==='mulch'?r.straw_kg_per_acre*Math.exp(-age/r.decay_days):0;
+    const fertilizerN=Object.values(s.cropStates).flatMap(c=>c.products).filter(p=>p.category==='fertilizer').reduce((n,p)=>n+p.quantity*(cfg.demonstration.compositions[p.product]||0),0);
+    s.soil={fertilizerN,residueKg:retained,residueNReturned:managed&&cfg.residueStrategy==='mulch'?(r.straw_kg_per_acre-retained)*r.straw_n_fraction:0,residueNRemoved:managed&&cfg.residueStrategy==='burn'?r.straw_kg_per_acre*r.straw_n_fraction*r.burn_n_loss_fraction:0,trend:managed?(cfg.residueStrategy==='mulch'?'improving':'declining'):'baseline'};
+    if(day===121&&cfg.residueStrategy)addEvent('residue_management',r.straw_kg_per_acre,'kg',{strategy:cfg.residueStrategy,status:'illustrative_residue_stock'});
     s.cropId=id;s.das=das;s.rainMm=rain;return s;
   }
   function simulate({seed=CONFIG.demonstration.seed,scenario='normal',day=0,actions={},cfg=CONFIG}={}){const rain=weather(seed,scenario,cfg),snapshots=[];let state=initial(cfg);for(let d=0;d<=day;d++){state=reduce(state,{type:'day',id:'day:'+d,day:d},{cfg,actions,weather:rain,seed});snapshots.push(state);}return {state,snapshots,weather:rain};}
-  function ideal({seed=CONFIG.demonstration.seed,scenario='normal',cfg=CONFIG}={}){
+  function ideal({seed=CONFIG.demonstration.seed,scenario='normal',cfg=CONFIG,residueStrategy=null}={}){
+    if(![null,'burn','mulch'].includes(residueStrategy))throw Error('Unknown residue strategy');
+    cfg={...cfg,residueStrategy};
     const rain=weather(seed,scenario,cfg),actions={},snapshots=[];let state=initial(cfg);
     for(let day=0;day<=endDay(cfg);day++){
       if(day<=120||day>=wheatStart(cfg))actions[key(day,'water')]='auto';
@@ -144,7 +153,7 @@ const Sim = (() => {
       }
       state=reduce(state,event,context);snapshots.push(state);
     }
-    return{state,snapshots,weather:rain,actions,seed,scenario,cfg};
+    return{state,snapshots,weather:rain,actions,seed,scenario,cfg,residueStrategy,modelVersion:2};
   }
   function allocation(c,cfg=CONFIG){const kg=c.harvested?c.edibleKg:c.projectedYieldKg*cropDef(c.id).processing.recovery.value,bowls=kg/cfg.bowl_mass_kg;return{kg,bowls,pumpedPerBowl:bowls>0?c.water.pumped/bowls:null,product:(q,unit)=>bowls>0?(unit==='kg'?q*1000:q)/bowls:null};}
   function validateImport(raw){

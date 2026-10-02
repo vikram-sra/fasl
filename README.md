@@ -1,3 +1,5 @@
+> Farmer interface update: bilingual controls, themes, and one rice-residue choice are now implemented. See [farmer UI and residue model](docs/FARMER_UI_AND_RESIDUE.md) for current behavior, evidence and assumptions. Earlier automatic-only descriptions below predate this update.
+
 # Punjab: A Bowl Across Two Seasons
 Living crop simulation • researched 2 October 2026
 

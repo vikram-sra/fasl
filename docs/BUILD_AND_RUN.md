@@ -1,3 +1,5 @@
+> Farmer interface update: bilingual controls, themes, and one rice-residue choice are now implemented. See [farmer UI and residue model](FARMER_UI_AND_RESIDUE.md) for current behavior, evidence and assumptions. Earlier automatic-only descriptions below predate this update.
+
 # Run and maintain
 
 Play at https://vikram-sra.github.io/fasl/, or open `index.html` in a modern browser. The standalone file includes Three.js, original botanical geometry, the daily model, continuous timeline sampler and supplied data. It needs no runtime install or network connection. WebGL2 renders the field; timeline values and details remain available when it cannot start.
