@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const DATA=Object.fromEntries(fs.readdirSync('data').filter(f=>f.endsWith('.json')).map(f=>[f.slice(0,-5),JSON.parse(fs.readFileSync('data/'+f))]));
+const ctx={DATA,module:{exports:{}}};vm.createContext(ctx);vm.runInContext(fs.readFileSync('app/simulation.js','utf8'),ctx);const {Sim}=ctx.module.exports;
+const actions={};for(let d=0;d<=Sim.endDay();d++)actions[d+':water']='auto';
+const result=Sim.simulate({day:Sim.endDay(),scenario:'dry',actions}),pumps=result.state.events.filter(e=>e.type==='pumping');
+assert.ok(pumps.length>0);assert.ok(pumps.every(e=>e.automatic));
+assert.ok(result.snapshots.every(s=>s.maxBalanceError<1e-7&&s.aquifer>=0));
+assert.ok(result.snapshots.filter(s=>s.cropId==='rice'&&s.das>=106||s.cropId==='fallow').every(s=>s.lastFlows.pumped===0));
+assert.ok(pumps.filter(e=>e.date<Sim.dateAt(27)).every(e=>e.zoneAreaM2===160));
+assert.equal(JSON.stringify(result.state),JSON.stringify(Sim.simulate({day:Sim.endDay(),scenario:'dry',actions}).state));
+const s=Sim.initial(Sim.CONFIG),zone=s.zones.find(z=>z.crop==='rice');zone.soil=0;zone.pond=0;
+assert.equal(Sim.irrigationNeed(s,'rice',0,zone),25);zone.pond=160*100;assert.equal(Sim.irrigationNeed(s,'rice',0,zone),0);
+zone.pond=0;s.cropStates.rice.established=false;assert.equal(Sim.irrigationNeed(s,'rice',0,zone),0);
+const cfg=Sim.clone(Sim.CONFIG);cfg.hydrology.aquifer_initial_L=20;cfg.hydrology.initial_soil_mm=0;
+const limited=Sim.simulate({cfg,scenario:'dry',day:40,actions}).state;assert.ok(limited.aquifer>=0&&limited.maxBalanceError<1e-7);
+console.log('PASS automatic irrigation: need, rain suppression, unsown crop, cutoff, fallow, nursery area, conservation, aquifer cap and determinism');

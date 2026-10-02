@@ -1,0 +1,148 @@
+[
+  {
+    "id": "PAU_K26",
+    "title": "PAU Package of Practices: Kharif 2026",
+    "url": "https://pau.edu/content/ccil/pf/pp_kharif.pdf",
+    "publication_or_baseline": "March 2026",
+    "accessed": "2026-10-02",
+    "scope": "Downloaded and text extracted; rice chapter",
+    "primary_source": true,
+    "download_sha256": "30142d84b17afce725fe48bc5458b03bc029f3d57734e322bf5290a84f7215c0"
+  },
+  {
+    "id": "PAU_R25",
+    "title": "PAU Package of Practices: Rabi 2025-26",
+    "url": "https://pau.edu/content/ccil/pf/pp_rabi.pdf",
+    "publication_or_baseline": "August 2025",
+    "accessed": "2026-10-02",
+    "scope": "Downloaded and text extracted; wheat chapter",
+    "primary_source": true,
+    "download_sha256": "11f45d16eb28fc621f74c1826a3da72307cf09c1200f64a1ef51524703b34075"
+  },
+  {
+    "id": "PAU_PR126",
+    "title": "PAU rice variety comparison",
+    "url": "https://newmodel.pau.edu/research-at-pau/",
+    "publication_or_baseline": null,
+    "accessed": "2026-10-02",
+    "scope": "PR 126 row: seedling age, maturity, paddy yield",
+    "primary_source": true
+  },
+  {
+    "id": "PAU_PBW826",
+    "title": "PAU releases PBW 826",
+    "url": "https://pau.edu/index.php?DO=viewEventDetail&_act=manageEvent&intID=6751",
+    "publication_or_baseline": "2022-09-02",
+    "accessed": "2026-10-02",
+    "scope": "PBW 826 variety paragraph",
+    "primary_source": true
+  },
+  {
+    "id": "PAU_RICE26",
+    "title": "PAU KVK Ropar balanced fertilizer advisory",
+    "url": "https://pau.edu/index.php?DO=viewEventDetail&_act=manageEvent&dataE=&intID=12801",
+    "publication_or_baseline": "2026-06-26",
+    "accessed": "2026-10-02",
+    "scope": "Fertilizer splits, AWD, herbicides and WBPH",
+    "primary_source": true
+  },
+  {
+    "id": "PAU_RICE24",
+    "title": "PAU PR 126 management advisory",
+    "url": "https://pau.edu/index.php?DO=viewEventDetail&_act=manageEvent&intID=9230",
+    "publication_or_baseline": "2024-06-24",
+    "accessed": "2026-10-02",
+    "scope": "Nursery age; fertilizer timing; contextual water saving",
+    "primary_source": true
+  },
+  {
+    "id": "IMD_LDH",
+    "title": "IMD Ludhiana climatological table",
+    "url": "https://city.imd.gov.in/citywx/extreme/climat.php?id=42099",
+    "publication_or_baseline": "1991-2020 normal",
+    "accessed": "2026-10-02",
+    "scope": "Monthly rainfall and rainy days; station, not district-wide average",
+    "primary_source": true
+  },
+  {
+    "id": "IMD_STATION",
+    "title": "IMD station identity 42099",
+    "url": "https://wis2boxstdby.imd.gov.in/oapi/collections/stations/items/0-20000-0-42099?f=html",
+    "publication_or_baseline": null,
+    "accessed": "2026-10-02",
+    "scope": "Station name LUDHIANA",
+    "primary_source": true
+  },
+  {
+    "id": "IRRI_STAGES",
+    "title": "IRRI rice growth schematic",
+    "url": "https://books.irri.org/9789712201721_content.pdf",
+    "publication_or_baseline": null,
+    "accessed": "2026-10-02",
+    "scope": "Figure 5: schematic of 120-day tropical rice; morphology only, not PR 126 timing",
+    "primary_source": true
+  },
+  {
+    "id": "IRRI_MILL",
+    "title": "IRRI milling yields",
+    "url": "https://www.knowledgebank.irri.org/step-by-step-production/postharvest/milling/producing-good-quality-milled-rice/milling-yields",
+    "publication_or_baseline": null,
+    "accessed": "2026-10-02",
+    "scope": "Multi-stage modern mill; total recovery vs head rice",
+    "primary_source": true
+  },
+  {
+    "id": "ICAR_WHEAT",
+    "title": "PAU Ludhiana wheat experiment, IJAS 90(3), 519-523",
+    "url": "https://epubs.icar.org.in/index.php/IJAgS/article/download/101461/39839",
+    "publication_or_baseline": "2020",
+    "accessed": "2026-10-02",
+    "scope": "WH-1105, trials 2014-16; biological staging reference, not PBW 826 calibration",
+    "primary_source": true
+  },
+  {
+    "id": "SIKKIM_STAGES",
+    "title": "Government agriculture: wheat growth stages",
+    "url": "https://agri.sikkim.gov.in/Department/AgriSubMenuDetails?ContID=23&SubContID=59",
+    "publication_or_baseline": null,
+    "accessed": "2026-10-02",
+    "scope": "Morphology only; not Punjab calendar",
+    "primary_source": true
+  },
+  {
+    "id": "IRRI_IMAGES",
+    "title": "IRRI Photos: rice stages",
+    "url": "https://www.flickr.com/photos/ricephotos/albums/72157643341257395/",
+    "publication_or_baseline": null,
+    "accessed": "2026-10-02",
+    "scope": "Official image collection; inspect each image license",
+    "primary_source": true
+  },
+  {
+    "id": "IRRI_IMAGE1",
+    "title": "IRRI Photos: Growth stages of rice",
+    "url": "https://www.flickr.com/photos/ricephotos/13597007274",
+    "publication_or_baseline": "2014-04-03",
+    "accessed": "2026-10-02",
+    "scope": "Image-specific license confirmed CC BY-NC-SA 2.0",
+    "primary_source": true
+  },
+  {
+    "id": "CGWB",
+    "title": "CGWB groundwater assessment methodology",
+    "url": "https://cgwb.gov.in/en/ground-water-resource-assessment-0",
+    "publication_or_baseline": null,
+    "accessed": "2026-10-02",
+    "scope": "Extraction stage is annual extraction divided by annual extractable resource; not remaining storage percentage",
+    "primary_source": true
+  },
+  {
+    "id": "IIWBR",
+    "title": "ICAR IIWBR Wheat Cultivation in India pocket guide",
+    "url": "https://iiwbr.org.in/wp-content/uploads/2023/08/EB-52-Wheat-Cultivation-in-India-Pocket-Guide.pdf",
+    "publication_or_baseline": null,
+    "accessed": "2026-10-02",
+    "scope": "Official wheat visual and agronomy reference; image reuse not established",
+    "primary_source": true
+  }
+]

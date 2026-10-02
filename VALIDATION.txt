@@ -1,0 +1,4 @@
+PASS: 8 JSON files, source references, 20 stages, rainfall, nursery scaling, bowl/acre conversions, zero-output and conservation fixtures.
+Validated package structure and numerical fixtures, not an implemented application.
+Official fertilizer/irrigation tables were visually checked against PDF pages.
+IRRI reference JPG was inspected and its image-specific license recorded.

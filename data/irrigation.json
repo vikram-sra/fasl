@@ -1,0 +1,48 @@
+{
+  "rice": {
+    "source_ids": [
+      "PAU_K26"
+    ],
+    "status": "verified_rules",
+    "standing_water_initial_dat": [
+      0,
+      14
+    ],
+    "later_trigger": "2 days after ponded water disappears; avoid soil cracking",
+    "standing_depth_max_mm": 100,
+    "stop_days_before_maturity": 14,
+    "event_depth_mm": null,
+    "note": "100 mm is a maximum standing depth, not the prescribed amount for every irrigation."
+  },
+  "wheat": {
+    "source_ids": [
+      "PAU_R25"
+    ],
+    "status": "verified_rules",
+    "scenario": "10 November sowing; sandy loam or heavier soil",
+    "first_irrigation_das": 28,
+    "first_irrigation_depth_mm": null,
+    "later_intervals_days": [
+      [
+        35,
+        42
+      ],
+      [
+        35,
+        42
+      ],
+      [
+        28,
+        28
+      ]
+    ],
+    "later_irrigation_depth_mm": 75,
+    "rain_delay_days_per_10mm": {
+      "through_january": 5,
+      "after_january": 2
+    },
+    "presowing_mm": 100,
+    "presowing_exception": "Not automatically needed following rice; assess inherited moisture."
+  },
+  "implementation": "Rules provide prompts; daily water balance produces actual water used. Weather can postpone a scheduled irrigation. Do not hardcode a universal crop litres/kg number."
+}

@@ -1,0 +1,89 @@
+{
+  "station": "Ludhiana",
+  "station_id": "42099",
+  "region": "Punjab, India",
+  "baseline": "1991-2020",
+  "source_ids": [
+    "IMD_LDH",
+    "IMD_STATION"
+  ],
+  "status": "verified",
+  "spatial_scope": "station normal; not every Punjab farm",
+  "annual_mm_reported": 791.1,
+  "monthly_sum_mm": 791.3,
+  "rounding_note": "Monthly rounded values sum to 791.3; preserve source annual 791.1 separately.",
+  "months": [
+    {
+      "month": 1,
+      "name": "Jan",
+      "rain_mm": 28,
+      "mean_rainy_days": 2.1
+    },
+    {
+      "month": 2,
+      "name": "Feb",
+      "rain_mm": 36.2,
+      "mean_rainy_days": 2.9
+    },
+    {
+      "month": 3,
+      "name": "Mar",
+      "rain_mm": 27,
+      "mean_rainy_days": 2.1
+    },
+    {
+      "month": 4,
+      "name": "Apr",
+      "rain_mm": 17.5,
+      "mean_rainy_days": 1.7
+    },
+    {
+      "month": 5,
+      "name": "May",
+      "rain_mm": 21.2,
+      "mean_rainy_days": 1.7
+    },
+    {
+      "month": 6,
+      "name": "Jun",
+      "rain_mm": 87.4,
+      "mean_rainy_days": 4.9
+    },
+    {
+      "month": 7,
+      "name": "Jul",
+      "rain_mm": 217.1,
+      "mean_rainy_days": 8.6
+    },
+    {
+      "month": 8,
+      "name": "Aug",
+      "rain_mm": 187.2,
+      "mean_rainy_days": 8.7
+    },
+    {
+      "month": 9,
+      "name": "Sep",
+      "rain_mm": 138.4,
+      "mean_rainy_days": 5.5
+    },
+    {
+      "month": 10,
+      "name": "Oct",
+      "rain_mm": 18.8,
+      "mean_rainy_days": 1
+    },
+    {
+      "month": 11,
+      "name": "Nov",
+      "rain_mm": 3.9,
+      "mean_rainy_days": 0.4
+    },
+    {
+      "month": 12,
+      "name": "Dec",
+      "rain_mm": 8.6,
+      "mean_rainy_days": 0.9
+    }
+  ]
+}

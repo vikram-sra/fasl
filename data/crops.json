@@ -1,0 +1,443 @@
+{
+  "schema_version": "1.0",
+  "stage_range_convention": "start inclusive, end exclusive; maturity at harvest_das; stages overlap biologically but UI selects one dominant stage",
+  "crops": [
+    {
+      "id": "rice",
+      "name": "Rice",
+      "punjabi": "ਝੋਨਾ / ਚੌਲ",
+      "season": "Kharif",
+      "variety": "PR 126",
+      "establishment": "transplanted",
+      "reference_yield": {
+        "value": 3000,
+        "unit": "kg/acre",
+        "status": "verified",
+        "source_ids": [
+          "PAU_PR126"
+        ],
+        "note": "Reference yield, not a guaranteed outcome."
+      },
+      "seed_rate": {
+        "value": 8,
+        "unit": "kg/main-field-acre",
+        "status": "verified",
+        "source_ids": [
+          "PAU_K26"
+        ]
+      },
+      "calendar_anchor": {
+        "sow_date": "2027-06-08",
+        "status": "design_assumption",
+        "day_zero": "nursery sowing"
+      },
+      "stages": [
+        {
+          "id": "rice_seed",
+          "order": 1,
+          "label": "Seed and germination",
+          "start_das": 0,
+          "end_das_exclusive": 3,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "A swollen seed opens; a white root and small shoot emerge.",
+          "decision_prompt": "Moisten seedbed; inspect seed quality.",
+          "art_state": "sprout",
+          "relative_height": 0.04,
+          "morphology_sources": [
+            "IRRI_STAGES"
+          ]
+        },
+        {
+          "id": "rice_nursery",
+          "order": 2,
+          "label": "Nursery seedlings",
+          "start_das": 3,
+          "end_das_exclusive": 27,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Thin upright leaves and fibrous roots; compact nursery patch.",
+          "decision_prompt": "Keep seedbed moist; inspect weeds and pests.",
+          "art_state": "seedling",
+          "relative_height": 0.2,
+          "morphology_sources": [
+            "IRRI_STAGES"
+          ]
+        },
+        {
+          "id": "rice_establishment",
+          "order": 3,
+          "label": "Transplant and establish",
+          "start_das": 27,
+          "end_das_exclusive": 41,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Seedlings become spaced clumps in shallow water.",
+          "decision_prompt": "Transplant; establish roots; inspect weeds.",
+          "art_state": "transplant",
+          "relative_height": 0.3,
+          "morphology_sources": [
+            "IRRI_STAGES"
+          ]
+        },
+        {
+          "id": "rice_tillering",
+          "order": 4,
+          "label": "Tillering",
+          "start_das": 41,
+          "end_das_exclusive": 62,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "New shoots branch from each clump; canopy thickens.",
+          "decision_prompt": "Manage water and timed nitrogen; scout.",
+          "art_state": "tillers",
+          "relative_height": 0.55,
+          "morphology_sources": [
+            "IRRI_STAGES"
+          ]
+        },
+        {
+          "id": "rice_panicle",
+          "order": 5,
+          "label": "Panicle initiation",
+          "start_das": 62,
+          "end_das_exclusive": 72,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Developing flower head is inside the stem; use a magnified cutaway.",
+          "decision_prompt": "Inspect water stress and crop condition.",
+          "art_state": "panicle_inside",
+          "relative_height": 0.72,
+          "morphology_sources": [
+            "IRRI_STAGES"
+          ]
+        },
+        {
+          "id": "rice_boot",
+          "order": 6,
+          "label": "Booting",
+          "start_das": 72,
+          "end_das_exclusive": 82,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Upper leaf sheath swells around the enclosed panicle.",
+          "decision_prompt": "Protect crop from stress; inspect disease.",
+          "art_state": "boot",
+          "relative_height": 0.85,
+          "morphology_sources": [
+            "IRRI_STAGES"
+          ]
+        },
+        {
+          "id": "rice_flower",
+          "order": 7,
+          "label": "Heading and flowering",
+          "start_das": 82,
+          "end_das_exclusive": 90,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Branched panicles emerge; small flowers briefly show.",
+          "decision_prompt": "Observe flowering and water availability.",
+          "art_state": "panicle_open",
+          "relative_height": 1,
+          "morphology_sources": [
+            "IRRI_STAGES"
+          ]
+        },
+        {
+          "id": "rice_milk",
+          "order": 8,
+          "label": "Milk-stage grain filling",
+          "start_das": 90,
+          "end_das_exclusive": 102,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Green panicles gain weight; grain interior is milky.",
+          "decision_prompt": "Maintain suitable moisture; scout before treating.",
+          "art_state": "green_grain",
+          "relative_height": 1,
+          "morphology_sources": [
+            "IRRI_STAGES"
+          ]
+        },
+        {
+          "id": "rice_dough",
+          "order": 9,
+          "label": "Dough and ripening",
+          "start_das": 102,
+          "end_das_exclusive": 120,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Grains firm and turn gold; panicles bend.",
+          "decision_prompt": "Stop late irrigation according to maturity rule.",
+          "art_state": "gold_panicle",
+          "relative_height": 1,
+          "morphology_sources": [
+            "IRRI_STAGES"
+          ]
+        },
+        {
+          "id": "rice_harvest",
+          "order": 10,
+          "label": "Maturity and harvest",
+          "start_das": 120,
+          "end_das_exclusive": 121,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Golden crop is cut; paddy is threshed then milled.",
+          "decision_prompt": "Harvest and reveal edible rice bowl.",
+          "art_state": "harvest",
+          "relative_height": 1,
+          "morphology_sources": [
+            "IRRI_STAGES"
+          ]
+        }
+      ],
+      "harvest_das": 120,
+      "nursery_age": {
+        "value": [
+          25,
+          30
+        ],
+        "unit": "days",
+        "status": "verified",
+        "source_ids": [
+          "PAU_PR126"
+        ]
+      },
+      "transplant_das": 27,
+      "maturity": {
+        "value": 93,
+        "unit": "days after transplanting",
+        "status": "verified",
+        "source_ids": [
+          "PAU_PR126"
+        ]
+      },
+      "nursery_area": {
+        "value": 160,
+        "unit": "m2/main-field-acre",
+        "status": "verified",
+        "source_ids": [
+          "PAU_K26"
+        ]
+      },
+      "processing": {
+        "output": "uncooked milled rice, whole plus broken grains",
+        "recovery": {
+          "value": 0.67,
+          "unit": "fraction",
+          "status": "model_assumption_with_sourced_range",
+          "source_ids": [
+            "IRRI_MILL"
+          ]
+        },
+        "sourced_range": [
+          0.65,
+          0.7
+        ]
+      }
+    },
+    {
+      "id": "wheat",
+      "name": "Wheat",
+      "punjabi": "ਕਣਕ",
+      "season": "Rabi",
+      "variety": "PBW 826",
+      "establishment": "conventional timely-sown irrigated",
+      "reference_yield": {
+        "value": 2400,
+        "unit": "kg/acre",
+        "status": "verified",
+        "source_ids": [
+          "PAU_PBW826"
+        ],
+        "note": "Reference yield, not a guaranteed outcome."
+      },
+      "seed_rate": {
+        "value": 40,
+        "unit": "kg/main-field-acre",
+        "status": "verified",
+        "source_ids": [
+          "PAU_R25"
+        ]
+      },
+      "calendar_anchor": {
+        "sow_date": "2027-11-10",
+        "status": "design_assumption",
+        "day_zero": "field sowing"
+      },
+      "stages": [
+        {
+          "id": "wheat_seed",
+          "order": 1,
+          "label": "Seed and germination",
+          "start_das": 0,
+          "end_das_exclusive": 7,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "A buried grain produces root and coleoptile.",
+          "decision_prompt": "Sow into suitable moisture; apply basal input if selected.",
+          "art_state": "sprout",
+          "relative_height": 0.04,
+          "morphology_sources": [
+            "SIKKIM_STAGES",
+            "ICAR_WHEAT"
+          ]
+        },
+        {
+          "id": "wheat_seedling",
+          "order": 2,
+          "label": "Seedling emergence",
+          "start_das": 7,
+          "end_das_exclusive": 21,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Slender leaves unfold above the soil.",
+          "decision_prompt": "Inspect establishment and soil moisture.",
+          "art_state": "seedling",
+          "relative_height": 0.15,
+          "morphology_sources": [
+            "SIKKIM_STAGES",
+            "ICAR_WHEAT"
+          ]
+        },
+        {
+          "id": "wheat_crown",
+          "order": 3,
+          "label": "Crown-root initiation",
+          "start_das": 21,
+          "end_das_exclusive": 35,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Roots branch from the crown near soil surface.",
+          "decision_prompt": "Review first irrigation and nitrogen decision.",
+          "art_state": "crown_roots",
+          "relative_height": 0.25,
+          "morphology_sources": [
+            "SIKKIM_STAGES",
+            "ICAR_WHEAT"
+          ]
+        },
+        {
+          "id": "wheat_tillering",
+          "order": 4,
+          "label": "Tillering",
+          "start_das": 35,
+          "end_das_exclusive": 60,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Several shoots form a denser green plant.",
+          "decision_prompt": "Control identified weeds; review second nitrogen dose.",
+          "art_state": "tillers",
+          "relative_height": 0.45,
+          "morphology_sources": [
+            "SIKKIM_STAGES",
+            "ICAR_WHEAT"
+          ]
+        },
+        {
+          "id": "wheat_jointing",
+          "order": 5,
+          "label": "Jointing",
+          "start_das": 60,
+          "end_das_exclusive": 85,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Stem nodes and internodes elongate.",
+          "decision_prompt": "Inspect moisture and crop health.",
+          "art_state": "jointing",
+          "relative_height": 0.72,
+          "morphology_sources": [
+            "SIKKIM_STAGES",
+            "ICAR_WHEAT"
+          ]
+        },
+        {
+          "id": "wheat_boot",
+          "order": 6,
+          "label": "Booting",
+          "start_das": 85,
+          "end_das_exclusive": 100,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Flag leaf is visible; enclosed ear swells the sheath.",
+          "decision_prompt": "Review irrigation needs.",
+          "art_state": "boot",
+          "relative_height": 0.88,
+          "morphology_sources": [
+            "SIKKIM_STAGES",
+            "ICAR_WHEAT"
+          ]
+        },
+        {
+          "id": "wheat_flower",
+          "order": 7,
+          "label": "Heading and flowering",
+          "start_das": 100,
+          "end_das_exclusive": 110,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Upright compact ears emerge with tiny anthers.",
+          "decision_prompt": "Scout ears for aphids; do not spray automatically.",
+          "art_state": "wheat_ear",
+          "relative_height": 1,
+          "morphology_sources": [
+            "SIKKIM_STAGES",
+            "ICAR_WHEAT"
+          ]
+        },
+        {
+          "id": "wheat_milk",
+          "order": 8,
+          "label": "Milk-stage grain filling",
+          "start_das": 110,
+          "end_das_exclusive": 125,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Grains grow inside green ears.",
+          "decision_prompt": "Observe moisture and grain development.",
+          "art_state": "green_grain",
+          "relative_height": 1,
+          "morphology_sources": [
+            "SIKKIM_STAGES",
+            "ICAR_WHEAT"
+          ]
+        },
+        {
+          "id": "wheat_dough",
+          "order": 9,
+          "label": "Dough and ripening",
+          "start_das": 125,
+          "end_das_exclusive": 148,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Grains harden; stems and ears become straw gold.",
+          "decision_prompt": "Prepare harvest; avoid unnecessary irrigation.",
+          "art_state": "gold_ear",
+          "relative_height": 1,
+          "morphology_sources": [
+            "SIKKIM_STAGES",
+            "ICAR_WHEAT"
+          ]
+        },
+        {
+          "id": "wheat_harvest",
+          "order": 10,
+          "label": "Maturity and harvest",
+          "start_das": 148,
+          "end_das_exclusive": 149,
+          "timing_status": "illustrative_game_schedule",
+          "appearance": "Dry ears are cut and threshed into wheat grain.",
+          "decision_prompt": "Reveal grain bowl.",
+          "art_state": "harvest",
+          "relative_height": 1,
+          "morphology_sources": [
+            "SIKKIM_STAGES",
+            "ICAR_WHEAT"
+          ]
+        }
+      ],
+      "harvest_das": 148,
+      "maturity": {
+        "value": 148,
+        "unit": "days after sowing",
+        "status": "verified",
+        "source_ids": [
+          "PAU_PBW826"
+        ]
+      },
+      "processing": {
+        "output": "dry wheat grain, not flour or cooked food",
+        "recovery": {
+          "value": 1,
+          "unit": "fraction",
+          "status": "design_assumption",
+          "source_ids": [],
+          "note": "Output boundary is grain; no flour conversion assumed."
+        }
+      }
+    }
+  ]
+}

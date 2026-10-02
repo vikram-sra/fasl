@@ -1,0 +1,196 @@
+{
+  "schema_version": "1.0",
+  "basis": "per main-field acre unless explicitly nursery-area based",
+  "amounts_are": "commercial formulation, not active ingredient",
+  "automatic_pesticide_applications": false,
+  "fertilizers": [
+    {
+      "id": "rice_urea",
+      "crop": "rice",
+      "product": "urea",
+      "total_kg_per_acre": 90,
+      "events": [
+        {
+          "dat": 7,
+          "kg_per_acre": 30
+        },
+        {
+          "dat": 21,
+          "kg_per_acre": 30
+        },
+        {
+          "dat": 35,
+          "kg_per_acre": 30
+        }
+      ],
+      "status": "verified",
+      "source_ids": [
+        "PAU_K26",
+        "PAU_RICE26"
+      ],
+      "conditions": "Baseline P/K sufficient, no green manure; fertilizer needs vary with soil test."
+    },
+    {
+      "id": "wheat_dap",
+      "crop": "wheat",
+      "product": "DAP",
+      "events": [
+        {
+          "das": 0,
+          "kg_per_acre": 55
+        }
+      ],
+      "status": "verified",
+      "source_ids": [
+        "PAU_R25"
+      ],
+      "conditions": "Medium fertility, phosphorus supplied by DAP."
+    },
+    {
+      "id": "wheat_urea",
+      "crop": "wheat",
+      "product": "urea",
+      "events": [
+        {
+          "trigger": "first_irrigation",
+          "kg_per_acre": 45
+        },
+        {
+          "trigger": "second_irrigation",
+          "kg_per_acre": 45
+        }
+      ],
+      "status": "verified",
+      "source_ids": [
+        "PAU_R25"
+      ],
+      "conditions": "Timely sowing; DAP baseline. If second irrigation is rain-delayed, dose by DAS55; stagnant water is an exception requiring another protocol."
+    }
+  ],
+  "nursery": {
+    "crop": "rice",
+    "area_m2_per_main_field_acre": 160,
+    "rate_basis": "kg per nursery acre; scale by 160/4046.8564224",
+    "events": [
+      {
+        "das": 0,
+        "product": "urea",
+        "kg_per_nursery_acre": 26
+      },
+      {
+        "das": 14,
+        "product": "urea",
+        "kg_per_nursery_acre": 26
+      },
+      {
+        "das": 0,
+        "product": "SSP",
+        "kg_per_nursery_acre": 60
+      },
+      {
+        "das": 0,
+        "product": "zinc_sulphate_21",
+        "kg_per_nursery_acre": 40
+      }
+    ],
+    "source_ids": [
+      "PAU_K26"
+    ],
+    "status": "verified_rates_derived_scaling",
+    "manure_note": "Nursery manure is excluded from fertilizer-bag totals; full organic-input accounting is a future extension."
+  },
+  "conditional_options": [
+    {
+      "id": "rice_pretilachlor",
+      "crop": "rice",
+      "category": "herbicide",
+      "formulation": "pretilachlor 50 EC",
+      "amount": 600,
+      "unit": "mL/acre",
+      "window_dat": [
+        2,
+        3
+      ],
+      "carrier": {
+        "type": "sand",
+        "amount": 60,
+        "unit": "kg/acre"
+      },
+      "condition": "Selected early weed-management route; do not combine with all alternative herbicides.",
+      "source_ids": [
+        "PAU_RICE26"
+      ],
+      "status": "verified_source_example"
+    },
+    {
+      "id": "rice_wbph",
+      "crop": "rice",
+      "category": "pest_control",
+      "formulation": "triflumezopyrim 10 SC",
+      "amount": 94,
+      "unit": "mL/acre",
+      "spray_water_L_per_acre": 100,
+      "condition": "WBPH detected; 2026 local vector-management advisory. Not a blanket application or universal threshold.",
+      "source_ids": [
+        "PAU_RICE26"
+      ],
+      "status": "verified_source_example"
+    },
+    {
+      "id": "wheat_pinoxaden",
+      "crop": "wheat",
+      "category": "herbicide",
+      "formulation": "pinoxaden 5 EC",
+      "amount": 400,
+      "unit": "mL/acre",
+      "window_das": [
+        30,
+        35
+      ],
+      "spray_water_L_per_acre": 150,
+      "condition": "Identified susceptible grassy weeds; after first irrigation; verify resistance context.",
+      "source_ids": [
+        "PAU_R25"
+      ],
+      "status": "verified_source_example"
+    },
+    {
+      "id": "wheat_aphid",
+      "crop": "wheat",
+      "category": "pest_control",
+      "formulation": "thiamethoxam 25 WG",
+      "amount": 20,
+      "unit": "g/acre",
+      "spray_water_L_per_acre": [
+        80,
+        100
+      ],
+      "condition": "Earhead stage, infestation exceeds 5 aphids/earhead; treat infested strip only.",
+      "source_ids": [
+        "PAU_R25"
+      ],
+      "status": "verified_source_example"
+    }
+  ],
+  "bag_sizes": {
+    "urea": {
+      "kg": 45,
+      "status": "display_assumption_configurable"
+    },
+    "DAP": {
+      "kg": 50,
+      "status": "display_assumption_configurable"
+    },
+    "SSP": {
+      "kg": 50,
+      "status": "display_assumption_configurable"
+    }
+  },
+  "rotation_rules": [
+    "Rice P is omitted when preceding wheat received adequate P and soil test is sufficient.",
+    "Initial rice scenario assumes preceding-year wheat received adequate P; record this initial condition.",
+    "Do not infer fertilizer residue in food from fertilizer applied.",
+    "Zero pest-treatment use is a valid outcome.",
+    "Never sum grams and millilitres into one chemical total."
+  ]
+}

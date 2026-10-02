@@ -1,0 +1,33 @@
+[
+  {
+    "id": "rice_overview",
+    "source_id": "IRRI_IMAGE1",
+    "title": "Growth stages of rice",
+    "creator": "IRRI Photos / International Rice Research Institute",
+    "page_url": "https://www.flickr.com/photos/ricephotos/13597007274",
+    "image_url": "https://live.staticflickr.com/7218/13597007274_05f5be34e4.jpg",
+    "license": "CC BY-NC-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-nc-sa/2.0/",
+    "usage": "reference-only; noncommercial/share-alike conditions; do not automatically embed in runtime",
+    "local_file": "reference-only/irri-rice-growth-stages.jpg",
+    "modifications": "none"
+  },
+  {
+    "id": "rice_stage_album",
+    "source_id": "IRRI_IMAGES",
+    "page_url": "https://www.flickr.com/photos/ricephotos/albums/72157643341257395/",
+    "usage": "Stage-specific official reference collection; licenses must be checked per image."
+  },
+  {
+    "id": "wheat_official_guide",
+    "source_id": "IIWBR",
+    "page_url": "https://iiwbr.org.in/wp-content/uploads/2023/08/EB-52-Wheat-Cultivation-in-India-Pocket-Guide.pdf",
+    "usage": "Official visual context; no redistribution permission established; link only."
+  },
+  {
+    "id": "pau_crop_plates",
+    "source_id": "PAU_K26",
+    "page_url": "https://pau.edu/content/ccil/pf/pp_kharif.pdf",
+    "usage": "Official pest/plant plates; link only; draw original healthy crop silhouettes."
+  }
+]

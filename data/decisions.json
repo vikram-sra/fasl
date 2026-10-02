@@ -1,0 +1,160 @@
+{
+  "status": "game_design_with_sourced_product_options",
+  "decision_points": [
+    {
+      "id": "rice_nursery",
+      "crop": "rice",
+      "das": 0,
+      "choices": [
+        "prepare_seedbed",
+        "sow"
+      ],
+      "note": "Nursery setup; irrigation only on nursery subplot."
+    },
+    {
+      "id": "rice_establish",
+      "crop": "rice",
+      "dat": 0,
+      "choices": [
+        "transplant"
+      ],
+      "note": "Begin main-field pond management."
+    },
+    {
+      "id": "rice_weeds",
+      "crop": "rice",
+      "dat": 2,
+      "choices": [
+        "manual_management",
+        "rice_pretilachlor",
+        "monitor"
+      ],
+      "resolution": "Use actual selected product quantity; manual method consumes no herbicide."
+    },
+    {
+      "id": "rice_n1",
+      "crop": "rice",
+      "dat": 7,
+      "choices": [
+        "scheduled_amount",
+        "half_amount",
+        "skip"
+      ]
+    },
+    {
+      "id": "rice_n2",
+      "crop": "rice",
+      "dat": 21,
+      "choices": [
+        "scheduled_amount",
+        "half_amount",
+        "skip"
+      ]
+    },
+    {
+      "id": "rice_n3",
+      "crop": "rice",
+      "dat": 35,
+      "choices": [
+        "scheduled_amount",
+        "half_amount",
+        "skip"
+      ]
+    },
+    {
+      "id": "wheat_sow",
+      "crop": "wheat",
+      "das": 0,
+      "choices": [
+        "scheduled_dap",
+        "skip_dap"
+      ]
+    },
+    {
+      "id": "wheat_first_water",
+      "crop": "wheat",
+      "das": 28,
+      "choices": [
+        "irrigate",
+        "wait"
+      ],
+      "note": "Actual dates adapt to soil and rain; urea event is separate but linked."
+    },
+    {
+      "id": "wheat_weeds",
+      "crop": "wheat",
+      "das": 32,
+      "choices": [
+        "manual_management",
+        "wheat_pinoxaden",
+        "monitor"
+      ]
+    },
+    {
+      "id": "ongoing_water",
+      "crop": "both",
+      "trigger": "daily_soil_review",
+      "choices": [
+        "pump_25mm",
+        "pump_50mm",
+        "pump_75mm",
+        "wait"
+      ],
+      "note": "PAU contextual guidance plus clearly modelled manual event sizes; do not force pumping."
+    }
+  ],
+  "pest_scenarios": [
+    {
+      "id": "rice_wbph_event",
+      "crop": "rice",
+      "eligible_dat": [
+        0,
+        35
+      ],
+      "timing_status": "illustrative_game_window",
+      "treatment_option": "rice_wbph",
+      "choices": [
+        "scout",
+        "monitor",
+        "targeted_treatment"
+      ],
+      "source_ids": [
+        "PAU_RICE26"
+      ]
+    },
+    {
+      "id": "wheat_aphid_event",
+      "crop": "wheat",
+      "eligible_das": [
+        100,
+        125
+      ],
+      "timing_status": "illustrative_game_window",
+      "treatment_option": "wheat_aphid",
+      "observations": [
+        "below_source_threshold",
+        "above_source_threshold"
+      ],
+      "default_treated_area_fraction": 0.25,
+      "area_status": "game_assumption",
+      "choices": [
+        "scout",
+        "monitor",
+        "targeted_treatment"
+      ],
+      "source_ids": [
+        "PAU_R25"
+      ]
+    }
+  ],
+  "manual_weed_effect": "Use configured pressure-reduction factor; labour cost is unmodelled, so do not score manual control as economically free.",
+  "pest_thresholds": "Translate pressure into a labelled scenario observation; do not fabricate measured insects per ear from an arbitrary 0..1 score.",
+  "nutrient_checkpoint_rule": "At a deadline, measure fraction of the selected baseline product applied by that deadline; late additions increase the ledger but do not undo the historical deficit. Display this as a game simplification.",
+  "scorecard": [
+    "edible_output",
+    "groundwater_pumped",
+    "modelled_recharge",
+    "separate_product_quantities"
+  ],
+  "scoring_note": "Show tradeoffs; no universal single sustainability score. Do not reward untreated damaging infestations or unnecessary applications."
+}
