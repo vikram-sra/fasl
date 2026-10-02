@@ -1,7 +1,7 @@
 # Punjab: A Bowl Across Two Seasons
-Interactive crop game • researched 2 October 2026
+Living crop simulation • researched 2 October 2026
 
-A full-screen educational crop game for Punjab, linking rice and wheat through the same soil and groundwater. Built with a fixed Three.js side view, a mobile-first interface, seasonal rain, automatic irrigation, and month-labelled stages.
+A full-screen educational crop simulation for Punjab, linking rice and wheat through the same soil and groundwater. Built with a fixed Three.js side view, a mobile-first interface, seasonal rain, automatic crop care, and a continuous month-labelled timeline.
 
 ## Play
 
@@ -15,7 +15,7 @@ For a local server:
 python3 -m http.server 8080
 ```
 
-Open `http://localhost:8080`. Use the bottom stages to inspect growth, the side bottles for inputs, and the arrow to make a decision or continue. Rain, soil water, plant water use and delayed groundwater recharge follow the model. The pump operates automatically when needed and can be controlled manually.
+Open `http://localhost:8080`. Move the bottom slider through rice, fallow and wheat, or let the simulation play. The plant grows continuously and moves in the breeze. Water leaves the tubewell, pools on the surface, seeps into the soil, feeds the plant, and returns to groundwater after a delay. Bottles empty as automatic applications occur. There are no choices or decision prompts.
 
 See [Build and run](docs/BUILD_AND_RUN.md) for controls and maintenance, and [Acceptance results](docs/ACCEPTANCE_RESULTS.md) for verification.
 
@@ -28,9 +28,10 @@ python3 build.py
 python3 validate_package.py
 node tests/simulation.cjs
 node tests/automatic-irrigation.cjs
+node tests/continuous.cjs
 ```
 
-`tests/plot-first.js` and `tests/season-water.js` exercise the current UI through the Playwright CLI. The original project brief remains in `START_HERE.md`.
+`tests/live-flow.js` exercises the current UI through the Playwright CLI. Run it with `python3 tests/run_browser.py` against a local server. Older UI tests are retained in `tests/legacy/`. The original project brief remains in `START_HERE.md`.
 
 ## Defaults chosen to make the build concrete
 Ludhiana station rainfall; PR 126 transplanted rice; PBW 826 wheat; one underlying acre; display per 100 g uncooked milled rice or dry wheat grain. Field area stays fixed across the rotation. English UI with Punjabi crop labels. These are adjustable defaults, not additional user commitments.

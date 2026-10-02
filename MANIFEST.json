@@ -11,13 +11,13 @@
   },
   {
     "path": "README.md",
-    "bytes": 3455,
-    "sha256": "168e7d0d0924b170781734dea743e538789cda02374df101599f8c70c6306e3c"
+    "bytes": 3667,
+    "sha256": "c0581f7d829ed96d3cfb48f8099e8c479d760330c14ced9ee7da97534239fb68"
   },
   {
     "path": "START_HERE.md",
-    "bytes": 4313,
-    "sha256": "5326d460dcade1fea94ebe1a4d1ae69df9f4fcaeae587ae9087c0809beb8974d"
+    "bytes": 4636,
+    "sha256": "b39e104b0c08b35e9712a1d469b269de0cf462616d0f8bbc478605c40ed1b71e"
   },
   {
     "path": "VALIDATION.txt",
@@ -26,28 +26,33 @@
   },
   {
     "path": "app/application.js",
-    "bytes": 42908,
-    "sha256": "1c7f96a2ec6551bc96f9c99c7d096baaaede5b59b8602304ab28782f730285bf"
+    "bytes": 9863,
+    "sha256": "4f218d94e215a6e37ca44c2a34348d29c78457934aac5278627072761314945d"
   },
   {
     "path": "app/scene3d.js",
-    "bytes": 18171,
-    "sha256": "e5d9b1783438d9897ede8db7a7e4fc39aeabd690ec7d9bde723ccd054e455dd3"
+    "bytes": 22361,
+    "sha256": "ea004f79a62a5469e64a5f8199fdaa5123c9a876dc3ed80eaf185d3971fc4d85"
   },
   {
     "path": "app/shell.html",
-    "bytes": 5668,
-    "sha256": "b26b65f65f382357d1aa8c1890d62ba82a2aa0531b0aa81d1e1637c7aaa33e29"
+    "bytes": 3141,
+    "sha256": "ace944bebabbe2c374a6a06956968d59a8b3119b6098bbc119a51f42af04067c"
   },
   {
     "path": "app/simulation.js",
-    "bytes": 20264,
-    "sha256": "b4dfd8cd00c49e70b92a1f42bb03256074ff5e4e564f6ceeca96964b5504b7cf"
+    "bytes": 21259,
+    "sha256": "2fa4753399a409954995741ae36f4db36b58c0bfe087471e30eef76eee73bda3"
   },
   {
     "path": "app/style.css",
-    "bytes": 19854,
-    "sha256": "744da2d82b3d5b1b2c1ea9317a45425c732650d3dd695e577289b23c15b8e04e"
+    "bytes": 6531,
+    "sha256": "b9fc77bb3a8afe31543b8f9bfd7a2499692848ee90ecc5d8dc15461d6216062b"
+  },
+  {
+    "path": "app/timeline.js",
+    "bytes": 3381,
+    "sha256": "08a4d712edd5fb5f8ec704f2296c161e90ea9ad8313611415b16f5d4afc16782"
   },
   {
     "path": "app/vendor/THREE-LICENSE.txt",
@@ -71,8 +76,8 @@
   },
   {
     "path": "build.py",
-    "bytes": 902,
-    "sha256": "44aa3c0ac18756729be858cd8589e2d59eeb48e929a82bfa1a57c69b4e7409a2"
+    "bytes": 978,
+    "sha256": "4b54cd2d86a2b404ccf9fb6b02d643fc8a45fb5c465ca667dd48ce98293cebae"
   },
   {
     "path": "data/crops.json",
@@ -116,13 +121,18 @@
   },
   {
     "path": "docs/ACCEPTANCE_RESULTS.md",
-    "bytes": 5556,
-    "sha256": "8afc727004655b5e93d71995530c6eb55d0ce84eac7ed12ba10cd5e4edf57126"
+    "bytes": 1947,
+    "sha256": "cb7449f8df34b2ab9159e242256656a1136768c41ae6ce85fe0c2cb032839277"
+  },
+  {
+    "path": "docs/ANIMATION_AUDIT.md",
+    "bytes": 3542,
+    "sha256": "30c01314b67d65d5fc53504bea596828d834def5c8d8d1ab962676a2ae28f423"
   },
   {
     "path": "docs/BUILD_AND_RUN.md",
-    "bytes": 6903,
-    "sha256": "091f3d7714c4521450945c416d8a4be450a1400052937bb08c9f9448e5f89c28"
+    "bytes": 3476,
+    "sha256": "c38acfc5b7d7ff9b82da676805c206b62b12c3d71983d8cce1f66b0b040da87d"
   },
   {
     "path": "docs/EVIDENCE_AND_GAPS.md",
@@ -141,8 +151,8 @@
   },
   {
     "path": "index.html",
-    "bytes": 848574,
-    "sha256": "af783a4d70a57be25c0f750e8ce998a0a8c84f51cf7b5f917fcff5186d13e8ab"
+    "bytes": 808231,
+    "sha256": "5fa8ff890239ae14b8228975027a323841803eb9eeecef23e799315f1b90644c"
   },
   {
     "path": "tests/automatic-irrigation.cjs",
@@ -150,14 +160,39 @@
     "sha256": "d2d2204932f7794b82a19212bf8ac498ff4d51c8b227e1cd79e4f3c3929ddb36"
   },
   {
-    "path": "tests/browser-flow.js",
+    "path": "tests/continuous.cjs",
+    "bytes": 2791,
+    "sha256": "0fcd27a9f83dfaec508b3141ca989f37ff668da00def12b47e1c212bb9304ea8"
+  },
+  {
+    "path": "tests/legacy/browser-flow.js",
     "bytes": 8325,
     "sha256": "641d5a8cd127330d4c1d088d55bab139ed69b0284b10c5af71af699c83490f65"
   },
   {
-    "path": "tests/lateral-flow.js",
+    "path": "tests/legacy/lateral-flow.js",
     "bytes": 3445,
     "sha256": "7ff107ab4fe0879ae64ce4a7362ad8ec26a74364dee946579bab2368600a5999"
+  },
+  {
+    "path": "tests/legacy/plot-first.js",
+    "bytes": 2304,
+    "sha256": "925137f4fb7c768abf211c78c69fb3d265bb1bef7414e042e6fcbbecebcef31c"
+  },
+  {
+    "path": "tests/legacy/season-water.js",
+    "bytes": 3021,
+    "sha256": "e652083b7a133543a7b96a94fd444af7e10d6a0c83d238a448fe16f750180520"
+  },
+  {
+    "path": "tests/legacy/visual-check.js",
+    "bytes": 1396,
+    "sha256": "b6bc5a900e5a54ef57f8949f1f4f56b992c37e880b4327099c79efb161659223"
+  },
+  {
+    "path": "tests/live-flow.js",
+    "bytes": 5596,
+    "sha256": "c63272632010a1452f115a161a479f391f3ef3564c61bf467521014d89c4d28f"
   },
   {
     "path": "tests/playwright.config.json",
@@ -165,29 +200,14 @@
     "sha256": "b1bf779920635811bc739e153609bfe9b83afb3b8a73d9a85f2e3c416a7e82b1"
   },
   {
-    "path": "tests/plot-first.js",
-    "bytes": 2304,
-    "sha256": "925137f4fb7c768abf211c78c69fb3d265bb1bef7414e042e6fcbbecebcef31c"
-  },
-  {
     "path": "tests/run_browser.py",
-    "bytes": 478,
-    "sha256": "5488e3ae78b7d49b247fc9cc3c4218c08e0e73d7ab3aec18781f87950d981ed8"
-  },
-  {
-    "path": "tests/season-water.js",
-    "bytes": 3021,
-    "sha256": "e652083b7a133543a7b96a94fd444af7e10d6a0c83d238a448fe16f750180520"
+    "bytes": 472,
+    "sha256": "f20ace7d5c1a92adaafb9629e70cfacbd708aa6cb1c0f3fe9006c5532525682a"
   },
   {
     "path": "tests/simulation.cjs",
     "bytes": 6975,
     "sha256": "141b8ebec273503aa5186b9ee1e63bf58187d5146df07b391b2332ba9acfc722"
-  },
-  {
-    "path": "tests/visual-check.js",
-    "bytes": 1396,
-    "sha256": "b6bc5a900e5a54ef57f8949f1f4f56b992c37e880b4327099c79efb161659223"
   },
   {
     "path": "validate_package.py",

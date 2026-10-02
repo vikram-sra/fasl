@@ -1,3 +1,5 @@
+> Current implementation: an automatic baseline crop simulation with a continuous timeline slider. The user has superseded the decision-game UI in the original brief below. Do not restore decision prompts or snapshot stage navigation unless explicitly requested. See `docs/BUILD_AND_RUN.md` and `docs/ANIMATION_AUDIT.md`.
+
 # Codex build instruction
 
 Build a polished, fully working educational decision game from this package. Working title: **A Bowl Across Two Seasons**.

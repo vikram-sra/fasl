@@ -1,6 +1,6 @@
-/* Original procedural botanical sculpture. Three.js r182, MIT; fixed orthographic camera. */
+/* Original botanical geometry; continuous growth and connected water paths. Three.js r182, MIT. */
 const Scene3D=(()=>{
-  let renderer,scene,camera,plant,roots,water,pond,rainGroup,pumpGroup,particles,infiltrationGroup,fertilizerGroup,host,currentStage='',lastTime=0,until=0,isMotion=false,flow={},cloudGroup,uptakeGroup,rechargeGroup,waterTarget=.44,growStart=0,fertilizing=false;
+  let renderer,scene,camera,plant,roots,water,pond,rainGroup,pumpGroup,particles,infiltrationGroup,fertilizerGroup,host,currentStage='',cloudGroup,uptakeGroup,rechargeGroup,grainMaterialRef,reproductiveMaterialRef,plantMaterials=[],seedMesh,moisture,dischargeGroup,pipeCurve,outletCurve,waterLine,poolLine;
   const T=THREE,V=(x,y,z)=>new T.Vector3(x,y,z),rng=Sim.random(630126);
   const materials={},mat=(color,extra={})=>new T.MeshStandardMaterial({color,roughness:.84,...extra});
   const stemMat=mat('#71814b'),rootMat=mat('#d7c49b'),metal=mat('#6f8079',{metalness:.65,roughness:.42});
@@ -26,6 +26,7 @@ const Scene3D=(()=>{
   function disposeGroup(group){if(!group)return;group.traverse(o=>{if(o.isMesh||o.isLine){o.geometry.dispose();if(o.material!==stemMat&&o.material!==rootMat&&o.material!==metal)o.material.dispose();}});scene.remove(group);}
   function buildPlant(id,index){disposeGroup(plant);disposeGroup(roots);plant=new T.Group();roots=new T.Group();scene.add(plant,roots);plant.position.set(-.40,.035,.03);
     const rice=id==='rice',gold=index>=8,color=gold?'#b8a153':rice?'#658344':'#7b8b42',leafMaterial=mat(color,{side:T.DoubleSide}),grainMaterial=mat(gold?'#d0ad61':index===7?'#a4a46a':'#9da563'),stemMaterial=mat(gold?'#a9914c':'#6c8248'),seedMat=mat(rice?'#b49d64':'#bca66e'),grainGeo=new T.SphereGeometry(1,7,5),flowerGeo=new T.SphereGeometry(.008,5,4),flowerMat=mat('#e4deb0'),N=index<2?1:index===2?3:index===3?8:7;
+    const reproductiveMaterial=mat(gold?'#ac965c':'#779153',{transparent:true,opacity:0,depthWrite:false});
     const height=[.32,.72,1.08,1.52,2.07,2.45,2.82,2.85,2.82,2.8][index],r=Sim.random(2612+(rice?0:100));
     if(index===0){const seed=grain(V(0,.045,0),.85,rice?.13:.115,seedMat,plant,grainGeo);seed.scale.z*=1.5;tube([V(0,.02,0),V(-.06,.13,.01),V(-.03,.32,0)],.008,stemMaterial,plant);leaf(V(-.03,.25,0),.3,.16,.019,.05,leafMaterial,plant);}
     if(index>0)for(let n=0;n<N;n++){
@@ -37,56 +38,86 @@ const Scene3D=(()=>{
       if(!rice&&index===4)for(let j=1;j<4;j++){const node=mesh(new T.SphereGeometry(.017,6,5),stemMaterial,plant);node.position.copy(base).lerp(tip,j/4);}
       if(index===4||index===5){const sheath=mesh(new T.SphereGeometry(1,8,7),mat(index===4?'#92a566':'#a0ac69'),plant);sheath.position.copy(tip).add(V(0,-.18,0));sheath.scale.set(.027,.15,.032);}
       if(index>=6&&index<9){
-        if(rice){const panicle=V(tip.x+.16,tip.y+.25,tip.z+.025),end=V(tip.x+.32,tip.y+(gold?-.12:.08),tip.z+.07);tube([tip,panicle,end],.004,stemMaterial,plant,15);
-          for(let j=0;j<9;j++){const t=j/9,origin=tip.clone().lerp(panicle,Math.min(1,t*1.4));origin.y-=t*t*.19;for(let side=-1;side<=1;side+=2){const branchEnd=origin.clone().add(V(side*(.06+.09*t),-.03-t*.12,(r()-.5)*.12));tube([origin,origin.clone().lerp(branchEnd,.5).add(V(0,.02,0)),branchEnd],.002,stemMaterial,plant,5);for(let g=0;g<4;g++){const point=origin.clone().lerp(branchEnd,(g+1)/4);point.y-=.01*g;grain(point,.3+(g%2)*.4,index===7||gold?.028:.019,grainMaterial,plant,grainGeo);if(index===6&&g===2){const anther=mesh(flowerGeo,flowerMat,plant);anther.position.copy(point).add(V(.01,-.023,0));}}}
+        if(rice){const panicle=V(tip.x+.16,tip.y+.25,tip.z+.025),end=V(tip.x+.32,tip.y+(gold?-.12:.08),tip.z+.07);tube([tip,panicle,end],.004,reproductiveMaterial,plant,15);
+          for(let j=0;j<9;j++){const t=j/9,origin=tip.clone().lerp(panicle,Math.min(1,t*1.4));origin.y-=t*t*.19;for(let side=-1;side<=1;side+=2){const branchEnd=origin.clone().add(V(side*(.06+.09*t),-.03-t*.12,(r()-.5)*.12));tube([origin,origin.clone().lerp(branchEnd,.5).add(V(0,.02,0)),branchEnd],.002,reproductiveMaterial,plant,5);for(let g=0;g<4;g++){const point=origin.clone().lerp(branchEnd,(g+1)/4);point.y-=.01*g;grain(point,.3+(g%2)*.4,index===7||gold?.028:.019,grainMaterial,plant,grainGeo);if(index===6&&g===2){const anther=mesh(flowerGeo,flowerMat,plant);anther.position.copy(point).add(V(.01,-.023,0));}}}
           }
-        }else{line(tip,tip.clone().add(V(0,.38,0)),.004,stemMaterial,plant);for(let j=0;j<10;j++){const yy=j*.033;for(let side=-1;side<=1;side+=2){const pos=tip.clone().add(V(side*.035,yy,.005*(j%2)));const g=grain(pos,0,index===7?.047:.038,grainMaterial,plant,grainGeo);g.rotation.z=side*-.5;line(pos.clone().add(V(0,.035,0)),pos.clone().add(V(side*.06,.15,.03)),.0012,stemMaterial,plant);if(index===6&&j%3===0){const a=mesh(flowerGeo,flowerMat,plant);a.position.copy(pos).add(V(side*.035,-.015,.015));}}}}
+        }else{line(tip,tip.clone().add(V(0,.38,0)),.004,reproductiveMaterial,plant);for(let j=0;j<10;j++){const yy=j*.033;for(let side=-1;side<=1;side+=2){const pos=tip.clone().add(V(side*.035,yy,.005*(j%2)));const g=grain(pos,0,index===7?.047:.038,grainMaterial,plant,grainGeo);g.rotation.z=side*-.5;line(pos.clone().add(V(0,.035,0)),pos.clone().add(V(side*.06,.15,.03)),.0012,reproductiveMaterial,plant);if(index===6&&j%3===0){const a=mesh(flowerGeo,flowerMat,plant);a.position.copy(pos).add(V(side*.035,-.015,.015));}}}}
       }
     }
     if(index===9){const sheaf=new T.Group();plant.add(sheaf);sheaf.rotation.z=-.55;sheaf.position.set(.14,.02,0);for(let j=0;j<8;j++){const x=(j-4)*.025;line(V(x,0,0),V(x,.98,(j%2)*.04),.009,stemMaterial,sheaf);grain(V(x,.99,(j%2)*.04),0,rice?.11:.14,grainMaterial,sheaf,grainGeo);}const tie=mesh(new T.TorusGeometry(.13,.012,4,12),mat('#8c7757'),sheaf);tie.rotation.x=Math.PI/2;tie.position.y=.35;}
     const length=[.16,.31,.48,.62,.77,.9,1.0,1.05,1.12,1.1][index],count=index===0?3:8+index*3;
     for(let j=0;j<count;j++){const spread=(r()-.5)*length*.95,origin=V(-.4,-.03,1.132),end=V(-.4+spread,-length*(.6+r()*.4),1.14);tube([origin,V(-.4+spread*.35,-length*.35,1.14),end],j%3===0?.009:.004,rootMat,roots,10);for(let k=0;k<3;k++){const t=.25+k*.23,from=origin.clone().lerp(end,t);tube([from,from.clone().add(V(spread*.2+(k%2?.035:-.035),-.045,0)),from.clone().add(V(spread*.35+(k%2?.07:-.07),-.10,0))],.002,rootMat,roots,5);}}
-    instanceRepeats(plant);mergeStatic(plant);mergeStatic(roots);currentStage=id+':'+index;
+    instanceRepeats(plant);mergeStatic(plant);mergeStatic(roots);grainMaterialRef=grainMaterial;reproductiveMaterialRef=reproductiveMaterial;currentStage=id;configureGrowth();
   }
-  let soilSurface,waterSurface=-1.84,waterGoal=-1.84;
-  function plane(width,height,x,y,z,color,parent=scene){const m=mesh(new T.PlaneGeometry(width,height),new T.MeshBasicMaterial({color}),parent);m.position.set(x,y,z);return m;}
-  function initialize(){host=document.getElementById('scene-art');try{renderer=new T.WebGLRenderer({antialias:true,alpha:true,powerPreference:'low-power'});}catch(e){return false;}
-    renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.setClearColor(0xf3f0e5,1);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.NoToneMapping;host.appendChild(renderer.domElement);renderer.domElement.setAttribute('aria-label','Flat full-screen side view: crop and branching roots above a moving groundwater level, with a connected pump pipe');
+  const uniforms={time:{value:0},height:{value:1},spread:{value:1},root:{value:1},wind:{value:1},cut:{value:4}};
+  let soilSurface,waterSurface=-1.84,waterGoal=-1.84,surfaceHeight=0,pumpStrength=0,rainStrength=0,rechargeStrength=0,infiltrationStrength=0,uptakeStrength=0,lastDay=-1,renderedFrames=0,geometryBuilds=0,waterDirection=0,lastPosition=null,lastMotion=false,failed=false;
+  function configureGrowth(){
+    geometryBuilds++;plantMaterials=[...new Set([...plant.children].filter(x=>x.material).map(x=>x.material))];
+    function deform(material,root){material.onBeforeCompile=shader=>{
+      Object.assign(shader.uniforms,{uTime:uniforms.time,uGrowth:uniforms.height,uSpread:uniforms.spread,uRoot:uniforms.root,uWind:uniforms.wind,uCut:uniforms.cut});
+      shader.vertexShader='uniform float uTime,uGrowth,uSpread,uRoot,uWind; varying float vPlantY;\n'+shader.vertexShader;
+      shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>',`vec4 mvPosition=vec4(transformed,1.0);
+        #ifdef USE_BATCHING
+        mvPosition=batchingMatrix*mvPosition;
+        #endif
+        #ifdef USE_INSTANCING
+        mvPosition=instanceMatrix*mvPosition;
+        #endif
+        vPlantY=mvPosition.y;
+        ${root?'mvPosition.x=-.4+(mvPosition.x+.4)*uRoot;mvPosition.y*=uRoot;':'mvPosition.x*=uSpread;mvPosition.y*=uGrowth;float stemY=max(0.0,mvPosition.y);mvPosition.x+=uWind*(sin(uTime*1.25+mvPosition.y*1.4+mvPosition.x*4.0)*.017*stemY*stemY+sin(uTime*2.3+mvPosition.z*7.0)*.011*stemY);'}
+        mvPosition=modelViewMatrix*mvPosition;gl_Position=projectionMatrix*mvPosition;`);
+      if(!root){shader.fragmentShader='uniform float uCut;varying float vPlantY;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif(vPlantY>uCut)discard;');}
+    };material.customProgramCacheKey=()=>root?'continuous-root-v1':'continuous-plant-v1';material.needsUpdate=true;}
+    plantMaterials.forEach(m=>deform(m,false));deform(rootMat,true);grainMaterialRef.transparent=true;grainMaterialRef.opacity=0;grainMaterialRef.depthWrite=false;
+  }
+  function plane(width,height,x,y,z,color,parent=scene,opacity=1){const m=mesh(new T.PlaneGeometry(width,height),new T.MeshBasicMaterial({color,transparent:opacity<1,opacity,depthWrite:opacity===1}),parent);m.position.set(x,y,z);return m;}
+  function dotGroup(count,radius,color){const group=new T.Group(),geometry=new T.SphereGeometry(radius,5,4),material=new T.MeshBasicMaterial({color,transparent:true,opacity:.8}),batch=new T.InstancedMesh(geometry,material,count);group.userData.dots=[];for(let j=0;j<count;j++){const dot=new T.Object3D();dot.userData.phase=j/count;dot.material=material;group.userData.dots.push(dot);}group.add(batch);group.userData.batch=batch;scene.add(group);return group;}
+  function initialize(){
+    host=document.getElementById('scene-art');try{renderer=new T.WebGLRenderer({antialias:true,alpha:true,powerPreference:'low-power'});}catch(e){failed=true;host.innerHTML='<p class="webgl-fallback">The field view needs WebGL. The timeline and model totals remain available.</p>';return false;}
+    renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setClearColor(0xf3f0e5,1);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.NoToneMapping;host.appendChild(renderer.domElement);
     scene=new T.Scene();camera=new T.OrthographicCamera(-4,4,4,-4,.1,40);camera.position.set(0,.05,12);camera.lookAt(0,.05,0);scene.add(new T.HemisphereLight(0xfff9e8,0x8e8768,2));const sun=new T.DirectionalLight(0xfff4d8,2.1);sun.position.set(-3,7,8);scene.add(sun);
-    plane(100,16,0,-8,-2,'#c5ac87');soilSurface=plane(100,.32,0,-.16,-1.9,'#8b6948');plane(100,.60,0,-.62,-1.8,'#a48560');plane(100,.58,0,-1.2,-1.7,'#b69b75');plane(100,.55,0,-1.75,-1.6,'#c4ad89');
-    water=plane(100,12,0,-7.5,-1.1,'#5b969f');pond=plane(100,.025,0,.015,.2,'#a0c9bf');pond.visible=false;
-    const dirt=new T.Group();scene.add(dirt);const geo=new T.SphereGeometry(1,5,4),dirtMat=mat('#e0cfaf');for(let j=0;j<110;j++){const m=mesh(geo,dirtMat,dirt);m.position.set((rng()-.5)*14,-rng()*2.1,.2);m.scale.set(.006+rng()*.012,.004,.003);}instanceRepeats(dirt);
-    pumpGroup=new T.Group();pumpGroup.position.x=-.18;scene.add(pumpGroup);const pipepoints=[V(1.55,-2.45,1.4),V(1.55,.34,1.4),V(1.47,.45,1.4),V(1.09,.45,1.4),V(1.05,.13,1.4)];tube(pipepoints,.04,metal,pumpGroup,25);plane(.51,.055,1.56,.035,1.5,'#b6b19b',pumpGroup);plane(.39,.18,1.56,.16,1.5,'#677e69',pumpGroup);const motor=mesh(new T.CylinderGeometry(.085,.085,.25,12),metal,pumpGroup);motor.rotation.z=Math.PI/2;motor.position.set(1.55,.22,1.6);for(let j=0;j<5;j++)plane(.012,.11,1.43+j*.05,.17,1.7,'#a7b59b',pumpGroup);
-    rainGroup=new T.Group();scene.add(rainGroup);const rainMat=new T.LineBasicMaterial({color:0x88b1bb,transparent:true,opacity:.65});for(let j=0;j<65;j++){const line=new T.Line(new T.BufferGeometry().setFromPoints([V(0,0,0),V(-.025,-.15,0)]),rainMat);line.position.set((rng()-.5)*9,rng()*3.1,2);rainGroup.add(line);}rainGroup.visible=false;
-    cloudGroup=new T.Group();scene.add(cloudGroup);const cloudMat=new T.MeshBasicMaterial({color:'#d8e0dc',transparent:true,opacity:.82,depthWrite:false});for(let c=0;c<3;c++){const cloud=new T.Group();cloud.position.set(-1.4+c*1.05,2.85+(c%2)*.25,2.2);cloud.userData.baseX=cloud.position.x;for(let j=0;j<5;j++){const puff=mesh(new T.SphereGeometry(1,12,8),cloudMat,cloud);puff.position.set((j-2)*.15,Math.sin(j*1.8)*.07,0);puff.scale.set(.26,.12+(j%2)*.07,.025);}cloudGroup.add(cloud);}cloudGroup.visible=false;
-    const pm=mat('#b8e3dd',{emissive:'#68aaa7',emissiveIntensity:.3});particles=new T.Group();particles.position.x=-.18;scene.add(particles);for(let j=0;j<18;j++){const m=mesh(new T.SphereGeometry(.017,5,4),pm,particles);m.userData.phase=j/18;}particles.visible=false;
-    infiltrationGroup=new T.Group();scene.add(infiltrationGroup);for(let j=0;j<18;j++){const m=mesh(new T.SphereGeometry(.013,4,3),pm,infiltrationGroup);m.userData.phase=j/18;m.position.set(-1.4+j*.18,-.1,1.16);}infiltrationGroup.visible=false;
-    uptakeGroup=new T.Group();scene.add(uptakeGroup);rechargeGroup=new T.Group();scene.add(rechargeGroup);for(let j=0;j<14;j++){const u=mesh(new T.SphereGeometry(.017,5,4),pm,uptakeGroup);u.userData.phase=j/14;const q=mesh(new T.SphereGeometry(.018,5,4),pm,rechargeGroup);q.userData.phase=j/14;}uptakeGroup.visible=rechargeGroup.visible=false;
-    fertilizerGroup=new T.Group();scene.add(fertilizerGroup);const fm=mat('#e4dfbd');for(let j=0;j<16;j++){const m=mesh(new T.SphereGeometry(.014,4,3),fm,fertilizerGroup);m.userData.phase=j/16;m.position.set(-.75+(j%4)*.25,.6+(j%5)*.2,1.2);}fertilizerGroup.visible=false;
-    resize();window.addEventListener('resize',resize);requestAnimationFrame(frame);return true;
+    plane(100,16,0,-8,-2,'#c5ac87');soilSurface=plane(100,.32,0,-.16,-1.9,'#937552');plane(100,.65,0,-.65,-1.8,'#a98b64');plane(100,.6,0,-1.28,-1.7,'#b69b75');plane(100,.6,0,-1.85,-1.6,'#c4ad89');
+    moisture=plane(100,.95,0,-.475,-1.5,'#557f76',scene,.08);
+    water=plane(100,12,0,waterSurface-6,-1.1,'#699fa5');pond=plane(100,1,0,.03,.5,'#96c9c4',scene,.55);pond.visible=false;
+    waterLine=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#a2d2d0',transparent:true,opacity:.8}));poolLine=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#bddeda',transparent:true,opacity:.9}));scene.add(waterLine,poolLine);
+    const dirt=new T.Group();scene.add(dirt);const geo=new T.SphereGeometry(1,5,4),dirtMat=mat('#dfcdac');for(let j=0;j<80;j++){const m=mesh(geo,dirtMat,dirt);m.position.set((rng()-.5)*14,-rng()*2.6,.2);m.scale.set(.006+rng()*.012,.004,.003);}instanceRepeats(dirt);
+    pumpGroup=new T.Group();scene.add(pumpGroup);pipeCurve=new T.CatmullRomCurve3([V(1.37,-2.8,1.4),V(1.37,.31,1.4),V(1.29,.43,1.4),V(.94,.43,1.4),V(.87,.14,1.4)],false,'centripetal');
+    mesh(new T.TubeGeometry(pipeCurve,55,.035,7,false),metal,pumpGroup);plane(.47,.045,1.36,.028,1.5,'#b8b49e',pumpGroup);plane(.36,.16,1.36,.13,1.5,'#748b73',pumpGroup);for(let j=0;j<5;j++)plane(.011,.1,1.24+j*.05,.14,1.7,'#adba9f',pumpGroup);
+    outletCurve=new T.QuadraticBezierCurve3(V(.87,.14,1.8),V(.75,.18,1.8),V(.64,.016,1.8));
+    dischargeGroup=dotGroup(18,.017,'#9bd9da');particles=dotGroup(25,.019,'#94d3d9');
+    rainGroup=new T.Group();scene.add(rainGroup);const rainMat=new T.LineBasicMaterial({color:'#7fa5b1',transparent:true,opacity:.65});for(let j=0;j<70;j++){const drop=new T.Line(new T.BufferGeometry().setFromPoints([V(0,0,0),V(-.025,-.13,0)]),rainMat);drop.userData.phase=j/70;drop.userData.x=(rng()-.5)*8;rainGroup.add(drop);}
+    cloudGroup=new T.Group();scene.add(cloudGroup);const cloudMat=new T.MeshBasicMaterial({color:'#d8e1de',transparent:true,opacity:.7,depthWrite:false});for(let c=0;c<3;c++){const cloud=new T.Group();cloud.position.set(-1.4+c*1.05,2.85+(c%2)*.25,2.2);cloud.userData.baseX=cloud.position.x;for(let j=0;j<5;j++){const puff=mesh(new T.SphereGeometry(1,12,8),cloudMat,cloud);puff.position.set((j-2)*.15,Math.sin(j*1.8)*.07,0);puff.scale.set(.26,.12+(j%2)*.07,.025);}cloudGroup.add(cloud);}
+    infiltrationGroup=dotGroup(22,.011,'#b3ded4');uptakeGroup=dotGroup(12,.012,'#b9e4d5');rechargeGroup=dotGroup(18,.013,'#a8dcd3');fertilizerGroup=dotGroup(14,.011,'#e0dbb2');seedMesh=mesh(new T.SphereGeometry(1,7,5),mat('#b6a46b'));seedMesh.position.set(-.4,.025,1.2);seedMesh.scale.set(.045,.018,.025);
+    resize();window.addEventListener('resize',resize);return true;
   }
-  function resize(){if(!renderer)return;const w=host.clientWidth,h=host.clientHeight,aspect=w/h,height=aspect<.8?(h<720?9.1:8):7.4,width=height*aspect;camera.left=-width/2;camera.right=width/2;camera.top=height/2;camera.bottom=-height/2;camera.updateProjectionMatrix();renderer.setSize(w,h);renderer.render(scene,camera);positionWaterLabel();}
-  function positionWaterLabel(){const label=document.getElementById('aquifer-label');if(!label||!camera)return;const p=V(0,waterSurface,0).project(camera);label.style.top=((1-p.y)*host.clientHeight/2-15)+'px';}
-  function update(v,animate,settings){if(!renderer&&!initialize()){host.innerHTML='<p class="webgl-fallback">The field view needs WebGL on this browser. All game choices and accounting still work.</p>';return;}
-    isMotion=settings.motion;const index=v.def.stages.indexOf(v.stage),stage=v.id+':'+index;if(stage!==currentStage){buildPlant(v.id,index);growStart=animate&&!isMotion?Date.now():0;}
-    plant.visible=roots.visible=v.future||v.s.cropStates[v.id].established;const level=v.s.aquifer/Sim.H.aquifer_capacity_L;waterGoal=-2.6+level*.95;if(!animate||isMotion)waterSurface=waterGoal;water.position.y=waterSurface-6;positionWaterLabel();pond.visible=v.s.zones.some(z=>z.pond>0);const m=v.s.zones.reduce((n,z)=>n+z.soil,0)/(Sim.A*Sim.H.soil_capacity_mm);soilSurface.material.color.set(m>.75?'#806446':'#9a7954');
-    flow=v.s.lastFlows;flow={...flow,cropET:v.s.events.filter(e=>e.date===v.s.date&&e.type==='water_balance'&&e.cropId===v.id).reduce((n,e)=>n+e.quantity,0)};until=animate?Date.now()+3600:0;cloudGroup.visible=flow.rain>0&&!v.future;rainGroup.visible=animate&&flow.rain>0&&!isMotion;particles.visible=animate&&flow.pumped>0&&!isMotion;
-    fertilizing=animate&&settings.lastAnimation==='fert';plant.scale.y=growStart ? .88 : 1;renderer.render(scene,camera);
+  function resize(){if(!renderer)return;const w=host.clientWidth,h=host.clientHeight,aspect=w/h,height=aspect<.8?(h<720?9.1:8):7.4,width=height*aspect;camera.left=-width/2;camera.right=width/2;camera.top=height/2;camera.bottom=-height/2;camera.updateProjectionMatrix();renderer.setSize(w,h);positionMarker();renderer.render(scene,camera);}
+  function positionMarker(){if(!camera)return;const label=document.getElementById('groundwater-marker'),p=V(0,waterSurface,0).project(camera);if(label)label.style.top=((1-p.y)*host.clientHeight/2)+'px';}
+  const ease=(value,target,dt,rate=4)=>value+(target-value)*(1-Math.exp(-dt*rate));
+  const wavePoints=[];for(let i=0;i<48;i++)wavePoints.push(V(0,0,0));
+  function wave(line,level,time,amplitude){const width=camera.right-camera.left;for(let i=0;i<wavePoints.length;i++){const x=-width/2+i/(wavePoints.length-1)*width;wavePoints[i].set(x,level+amplitude*(Math.sin(x*3+time*.9)+Math.sin(x*5-time*.65)*.45),1.2);}line.geometry.setFromPoints(wavePoints);}
+  function update(v,{motion,time,dt}){
+    if(failed||!renderer&&!initialize())return;
+    if(motion&&lastMotion&&v.position===lastPosition)return;lastPosition=v.position;lastMotion=motion;
+    if(currentStage!==v.id)buildPlant(v.id,8);
+    uniforms.time.value=motion?0:time;uniforms.wind.value=motion?0:1;uniforms.height.value=v.growth.height;uniforms.spread.value=v.growth.spread;uniforms.root.value=v.growth.root;uniforms.cut.value=4-v.growth.harvest*3.82;
+    const green=new T.Color(v.id==='rice'?'#668946':'#7a914e'),gold=new T.Color('#b8a15b');plantMaterials.forEach(m=>{if(m!==grainMaterialRef)m.color.copy(green).lerp(gold,v.growth.ripe);});grainMaterialRef.color.set('#c8b47a');grainMaterialRef.opacity=v.growth.grain;reproductiveMaterialRef.opacity=Timeline.phase(v.das,v.def.stages[5].start_das,v.def.stages[6].start_das+3);rootMat.color.set(v.fallow?'#b7a686':'#d5c39e');plant.visible=roots.visible=true;seedMesh.visible=!v.fallow&&v.das<5;
+    // All values are driven by the same continuously sampled, conserved daily ledger.
+    const oldWater=waterSurface;waterGoal=-2.75+v.aquiferL/Sim.H.aquifer_capacity_L*1.05;waterSurface=motion?waterGoal:ease(waterSurface,waterGoal,dt,7);waterDirection=Math.sign(waterSurface-oldWater);water.position.y=waterSurface-6;positionMarker();
+    const moistureFraction=v.soilL/(Sim.A*Sim.H.soil_capacity_mm);soilSurface.material.color.set(moistureFraction>.75?'#83694d':'#9d805c');moisture.material.opacity=.03+Math.min(1,moistureFraction)*.16;
+    // A true surface pool is held above y=0 before the timeline releases it into the root zone.
+    const poolTarget=v.pondDepthMm>.05?.012+Math.min(v.pondDepthMm,130)/130*.13:0;surfaceHeight=motion?poolTarget:ease(surfaceHeight,poolTarget,dt,6);pond.visible=surfaceHeight>.003;pond.scale.y=Math.max(.001,surfaceHeight);pond.position.y=surfaceHeight/2+.003;poolLine.visible=pond.visible;
+    pumpStrength=motion?(v.flow.pumped>0?1:0):ease(pumpStrength,v.flow.pumped>0&&v.fraction>.005&&v.fraction<.4?1:0,dt,6);
+    rainStrength=motion?(v.flow.rain>0?1:0):ease(rainStrength,v.flow.rain>0&&v.fraction>.005&&v.fraction<.4?1:0,dt,4);
+    infiltrationStrength=ease(infiltrationStrength,v.flow.infiltration>0&&v.fraction>=.3&&v.fraction<.72?1:0,dt,5);
+    uptakeStrength=ease(uptakeStrength,v.flow.cropET>0?1:0,dt,3);rechargeStrength=ease(rechargeStrength,v.flow.recharge>0||v.flow.queuedRecharge>0&&v.fraction>.8?1:0,dt,4);
+    cloudGroup.children[0].children[0].material.opacity=.7*rainStrength;cloudGroup.visible=rainStrength>.03;cloudGroup.children.forEach((c,i)=>{c.position.x=c.userData.baseX+(motion?0:Math.sin(time*.18+i)*.17);});rainGroup.visible=rainStrength>.04&&!motion;rainGroup.children.forEach((p,i)=>{p.visible=i<Math.min(70,20+Math.round(v.s.rainMm));p.position.set(p.userData.x,3.2-((motion?0:time*1.1)+p.userData.phase)%1*3.2,2);});rainGroup.children[0].material.opacity=.6*rainStrength;
+    particles.visible=dischargeGroup.visible=pumpStrength>.03;particles.userData.dots.forEach(p=>{const f=((motion?0:time*.38)+p.userData.phase)%1;p.position.copy(pipeCurve.getPoint(f));p.position.z=1.85;p.material.opacity=.85*pumpStrength;});dischargeGroup.userData.dots.forEach(p=>{const f=((motion?0:time*1.6)+p.userData.phase)%1;p.position.copy(outletCurve.getPoint(f));p.position.y+=(surfaceHeight-.016)*(f*f);p.material.opacity=.85*pumpStrength;});
+    infiltrationGroup.visible=infiltrationStrength>.04;infiltrationGroup.userData.dots.forEach((p,j)=>{const f=((motion?0:time*.38)+p.userData.phase)%1;p.position.set(-1.1+(j%11)*.21,-.04-f*.85,1.25);p.material.opacity=.55*infiltrationStrength;});
+    uptakeGroup.visible=uptakeStrength>.05&&!v.fallow;uptakeGroup.userData.dots.forEach((p,j)=>{const f=((motion?0:time*.28)+p.userData.phase)%1;p.position.set(-.4+Math.sin(j*2.4)*.22*(1-f),-.55+f*.7,1.27);p.material.opacity=.6*uptakeStrength;});
+    rechargeGroup.visible=rechargeStrength>.03;rechargeGroup.userData.dots.forEach((p,j)=>{const f=((motion?0:time*.27)+p.userData.phase)%1,arriving=v.flow.recharge>0,top=arriving?waterSurface+.28:-.9,bottom=arriving?waterSurface-.03:waterSurface+.15;p.position.set(-1.12+(j%9)*.23,top+(bottom-top)*f,1.3);p.material.opacity=.75*rechargeStrength;});
+    const feeding=v.s.cropStates[v.id].products.some(p=>p.date===v.s.date&&p.category==='fertilizer');fertilizerGroup.visible=feeding&&v.fraction<.6;fertilizerGroup.userData.dots.forEach((p,j)=>{const f=((motion?0:time*.5)+p.userData.phase)%1;p.position.set(-.8+(j%7)*.13,.32*(1-f),1.3);});
+    for(const group of [particles,dischargeGroup,infiltrationGroup,uptakeGroup,rechargeGroup,fertilizerGroup]){if(!group.visible)continue;group.userData.dots.forEach((p,i)=>{p.updateMatrix();group.userData.batch.setMatrixAt(i,p.matrix);});group.userData.batch.instanceMatrix.needsUpdate=true;}
+    water.material.color.set(v.flow.recharge>0?'#79aaa9':'#699fa5');wave(waterLine,waterSurface,motion?0:time,motion?0:.009);if(pond.visible)wave(poolLine,surfaceHeight+.003,motion?0:time,motion?0:.004);renderer.render(scene,camera);renderedFrames++;lastDay=v.day;
   }
-  function frame(time){requestAnimationFrame(frame);if(document.hidden)return;const elapsed=Math.min(.08,(time-lastTime)/1000);lastTime=time;const active=Date.now()<until&&!isMotion,growing=growStart>0&&!isMotion;if(growStart){const fraction=Math.min(1,(Date.now()-growStart)/900);plant.scale.y=.88+fraction*.12;roots.scale.y=.88+fraction*.12;if(fraction>=1||isMotion){growStart=0;plant.scale.y=1;roots.scale.y=1;}}
-    if(active&&flow.rain>0)rainGroup.children.forEach((drop,i)=>{drop.visible=i<Math.min(65,10+Math.round(flow.rain/Sim.A));if(drop.visible){drop.position.y-=elapsed*3.5;if(drop.position.y<.05)drop.position.y=3.1;}});
-    if(active&&flow.rain>0)cloudGroup.children.forEach((c,i)=>{c.position.x=c.userData.baseX+Math.sin(time*.0007+i)*.13;});
-    rainGroup.visible=active&&flow.rain>0;particles.visible=active&&flow.pumped>0;
-    if(particles.visible)particles.children.forEach((p,j)=>{p.userData.phase=(p.userData.phase+elapsed*.45)%1;const f=p.userData.phase;if(f<.82)p.position.set(1.55,-2.4+f/ .82*2.85,1.8);else if(f<.94)p.position.set(1.55-(f-.82)/.12*.50,.45,1.8);else p.position.set(1.05,.45-(f-.94)/.06*.43,1.8);});
-    fertilizerGroup.visible=active&&fertilizing;if(fertilizerGroup.visible)fertilizerGroup.children.forEach(p=>{p.userData.phase=(p.userData.phase+elapsed*.65)%1;p.position.y=1.8*(1-p.userData.phase);});
-    infiltrationGroup.visible=active&&flow.infiltration>0;if(infiltrationGroup.visible)infiltrationGroup.children.forEach(p=>{p.userData.phase=(p.userData.phase+elapsed*.35)%1;p.position.y=-.05-p.userData.phase*.8;});if(active){waterSurface+=(waterGoal-waterSurface)*Math.min(1,elapsed*3);water.position.y=waterSurface-6;positionWaterLabel();}
-    uptakeGroup.visible=active&&flow.cropET>0&&plant.visible;rechargeGroup.visible=active&&(flow.queuedRecharge>0||flow.recharge>0);
-    if(uptakeGroup.visible)uptakeGroup.children.forEach((p,j)=>{p.userData.phase=(p.userData.phase+elapsed*.4)%1;const f=p.userData.phase;p.position.set(-.4+Math.sin(j*2.4)*.28*(1-f),-.65+f*.92,1.25);});
-    if(rechargeGroup.visible)rechargeGroup.children.forEach((p,j)=>{p.userData.phase=(p.userData.phase+elapsed*.3)%1;const f=p.userData.phase,top=flow.recharge>0?waterSurface+.3:-.85,bottom=flow.recharge>0?waterSurface-.08:waterSurface+.15;p.position.set(-1.15+(j%7)*.27,top+(bottom-top)*f,1.3);});
-    water.material.color.set(active&&flow.recharge>0?'#80b1b2':'#669ca3');
-    pumpGroup.position.y=active&&flow.pumped>0?Math.sin(time*.08)*.0015:0;
-    // Only render continuously while an event is moving; the locked idle scene is cheap on phones.
-    if(active||growing)renderer.render(scene,camera);
-  }
-  return{update,resize,info:()=>({representation:'flat lateral',waterSurface,waterGoal,revision:T.REVISION,locked:true,renderer:!!renderer,stage:currentStage,groundScreenFraction:camera?(1-V(0,0,0).project(camera).y)/2:null,cloudsVisible:!!cloudGroup?.visible,uptakeAnimating:!!uptakeGroup?.visible,rechargeAnimating:!!rechargeGroup?.visible,rainAnimating:!!rainGroup?.visible,pumpAnimating:!!particles?.visible,drawCalls:renderer?.info.render.calls})};
+  return{update,resize,info:()=>({representation:'continuous lateral',revision:T.REVISION,locked:true,renderer:!!renderer,crop:currentStage,geometryBuilds,renderedFrames,waterSurface,waterGoal,waterDirection,surfacePoolHeight:surfaceHeight,pumpStrength,rainStrength,cloudsVisible:!!cloudGroup?.visible,infiltrationAnimating:!!infiltrationGroup?.visible,uptakeAnimating:!!uptakeGroup?.visible,rechargeAnimating:!!rechargeGroup?.visible,rainAnimating:!!rainGroup?.visible,pumpAnimating:!!particles?.visible,dischargeAnimating:!!dischargeGroup?.visible,growth:uniforms.height.value,windTime:uniforms.time.value,day:lastDay,drawCalls:renderer?.info.render.calls})};
 })();

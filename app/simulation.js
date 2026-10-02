@@ -117,7 +117,7 @@ const Sim = (() => {
       const fromPond=Math.min(z.pond,potential);z.pond-=fromPond;const fromSoil=Math.min(z.soil,potential-fromPond);z.soil-=fromSoil;flow('et',fromPond+fromSoil,z.crop);
       if(z.crop!=='fallow'){const cc=s.cropStates[z.crop];cc.etPotential+=potential;cc.etDeficit+=potential-fromPond-fromSoil;}
       const drain=Math.min(Math.max(0,z.soil-h.soil_drainage_threshold_mm*z.area),h.daily_drainage_limit_mm*z.area);z.soil-=drain;const queued=drain*h.recharge_fraction_of_drainage;flow('deep',drain-queued,z.crop);s.lastFlows.drainage+=drain;s.lastFlows.queuedRecharge+=queued;if(queued)s.pending.push({day:day+h.recharge_lag_days,litres:queued,crop:z.crop});
-      addEvent('water_balance',fromPond+fromSoil,'L',{cropId:z.crop,zoneAreaM2:z.area,potentialET:potential,infiltration,runoff,drainage:drain,queuedRecharge:queued,status:'game_assumption'});
+      addEvent('water_balance',fromPond+fromSoil,'L',{cropId:z.crop,zoneAreaM2:z.area,potentialET:potential,fromPond,fromSoil,infiltration,runoff,drainage:drain,queuedRecharge:queued,status:'game_assumption'});
     }
     if(c){
       if(id==='rice'&&day>=27)c.pondDryDays=s.zones.find(z=>z.crop==='rice')?.pond>0?0:c.pondDryDays+1;
@@ -132,6 +132,20 @@ const Sim = (() => {
     s.cropId=id;s.das=das;s.rainMm=rain;return s;
   }
   function simulate({seed=CONFIG.demonstration.seed,scenario='normal',day=0,actions={},cfg=CONFIG}={}){const rain=weather(seed,scenario,cfg),snapshots=[];let state=initial(cfg);for(let d=0;d<=day;d++){state=reduce(state,{type:'day',id:'day:'+d,day:d},{cfg,actions,weather:rain,seed});snapshots.push(state);}return {state,snapshots,weather:rain};}
+  function ideal({seed=CONFIG.demonstration.seed,scenario='normal',cfg=CONFIG}={}){
+    const rain=weather(seed,scenario,cfg),actions={},snapshots=[];let state=initial(cfg);
+    for(let day=0;day<=endDay(cfg);day++){
+      if(day<=120||day>=wheatStart(cfg))actions[key(day,'water')]='auto';
+      const context={cfg,actions,weather:rain,seed},event={type:'day',id:'day:'+day,day};
+      const preview=reduce(state,event,context);
+      for(const cp of preview.checkpoints){
+        const value=cp.key==='establish'?'sow':cp.key==='transplant'?'transplant':cp.key==='water'?'auto':cp.key==='pest'?'chemical':cp.key==='weed'?(preview.cropId==='wheat'&&!preview.cropStates.wheat.irrigationDays.length?'manual':'chemical'):'full';
+        actions[key(day,cp.key)]=value;if(cp.key==='pest')actions[key(day,'scout')]='inspect';
+      }
+      state=reduce(state,event,context);snapshots.push(state);
+    }
+    return{state,snapshots,weather:rain,actions,seed,scenario,cfg};
+  }
   function allocation(c,cfg=CONFIG){const kg=c.harvested?c.edibleKg:c.projectedYieldKg*cropDef(c.id).processing.recovery.value,bowls=kg/cfg.bowl_mass_kg;return{kg,bowls,pumpedPerBowl:bowls>0?c.water.pumped/bowls:null,product:(q,unit)=>bowls>0?(unit==='kg'?q*1000:q)/bowls:null};}
   function validateImport(raw){
     if(!raw||typeof raw!=='object'||Array.isArray(raw))throw Error('Choose a game JSON exported by this application.');
@@ -143,6 +157,6 @@ const Sim = (() => {
     for(const [k,v]of Object.entries(raw.decisions)){const match=/^(\d+):(establish|transplant|fert0|fert14|fert34|fert48|fert62|dap|urea1|urea2|weed|pest|water|scout)$/.exec(k);if(!match||Number(match[1])>raw.horizon)throw Error('Invalid decision date or type.');const group=match[2].startsWith('fert')||['dap','urea1','urea2'].includes(match[2])?'fert':match[2];if(!(options[group]||(group==='transplant'?['transplant']:[])).includes(v))throw Error('Invalid decision choice.');}
     return{seed:raw.randomSeed,scenario:raw.scenario,day:raw.horizon,actions:clone(raw.decisions),runId:typeof raw.runId==='string'?raw.runId.slice(0,80):'imported',branchParent:typeof raw.branchParent==='string'?raw.branchParent.slice(0,80):null,activeScene:['rice','wheat'].includes(raw.activeScene)?raw.activeScene:'rice',displayMode:raw.displayMode==='acre'?'acre':'bowl',autoPump:raw.autoPump!==false};
   }
-  return{CONFIG,AUTO_CONFIG,irrigationNeed,A,H,MS,clone,random,weather,dateAt,wheatStart,endDay,cropDef,initial,reduce,simulate,stocks,yieldFor,allocation,validateImport,options,key};
+  return{CONFIG,AUTO_CONFIG,irrigationNeed,A,H,MS,clone,random,weather,dateAt,wheatStart,endDay,cropDef,initial,reduce,simulate,ideal,stocks,yieldFor,allocation,validateImport,options,key};
 })();
 if(typeof module!=='undefined')module.exports={Sim,DATA};
