@@ -1,10 +1,10 @@
 # Farmer interface and residue simulation
 
-The current interface starts paused and offers a guided story or free exploration. A retained-straw baseline is visibly disclosed. Crop navigation and scrubbing do not require a straw decision. The optional comparison sheet shows both season-end paths with identical weather and automatic care; users can watch a path from rice harvest or change it at their current date. Rewinding never applies inputs twice.
+The current interface starts paused and offers a guided story or free exploration. A retained-straw baseline is disclosed in Menu. Crop navigation and scrubbing do not require a straw decision. The optional comparison sheet shows both season-end paths with identical weather and automatic care; users can watch a path from rice harvest or change it at their current date. Rewinding never applies inputs twice.
 
 ## Readability and access
 
-Stage headings and captions use everyday language. One care sheet replaces the side bottles, while product application ledgers retain source quantities and units. Field / Plant close-up changes the camera; Whole field / Per 100 g dry food changes quantity basis independently. Short screens scroll, and the harvest conclusion and bowl stack on phones.
+A short stage title supports the dominant crop and underground scene. Water, fertilizer, weed-care and pest-care objects show cumulative quantities and open their detailed ledgers. Field / 100 g changes crop framing, quantities and illustrated container sizes together. Separate capacities keep small allocations visible; these sizes are not a common physical scale. A small harvest reference replaces the large bowl/story cards. Enlarged text and short screens can scroll.
 
 English/Punjabi and theme preferences persist locally. Punjabi labels remain a first translation awaiting independent review. Source titles and product identifiers stay in their original language. Pause freezes date and event motion. Reduced motion retains calculations and static flow cues, and theme/resize/scenario changes redraw a paused field.
 
@@ -18,10 +18,10 @@ The soil drawer analyzes published surface SOC values: 5.15 g/kg under Happy See
 
 ## Animation and performance
 
-The detailed plant is continuously deformed; the field uses 120 inexpensive instanced clumps with varied curved leaves and crop-specific ears/panicles. Straw, flames, smoke and fertilizer particles retain bounded instance counts. Fire is active during positions 121–125, followed by ash; mulch persists through wheat and gradually decays. Model timing and accounting are unchanged.
+The detailed plant is continuously deformed; the field uses 96 inexpensive instanced clumps plus detailed foreground plants with varied curved leaves and crop-specific ears/panicles. Straw, flames, smoke and fertilizer particles retain bounded instance counts. Fire is active during positions 121–125, followed by ash; mulch persists through wheat and gradually decays. Model timing and accounting are unchanged.
 
-Fertilizer cues descend toward the field on the sampled application day. Soil texture and mineral flecks are original, generated offline. The groundwater display is explicitly illustrative. Pause stops recurring renders once any camera transition has settled. A sustained slow-frame detector lowers pixel ratio to 1; hidden documents freeze rendering and playback. The full guided journey adds narrated processing holds and a dry-food bowl without modifying the reducer.
+Fertilizer cues descend toward the field on the sampled application day. Soil texture and mineral flecks are original, generated offline. The groundwater display is explicitly illustrative. Pause stops recurring renders once any camera transition has settled. A sustained slow-frame detector lowers pixel ratio to 1; hidden documents freeze rendering and playback. The full guided journey retains processing holds and a dry-food bowl without modifying the reducer.
 
 ## Verification
 
-Run `node tests/simulation.cjs`, `node tests/automatic-irrigation.cjs`, `node tests/continuous.cjs`, `node tests/residue.cjs`, and the Playwright CLI flows `tests/journey.js`, `tests/guided-playback.js`, `tests/live-flow.js`, `tests/farmer-ui.js`, `tests/ux-metrics.js`, `tests/acre-view.js`, and `tests/accessibility.js`. Regenerate the standalone page with `python3 build.py` after source changes.
+Run `node tests/simulation.cjs`, `node tests/automatic-irrigation.cjs`, `node tests/continuous.cjs`, `node tests/residue.cjs`, and the Playwright CLI flow `tests/crop-first.js` along with `tests/journey.js`, `tests/guided-playback.js`, `tests/live-flow.js`, `tests/farmer-ui.js`, `tests/ux-metrics.js`, `tests/acre-view.js`, and `tests/accessibility.js`. Regenerate the standalone page with `python3 build.py` after source changes.

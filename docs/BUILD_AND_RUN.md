@@ -4,11 +4,11 @@ Open the standalone `index.html` or serve the project with `python3 -m http.serv
 
 ## Controls
 
-- Start the story: guided rice → straw → wheat journey, about 84 seconds including two harvest holds. Explore freely: paused day zero.
+- Start: guided rice → straw → wheat journey, about 84 seconds including two harvest holds. Explore: paused day zero.
 - Play/Pause: starts or freezes both progression and event motion. Replay at the endpoint restarts the journey.
 - Next chapter or Rice/Wheat: jump to that chapter and pause. Timeline scrubbing restores continuous, reversible state.
 - Arrow keys: one day; Shift + arrows: seven; Page Up/Down: fourteen; Home/End: rotation endpoints.
-- Field / Plant close-up: camera only. Whole field / Per 100 g dry food: quantities only. Date and history are preserved.
+- Field / 100 g: coordinated crop presentation and allocated input quantities, with visibly different container sizes/capacities. Date and history are preserved.
 - Care sheet: inspect automatic crop care and product ledgers. These controls do not apply inputs.
 - Compare straw choices: see projected results for both paths, watch either from harvest, or change the path at the current date. Mulch is the disclosed baseline.
 - Visible English/Punjabi switch; About includes theme, reduced motion and model JSON download. Preferences persist locally.
@@ -38,6 +38,7 @@ python3 tests/run_browser.py farmer-ui.js
 python3 tests/run_browser.py ux-metrics.js
 python3 tests/run_browser.py acre-view.js
 python3 tests/run_browser.py guided-playback.js
+python3 tests/run_browser.py crop-first.js
 python3 tests/run_browser.py accessibility.js
 ```
 

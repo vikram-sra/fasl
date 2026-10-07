@@ -27,575 +27,632 @@ html[data-theme=dark] {
   color-scheme: dark;
 }
 * {
-  box-sizing: border-box;
+  box-sizing:border-box
 }
 body {
-  margin: 0;
+  margin:0
 }
 button,a,input {
-  font: inherit;
-  color: inherit;
-  outline-offset: 4px;
+  font:inherit;
+  color:inherit;
+  outline-offset:3px
 }
 button {
-  min-width: 44px;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  touch-action: manipulation;
-  min-height: 44px;
+  min-width:44px;
+  min-height:44px;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  touch-action:manipulation
 }
 button:hover {
-  background: var(--soft);
-}
-button:disabled {
-  opacity: .45;
-  cursor: default;
+  background:var(--soft)
 }
 button:focus-visible,a:focus-visible,input:focus-visible {
-  outline: 3px solid var(--accent);
+  outline:3px solid var(--accent)
 }
-button[hidden],[hidden] {
-  display: none!important;
+[hidden] {
+  display:none!important
 }
 a {
-  color: var(--accent);
+  color:var(--accent)
 }
 .game {
-  height: 100dvh;
-  min-height: 780px;
-  display: grid;
-  grid-template-rows: minmax(80px,auto) minmax(118px,auto) minmax(340px,1fr) auto;
-  max-width: 1920px;
-  margin: auto;
-  position: relative;
-  overflow: visible;
+  height:100dvh;
+  min-height:540px;
+  display:grid;
+  grid-template-rows:56px minmax(360px,1fr) auto;
+  max-width:1920px;
+  margin:auto;
+  position:relative
 }
 .header {
-  flex-wrap: wrap;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 14px 32px;
-  border-bottom: 1px solid var(--line);
-  z-index: 3;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:4px 20px;
+  border-bottom:1px solid var(--line);
+  z-index:3;
+  background:var(--surface)
 }
 .brand {
-  min-width: 44px;
-  display: flex;
-  gap: 11px;
-  align-items: center;
-  text-decoration: none;
-  color: var(--ink);
-  font-size: 10px;
-  letter-spacing: 1.6px;
-  line-height: 1.5;
-  font-weight: 700;
-  min-height: 44px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  text-decoration:none;
+  font-size:9px;
+  letter-spacing:1px
 }
 .brand svg {
-  width: 25px;
-  height: 34px;
-}
-.seasons,.view-switch,.unit-switch {
-  display: flex;
-  gap: 3px;
-  border: 1px solid var(--line);
-  border-radius: 28px;
-  padding: 3px;
-  background: var(--surface);
-}
-.seasons button {
-  padding: 8px 26px;
-  border-radius: 24px;
-  font-size: 15px;
-  font-weight: 700;
-}
-.seasons button[aria-pressed=true],.view-switch button[aria-pressed=true],.unit-switch button[aria-pressed=true] {
-  background: var(--ink);
-  color: var(--surface);
+  width:22px;
+  height:32px
 }
 .header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display:flex;
+  align-items:center;
+  gap:4px
 }
 .header-actions button {
-  padding: 8px 12px;
-  font-size: 13px;
-  font-weight: 600;
-  border-radius: 8px;
+  font-size:12px;
+  padding:4px 10px
 }
-.menu {
-  border: 1px solid var(--line);
+.seasons,.unit-switch {
+  display:flex;
+  gap:2px;
+  padding:2px;
+  border:1px solid var(--line);
+  border-radius:24px
 }
-.narrative {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 28px;
-  padding: 18px 5%;
-  z-index: 2;
+.seasons button,.unit-switch button {
+  border-radius:22px;
+  padding:4px 20px;
+  font-size:13px;
+  font-weight:600;
+  min-height:44px
 }
-.scene-heading {
-  max-width: 800px;
-}
-.eyebrow {
-  font-size: 10px;
-  letter-spacing: 1.9px;
-  font-weight: 700;
-  color: var(--muted);
-  line-height: 1.5;
-}
-.scene-heading .eyebrow {
-  display: flex;
-  gap: 18px;
-  align-items: center;
-}
-.scene-heading h1 {
-  font-family: Georgia,'Times New Roman',serif;
-  font-size: 30px;
-  line-height: 1.15;
-  font-weight: 400;
-  margin: 7px 0;
-}
-.scene-heading p {
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 0;
-  color: var(--muted);
-}
-.care-button {
-  display: flex;
-  gap: 9px;
-  align-items: center;
-  font-size: 12px;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  padding: 9px 14px;
-  border-radius: 10px;
-  flex-shrink: 0;
-}
-.care-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
+.seasons button[aria-pressed=true],.unit-switch button[aria-pressed=true] {
+  background:var(--ink);
+  color:var(--surface)
 }
 .field-scene {
-  position: relative;
-  min-width: 0;
-  overflow: hidden;
-  border-top: 1px solid var(--line);
+  position:relative;
+  min-width:0;
+  overflow:hidden
+}
+.game[data-journey=welcome] .field-scene,.game[data-finished=true] .field-scene {
+  display:block
 }
 #scene-art {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden
 }
 #scene-art canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
+  display:block;
+  width:100%;
+  height:100%
 }
-.scene-tools {
-  position: absolute;
-  inset: 12px 5% auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  z-index: 2;
+.narrative {
+  position:absolute;
+  top:12px;
+  left:20px;
+  right:20px;
+  z-index:2;
+  pointer-events:none
 }
-.view-switch {
-  border-radius: 9px;
-  flex-shrink: 0;
-  background: var(--surface);
+.scene-heading h1 {
+  font-family:Georgia,serif;
+  font-size:24px;
+  font-weight:400;
+  line-height:1.15;
+  margin:0;
+  max-width:75%;
+  text-shadow:0 1px 8px var(--sky)
 }
-.view-switch button {
-  padding: 5px 13px;
-  border-radius: 6px;
-  font-size: 12px;
-  min-height: 36px;
+.scene-heading .eyebrow,.care-button {
+  display:none
 }
-.scene-tools>span {
-  font-size: 10px;
-  color: var(--muted);
+.scene-heading p,.scene-tools,.orientation {
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip-path:inset(50%);
+  white-space:nowrap
+}
+.game[data-journey=welcome] .narrative {
+  display:none
 }
 .event-label {
-  position: absolute;
-  right: 5%;
-  top: 66px;
-  font-size: 11px;
-  max-width: 230px;
-  padding: 7px 11px;
-  background: var(--surface);
-  border-radius: 20px;
-  line-height: 1.4;
+  position:absolute;
+  top:48px;
+  left:20px;
+  font-size:11px;
+  color:var(--muted);
+  z-index:2;
+  max-width:80%;
+  pointer-events:none
 }
 .event-label:empty {
-  display: none;
+  display:none
 }
 #soil-status {
-  position: absolute;
-  left: 5%;
-  top: 63%;
-  border-radius: 8px;
-  background: var(--surface);
-  padding: 8px 12px;
-  font-size: 11px;
-  border: 1px solid var(--line);
-  min-height: 36px;
-  z-index: 2;
+  position:absolute;
+  left:16px;
+  top:62%;
+  font-size:11px;
+  padding:0 8px;
+  border-radius:6px;
+  background:var(--surface);
+  z-index:2;
+  max-width:45%
 }
 #groundwater-marker {
-  position: absolute;
-  left: 5%;
-  right: 5%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 32px;
-  transform: translateY(-50%);
-  pointer-events: none;
-  z-index: 1;
+  position:absolute;
+  left:16px;
+  right:16px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  transform:translateY(-50%);
+  pointer-events:none;
+  z-index:2
 }
 .water-tick {
-  width: 18px;
-  height: 1px;
-  background: #e2eee1;
+  width:18px;
+  border-top:1px solid #c2e1df
 }
 #groundwater-label {
-  color: #f4f7ef;
-  font-size: 11px;
-  padding: 7px 10px;
-  background: #355d5b;
-  border-radius: 6px;
+  font-size:10px;
+  color:#f2f7eb;
+  background:#26484b;
+  padding:5px 6px;
+  border-radius:4px
 }
 .cutaway-note {
-  position: absolute;
-  bottom: 12px;
-  right: 5%;
-  font-size: 10px;
-  color: #fff9e9;
-  background: #3a5147b8;
-  padding: 5px 8px;
-  border-radius: 4px;
+  position:absolute;
+  bottom:8px;
+  right:16px;
+  font-size:9px;
+  color:#f2f7eb;
+  background:#26484b;
+  padding:3px 6px;
+  border-radius:3px;
+  z-index:2
 }
 .welcome {
-  position: absolute;
-  left: 7%;
-  top: 14%;
-  max-width: 450px;
-  z-index: 4;
-  padding: 10px 26px 24px 0;
-  background: linear-gradient(90deg,var(--sky) 82%,transparent);
+  position:absolute;
+  inset:16px 20px auto;
+  z-index:3;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px
 }
 .welcome h2 {
-  font-family: Georgia,'Times New Roman',serif;
-  font-weight: 400;
-  font-size: 66px;
-  line-height: .98;
-  letter-spacing: -2.5px;
-  margin: 16px 0;
+  font-family:Georgia,serif;
+  font-size:25px;
+  font-weight:400;
+  margin:0;
+  line-height:1.1
 }
-.welcome p {
-  font-size: 16px;
-  line-height: 1.65;
-  max-width: 330px;
-  color: var(--muted);
-  margin: 14px 0 22px;
+.welcome h2 br {
+  display:none
 }
-.welcome-actions,.finish-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+.welcome>p,.welcome>.eyebrow,.welcome>small {
+  display:none
+}
+.welcome-actions {
+  display:flex;
+  gap:8px;
+  align-items:center
 }
 .primary {
-  background: var(--ink);
-  color: var(--surface);
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-}
-.primary:hover {
-  background: var(--accent);
+  background:var(--ink);
+  color:var(--surface);
+  border-radius:24px;
+  padding:10px 18px;
+  font-size:13px;
+  font-weight:600
 }
 .text-button {
-  font-size: 13px;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  padding: 8px;
-  border-radius: 6px;
+  font-size:12px;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  padding:6px
 }
-.welcome small {
-  display: block;
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 17px;
-}
-.game[data-journey=welcome] .scene-tools,.game[data-journey=welcome] #soil-status,.game[data-journey=welcome] #groundwater-marker,.game[data-journey=welcome] .event-label,.game[data-journey=welcome] .cutaway-note,.game[data-journey=welcome] .care-button {
-  visibility: hidden;
-}
-.game[data-journey=welcome] .timeline {
-  opacity: .45;
-  pointer-events: none;
-  visibility: hidden;
-}
-.orientation {
-  position: absolute;
-  left: 5%;
-  right: 5%;
-  top: 64px;
-  z-index: 3;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  background: var(--surface);
-  padding: 10px 14px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  max-width: 520px;
-}
-.orientation p {
-  font-size: 13px;
-  line-height: 1.5;
-  margin: 0;
-}
-.orientation button {
-  width: 44px;
-  flex-shrink: 0;
+.welcome #explore {
+  font-size:11px
 }
 .timeline {
-  padding: 12px 5% max(12px,env(safe-area-inset-bottom));
-  background: var(--surface);
-  border-top: 1px solid var(--line);
-  z-index: 5;
-  min-height: 196px;
+  background:var(--surface);
+  border-top:1px solid var(--line);
+  padding:4px 20px max(4px,env(safe-area-inset-bottom));
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:48px 30px;
+  gap:2px 20px;
+  z-index:3
 }
 .quantity-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--line);
-}
-.unit-switch {
-  border-radius: 8px;
+  display:flex;
+  gap:16px;
+  align-items:center;
+  min-width:0
 }
 .unit-switch button {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 5px;
-  min-height: 36px;
+  padding:4px 15px;
+  font-size:12px
 }
 .live-metrics {
-  display: flex;
-  gap: 40px;
-  align-items: center;
-  text-align: left;
-  padding: 0 8px;
-  border-radius: 6px;
+  display:flex;
+  gap:18px;
+  text-align:left;
+  align-items:center;
+  padding:0;
+  min-width:0
+}
+.live-metrics>span {
+  display:flex;
+  flex-direction:column;
+  gap:2px
 }
 .live-metrics strong {
-  font-family: Georgia,serif;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 1.2;
-  font-variant-numeric: tabular-nums;
+  font-family:Georgia,serif;
+  font-weight:400;
+  font-size:20px;
+  white-space:nowrap
 }
 .live-metrics small {
-  display: block;
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 2px;
+  font-size:9px;
+  color:var(--muted);
+  max-width:110px
 }
 .metrics-arrow {
-  font-size: 18px;
+  display:none!important
 }
 .playback-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding-top: 8px;
-  font-size: 12px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:flex-end;
+  min-width:0
 }
-.playback-row #play {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 1px solid var(--line);
-  border-radius: 7px;
-  min-width: 83px;
-  font-size: 12px;
+#play {
+  display:flex;
+  gap:7px;
+  align-items:center;
+  padding:4px 12px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  font-size:12px
 }
-.playback-row #play>span:first-child {
-  font-size: 20px;
+#play>span:first-child {
+  font-size:20px
 }
-.timeline-speed {
-  margin-left: auto;
-  color: var(--muted);
-  font-size: 10px;
+#timeline-caption {
+  font-size:11px;
+  color:var(--muted);
+  white-space:nowrap
 }
 #next-chapter {
-  font-size: 11px;
-  display: flex;
-  gap: 12px;
-  align-items: center;
+  font-size:12px;
+  padding:4px 10px
+}
+.timeline-speed,.timeline-note,#month-list {
+  display:none
 }
 .slider-wrap {
-  height: 28px;
+  grid-column:1/-1;
+  display:flex;
+  align-items:center;
+  min-width:0
 }
 #timeline-slider {
-  width: 100%;
-  height: 28px;
-  margin: 0;
-  appearance: none;
-  background: transparent;
-  cursor: ew-resize;
-  --progress: 0%;
+  appearance:none;
+  width:100%;
+  height:30px;
+  background:transparent;
+  cursor:ew-resize;
+  margin:0
 }
 #timeline-slider::-webkit-slider-runnable-track {
-  height: 4px;
-  background: linear-gradient(to right,var(--accent) var(--progress),var(--line) var(--progress));
-  border-radius: 5px;
+  height:4px;
+  border-radius:3px;
+  background:linear-gradient(to right,var(--accent) var(--progress,0%),var(--line) var(--progress,0%))
 }
 #timeline-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 22px;
-  height: 22px;
-  background: var(--accent);
-  border: 3px solid var(--surface);
-  box-shadow: 0 0 0 1px var(--accent);
-  border-radius: 50%;
-  margin-top: -9px;
+  appearance:none;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:var(--surface);
+  border:3px solid var(--accent);
+  margin-top:-10px
 }
 #timeline-slider::-moz-range-track {
-  height: 4px;
-  background: var(--line);
-}
-#timeline-slider::-moz-range-progress {
-  height: 4px;
-  background: var(--accent);
+  height:4px;
+  background:var(--line)
 }
 #timeline-slider::-moz-range-thumb {
-  width: 17px;
-  height: 17px;
-  background: var(--accent);
-  border: 3px solid var(--surface);
-  border-radius: 50%;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:var(--surface);
+  border:3px solid var(--accent)
 }
-#month-list {
-  height: 17px;
-  position: relative;
-  color: var(--muted);
-  font-size: 10px;
+.input-objects {
+  position:absolute;
+  right:18px;
+  bottom:32px;
+  display:flex;
+  gap:6px;
+  align-items:flex-end;
+  z-index:2
 }
-#month-list span {
-  position: absolute;
-  transform: translateX(-50%);
+.input-object {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  gap:3px;
+  padding:4px 5px;
+  border-radius:8px;
+  min-width:66px;
+  color:#f6f2e3;
+  font-size:10px;
+  text-shadow:0 1px 3px #253b30;
+  background:#1b332cbb;
+  min-height:100px
 }
-#month-list span:first-child {
-  transform: none;
+.input-object svg {
+  width:calc(48px * var(--object-size,1));
+  height:calc(60px * var(--object-size,1));
+  overflow:visible;
+  transition:width .3s,height .3s
 }
-#month-list span:last-child {
-  transform: translateX(-100%);
+.input-object strong {
+  font-size:11px;
+  font-weight:600;
+  white-space:nowrap
 }
-#month-list .current-month {
-  color: var(--ink);
-  font-weight: 700;
+.input-object small {
+  font-size:9px
 }
-.timeline-note {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--muted);
-  font-size: 10px;
+.input-object .extra-unit {
+  display:block;
+  font-size:9px
 }
-.timeline-note button {
-  font-size: 10px;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  min-height: 44px;
-  padding: 4px;
+.input-object:hover {
+  background:#26483cf0
 }
-#estimates-link {
-  margin-left: auto;
+.object-fill {
+  transition:y .2s,height .2s
 }
 .harvest-reveal {
-  position: absolute;
-  right: 7%;
-  top: 19%;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 8px;
-  width: 280px;
-  padding: 12px 18px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  box-shadow: 0 10px 35px #273a2820;
+  position:absolute;
+  right:16px;
+  top:18px;
+  display:flex;
+  align-items:center;
+  gap:3px;
+  z-index:2;
+  background:var(--surface);
+  border-radius:8px;
+  padding:3px 8px
 }
 .harvest-reveal svg {
-  width: 210px;
-  height: 128px;
+  width:64px;
+  height:40px
 }
-.harvest-reveal strong {
-  font-family: Georgia,serif;
-  font-size: 22px;
-  font-weight: 400;
+.harvest-reveal>strong,.harvest-reveal>.eyebrow,.harvest-reveal>span:last-of-type {
+  display:none
 }
-.harvest-reveal>span:last-of-type {
-  font-size: 12px;
-  color: var(--muted);
-}
-#bowl-grains ellipse {
-  transition: opacity .3s;
+.harvest-reveal button {
+  font-size:11px
 }
 .story-finish {
-  position: absolute;
-  left: 7%;
-  top: 20%;
-  z-index: 4;
-  width: 380px;
-  padding: 22px 25px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  box-shadow: 0 10px 35px #273a2818;
+  position:absolute;
+  top:76px;
+  right:16px;
+  z-index:2
 }
-.story-finish h2 {
-  font-family: Georgia,serif;
-  font-size: 32px;
-  font-weight: 400;
-  line-height: 1.1;
-  margin: 12px 0;
+.story-finish>span,.story-finish>h2,.story-finish>p,.story-finish>#try-straw {
+  display:none
 }
-.story-finish p {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.6;
+.finish-actions {
+  display:flex;
+  gap:5px;
+  align-items:center
 }
-.story-finish .text-button {
-  font-size: 12px;
+.finish-actions .primary {
+  font-size:11px;
+  padding:6px 12px
 }
-.story-finish .primary {
-  font-size: 12px;
-  padding: 10px 14px;
+.game[data-journey=welcome] #soil-status {
+  display:none
+}
+.game[data-journey=welcome] .input-objects {
+  display:none
+}
+.game[data-journey=welcome] .timeline {
+  opacity:.65
+}
+@media(max-width:800px) {
+  .header {
+    padding:4px 12px
+  }
+  .brand span {
+    display:none
+  }
+  .seasons button {
+    padding:4px 15px
+  }
+  .header-actions button {
+    padding:4px 6px;
+    font-size:11px
+  }
+  .scene-heading h1 {
+    font-size:21px;
+    max-width:90%
+  }
+  .narrative {
+    left:16px;
+    right:16px
+  }
+  .event-label {
+    left:16px;
+    font-size:10px
+  }
+  .welcome {
+    inset:12px 16px auto;
+    display:block
+  }
+  .welcome h2 {
+    font-size:23px;
+    margin-bottom:10px
+  }
+  .welcome-actions {
+    gap:12px
+  }
+  .welcome .primary {
+    padding:8px 15px
+  }
+  .timeline {
+    grid-template-columns:1fr;
+    grid-template-rows:minmax(44px,auto) minmax(44px,auto) 26px;
+    gap:0;
+    padding:2px 12px max(2px,env(safe-area-inset-bottom))
+  }
+  .quantity-row {
+    gap:8px;
+    justify-content:space-between;
+    flex-wrap:wrap
+  }
+  .live-metrics {
+    gap:14px
+  }
+  .live-metrics strong {
+    font-size:18px
+  }
+  .live-metrics small {
+    font-size:8px;
+    max-width:85px
+  }
+  .unit-switch button {
+    padding:4px 13px
+  }
+  .playback-row {
+    justify-content:space-between;
+    gap:6px;
+    flex-wrap:wrap
+  }
+  #next-chapter {
+    font-size:11px;
+    padding:4px 3px
+  }
+  #timeline-caption {
+    font-size:10px
+  }
+  #play {
+    padding:2px 9px
+  }
+  .input-objects {
+    right:12px;
+    left:12px;
+    justify-content:flex-end;
+    bottom:30px;
+    gap:4px
+  }
+  .input-object {
+    min-width:62px;
+    min-height:96px;
+    padding:4px
+  }
+  .input-object svg {
+    width:calc(40px * var(--object-size,1));
+    height:calc(50px * var(--object-size,1))
+  }
+  .input-object strong {
+    font-size:10px
+  }
+  .input-object small {
+    font-size:9px
+  }
+  .harvest-reveal {
+    top:70px;
+    left:12px;
+    right:auto
+  }
+  .story-finish {
+    top:132px;
+    left:12px;
+    right:auto
+  }
+  .harvest-reveal svg {
+    width:55px;
+    height:34px
+  }
+  .harvest-reveal button {
+    font-size:10px
+  }
+  #soil-status {
+    font-size:10px;
+    top:61%;
+    left:12px
+  }
+  #groundwater-marker {
+    left:12px;
+    right:12px
+  }
+  .cutaway-note {
+    right:12px;
+    font-size:8px
+  }
+  .comparison-card {
+    padding:10px
+  }
+  dialog {
+    padding:20px
+  }
+}
+@media(max-width:350px) {
+  .brand {
+    display:none
+  }
+  .header {
+    gap:3px;
+    padding:4px 8px
+  }
+  .header-actions {
+    gap:0
+  }
+  .seasons button {
+    padding:4px 12px
+  }
+  .unit-switch button {
+    padding:4px 10px
+  }
+  .live-metrics {
+    gap:8px
+  }
+  .input-object {
+    min-width:58px
+  }
+  .input-objects {
+    gap:3px
+  }
+  .scene-heading h1 {
+    font-size:19px
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    transition:none!important;
+    scroll-behavior:auto!important
+  }
 }
 dialog {
   position: fixed;
@@ -786,437 +843,6 @@ dialog button.action {
   font-family: Georgia,serif;
   font-size: 26px;
 }
-.view-switch button,.unit-switch button,.care-button,#soil-status {
-  min-height: 44px;
-}
-.game[data-journey=welcome] .field-scene {
-  border-bottom: 1px solid var(--line);
-  display: grid;
-  align-content: start;
-}
-.game[data-journey=welcome] .welcome {
-  position: relative;
-  inset: auto;
-  margin: 65px 7% 60px;
-  width: 450px;
-  max-width: 86%;
-}
-.game[data-finished=true] .field-scene {
-  display: grid;
-  grid-template-columns: minmax(0,380px) minmax(0,280px);
-  grid-template-rows: auto;
-  justify-content: space-between;
-  align-content: start;
-  align-items: start;
-  gap: 20px;
-  padding: 65px 7% 70px;
-  min-height: 450px;
-}
-.game[data-finished=true] .story-finish {
-  position: relative;
-  inset: auto;
-  grid-column: 1;
-  grid-row: 1;
-  width: auto;
-  margin: 0;
-}
-.game[data-finished=true] .harvest-reveal {
-  position: relative;
-  inset: auto;
-  grid-column: 2;
-  grid-row: 1;
-  width: auto;
-  margin: 0;
-}
-
-@media(min-width:1500px) {
-  .game {
-    grid-template-rows: minmax(90px,auto) minmax(128px,auto) minmax(380px,1fr) auto;
-  }
-  .welcome h2 {
-    font-size: 76px;
-  }
-}
-
-@media(max-width:800px) {
-  .game {
-    min-height: 100dvh;
-    grid-template-rows: minmax(68px,auto) minmax(142px,auto) minmax(350px,1fr) auto;
-    height: auto;
-  }
-  .header {
-    padding: 10px 16px;
-    gap: 8px;
-  }
-  .brand span {
-    display: none;
-  }
-  .brand svg {
-    width: 20px;
-  }
-  .seasons button {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
-  .header-actions {
-    gap: 4px;
-  }
-  .header-actions button {
-    font-size: 12px;
-    padding: 6px 8px;
-  }
-  .narrative {
-    padding: 13px 20px;
-    display: block;
-    padding-bottom: 13px;
-  }
-  .scene-heading .eyebrow {
-    font-size: 9px;
-    letter-spacing: 1.1px;
-    gap: 12px;
-  }
-  .scene-heading h1 {
-    font-size: 25px;
-    margin: 6px 0;
-  }
-  .scene-heading p {
-    font-size: 12px;
-    line-height: 1.45;
-    max-width: 95%;
-  }
-  .care-button {
-    position: static;
-    right: 20px;
-    top: 164px;
-    font-size: 10px;
-    padding: 4px 7px;
-    min-height: 44px;
-    border: 0;
-    background: transparent;
-    margin-top: 7px;
-  }
-  .scene-tools {
-    inset: 10px 18px auto;
-    gap: 8px;
-    align-items: flex-start;
-  }
-  .scene-tools>span {
-    font-size: 9px;
-    max-width: 110px;
-    line-height: 1.4;
-  }
-  .view-switch button {
-    padding: 5px 9px;
-    font-size: 11px;
-    min-height: 44px;
-  }
-  .event-label {
-    right: 18px;
-    top: 60px;
-    font-size: 10px;
-    max-width: 180px;
-  }
-  .welcome {
-    left: 25px;
-    right: 20px;
-    top: 12px;
-    max-width: 340px;
-    padding: 10px 0 10px;
-    background: linear-gradient(180deg,var(--sky) 87%,transparent);
-  }
-  .welcome .eyebrow {
-    font-size: 9px;
-    letter-spacing: 1.1px;
-  }
-  .welcome h2 {
-    font-size: 50px;
-    letter-spacing: -1.7px;
-    margin: 12px 0;
-  }
-  .welcome p {
-    font-size: 14px;
-    line-height: 1.5;
-    margin: 12px 0 16px;
-    max-width: 300px;
-  }
-  .welcome .primary {
-    font-size: 13px;
-    padding: 11px 15px;
-  }
-  .welcome .text-button {
-    font-size: 12px;
-  }
-  .welcome small {
-    font-size: 10px;
-    margin-top: 11px;
-  }
-  .orientation {
-    left: 18px;
-    right: 18px;
-    top: 54px;
-    padding: 7px 11px;
-  }
-  .orientation p {
-    font-size: 11px;
-  }
-  .cutaway-note {
-    font-size: 9px;
-    right: 18px;
-    bottom: 9px;
-  }
-  #soil-status {
-    left: 18px;
-    font-size: 10px;
-    top: 66%;
-    padding: 6px 9px;
-    min-height: 44px;
-  }
-  #groundwater-marker {
-    left: 18px;
-    right: 18px;
-  }
-  #groundwater-label {
-    font-size: 10px;
-    padding: 6px 8px;
-  }
-  .water-tick {
-    width: 10px;
-  }
-  .timeline {
-    padding: 9px 18px max(12px,env(safe-area-inset-bottom));
-    min-height: 275px;
-  }
-  .quantity-row {
-    gap: 6px;
-    align-items: stretch;
-  }
-  .unit-switch {
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 7px;
-  }
-  .unit-switch button {
-    font-size: 10px;
-    min-height: 44px;
-    padding: 4px 7px;
-  }
-  .live-metrics {
-    gap: 14px;
-    padding: 0 3px;
-  }
-  .live-metrics strong {
-    font-size: 21px;
-  }
-  .live-metrics small {
-    font-size: 9px;
-    max-width: 90px;
-    line-height: 1.3;
-  }
-  .metrics-arrow {
-    display: none;
-  }
-  .playback-row {
-    gap: 8px;
-    font-size: 10px;
-  }
-  .playback-row #play {
-    min-width: 72px;
-    font-size: 11px;
-  }
-  .timeline-speed {
-    display: none;
-  }
-  #next-chapter {
-    margin-left: auto;
-    font-size: 10px;
-    gap: 5px;
-  }
-  #month-list {
-    font-size: 10px;
-  }
-  #month-list span:nth-child(even) {
-    display: none;
-  }
-  .timeline-note {
-    flex-wrap: wrap;
-    gap: 0 8px;
-    font-size: 9px;
-  }
-  .timeline-note button {
-    font-size: 9px;
-    min-height: 36px;
-  }
-  #baseline-note {
-    flex-basis: 100%;
-    margin-top: 6px;
-  }
-  .harvest-reveal {
-    top: 18%;
-    right: 18px;
-    width: 210px;
-    padding: 10px 12px;
-    gap: 5px;
-  }
-  .harvest-reveal svg {
-    width: 160px;
-    height: 98px;
-  }
-  .harvest-reveal strong {
-    font-size: 18px;
-  }
-  .harvest-reveal .eyebrow {
-    font-size: 8px;
-    letter-spacing: 1px;
-  }
-  .story-finish {
-    top: 16px;
-    left: 18px;
-    right: 18px;
-    width: auto;
-    padding: 15px 18px;
-  }
-  .story-finish h2 {
-    font-size: 25px;
-    margin: 8px 0;
-  }
-  .story-finish p {
-    font-size: 12px;
-    margin: 8px 0;
-  }
-  .game[data-finished=true] .harvest-reveal {
-    top: auto;
-    bottom: 33px;
-    left: 18px;
-    right: 18px;
-    width: auto;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding: 8px 14px;
-    gap: 3px 10px;
-    position: relative;
-    inset: auto;
-    grid-row: 2;
-    margin: 0;
-    grid-column: 1;
-  }
-  .game[data-finished=true] .harvest-reveal svg {
-    width: 95px;
-    height: 58px;
-  }
-  .game[data-finished=true] .harvest-reveal .eyebrow,.game[data-finished=true] #harvest-results {
-    display: none;
-  }
-  .game[data-finished=true] .harvest-reveal strong {
-    font-size: 15px;
-    max-width: 120px;
-  }
-  .game[data-finished=true] .harvest-reveal>span:last-of-type {
-    font-size: 10px;
-  }
-  .game[data-finished=true] .scene-tools,.game[data-finished=true] .event-label {
-    visibility: hidden;
-  }
-  dialog {
-    inset: auto 0 0;
-    width: 100%;
-    height: 90dvh;
-    max-height: 90dvh;
-    border-radius: 18px 18px 0 0;
-    padding: 20px 22px;
-  }
-  .game[data-journey=welcome] {
-    grid-template-rows: minmax(68px,auto) minmax(142px,auto) minmax(510px,1fr) 0;
-  }
-  .game[data-journey=welcome] .timeline {
-    display: none;
-  }
-  .game[data-journey=welcome] .welcome {
-    top: 20px;
-    margin: 20px 25px 170px;
-    width: auto;
-    max-width: calc(100% - 45px);
-  }
-  .game[data-journey=welcome] .field-scene {
-    min-height: 510px;
-  }
-  .game[data-journey=welcome] .care-button {
-    display: none;
-  }
-  .game[data-journey=welcome] .narrative {
-    min-height: 142px;
-  }
-  .game[data-finished=true] .field-scene {
-    display: grid;
-    grid-template-rows: auto auto;
-    align-content: start;
-    gap: 12px;
-    padding: 16px 18px 48px;
-    min-height: 450px;
-    grid-template-columns: minmax(0,1fr);
-  }
-  .game[data-finished=true] .story-finish {
-    position: relative;
-    inset: auto;
-    grid-row: 1;
-    margin: 0;
-    width: auto;
-    grid-column: 1;
-  }
-  .game[data-finished=true] #soil-status,.game[data-finished=true] #groundwater-marker {
-    visibility: hidden;
-  }
-}
-
-@media(max-width:360px) {
-  .header {
-    padding: 8px 12px;
-  }
-  .brand {
-    display: none;
-  }
-  .header-actions button {
-    font-size: 11px;
-  }
-  .seasons button {
-    padding: 7px 14px;
-  }
-  .narrative {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  .scene-heading h1 {
-    font-size: 23px;
-  }
-  .scene-heading p {
-    font-size: 11px;
-  }
-  .live-metrics {
-    gap: 9px;
-  }
-  .live-metrics strong {
-    font-size: 19px;
-  }
-  .welcome h2 {
-    font-size: 45px;
-  }
-  .welcome {
-    left: 20px;
-  }
-  .comparison-grid {
-    grid-template-columns: 1fr;
-  }
-  .scene-tools>span {
-    max-width: 90px;
-  }
-}
-
-@media(prefers-reduced-motion:reduce) {
-  *,*::before,*::after {
-    scroll-behavior: auto!important;
-    transition: none!important;
-  }
-}
 </style></head><body>
 <main class="game" data-journey="welcome" aria-label="A Bowl Across Two Seasons">
  <header class="header">
@@ -1224,27 +850,29 @@ dialog button.action {
   <div class="seasons" role="group" aria-label="Crop chapters"><button data-scene="rice" aria-pressed="true">Rice</button><button data-scene="wheat" aria-pressed="false">Wheat</button></div>
   <div class="header-actions"><button id="language-toggle" lang="pa" aria-label="Switch to Punjabi">ਪੰਜਾਬੀ</button><button class="menu" data-drawer="about">About</button></div>
  </header>
+ <section class="field-scene" aria-label="Field and soil cutaway">
+  <div id="scene-art" role="img" aria-label="Representative crops above soil, roots and illustrative groundwater"></div>
  <section class="narrative" aria-label="The story so far">
   <div class="scene-heading"><div class="eyebrow"><span id="chapter-label">PUNJAB · ONE FIELD</span><span id="current-date"></span></div><h1 id="stage-title" aria-live="polite" aria-atomic="true">One field. Two harvests.</h1><p id="story-caption"></p></div>
   <button class="care-button" data-drawer="care"><span class="care-dot" aria-hidden="true"></span><span id="care-label">How this field is cared for</span><span aria-hidden="true">↗</span></button>
  </section>
- <section class="field-scene" aria-label="Field and soil cutaway">
-  <div id="scene-art" role="img" aria-label="Representative crops above soil, roots and illustrative groundwater"></div>
-  <div class="scene-tools"><div class="view-switch" role="group" aria-label="Camera view"><button data-view="acre" aria-pressed="true">Field</button><button data-view="bowl" aria-pressed="false">Plant close-up</button></div><span id="representation-label">Representative plants · enlarged roots</span></div>
+
+
   <div id="welcome" class="welcome"><span class="eyebrow" id="welcome-kicker">A SMALL STORY ABOUT WHAT FEEDS US</span><h2 id="welcome-title">One field.<br>Two harvests.</h2><p id="welcome-copy">Follow rice and wheat from seed to food—and see the water used along the way.</p><div class="welcome-actions"><button class="primary" id="start-story">Start the story <span aria-hidden="true">→</span></button><button class="text-button" id="explore">Explore freely</button></div><small id="welcome-note">About 80 seconds · pause or skip ahead anytime</small></div>
-  <div id="orientation" class="orientation" hidden><p id="orientation-copy">Above: the crop. Below: roots, soil and water. Crop care happens automatically.</p><button id="dismiss-orientation" aria-label="Dismiss introduction">✕</button></div>
+  <div id="orientation" class="orientation" hidden><p id="orientation-copy">Above: the crop. Below: roots, soil and water. Crop care happens automatically.</p></div>
   <span id="weather-status" class="event-label"></span>
   <button id="soil-status" data-drawer="soil">Soil at the start</button>
   <div id="groundwater-marker"><span class="water-tick" aria-hidden="true"></span><span id="groundwater-label">Illustrative groundwater</span></div>
   <span id="cutaway-note" class="cutaway-note">Underground cutaway · not to scale</span>
   <div id="harvest-reveal" class="harvest-reveal" hidden aria-label="Harvest and dry food"><svg id="food-bowl" viewBox="0 0 240 148" aria-hidden="true"><defs><linearGradient id="ceramic" x2="0" y2="1"><stop stop-color="#faf5e8"/><stop offset="1" stop-color="#c9bb9c"/></linearGradient><clipPath id="bowl-clip"><ellipse cx="120" cy="72" rx="83" ry="25"/></clipPath></defs><ellipse cx="120" cy="132" rx="63" ry="8" fill="#213c2b" opacity=".09"/><path d="M32 72Q40 132 120 134Q200 132 208 72Z" fill="url(#ceramic)" stroke="#99886a" stroke-width="1.5"/><ellipse cx="120" cy="72" rx="88" ry="28" fill="#e0d5bb" stroke="#99886a" stroke-width="1.5"/><g id="bowl-grains" clip-path="url(#bowl-clip)"></g><ellipse cx="120" cy="72" rx="88" ry="28" fill="none" stroke="#fdf9ed" stroke-width="4"/></svg><span class="eyebrow" id="processing-label"></span><strong id="bowl-title">From this field to your bowl</strong><span id="bowl-note">100 g dry food</span><button class="text-button" data-drawer="results" id="harvest-results">See this harvest ↗</button></div>
   <div id="story-finish" class="story-finish" hidden><span class="eyebrow" id="finish-kicker">THE FIELD KEEPS ITS HISTORY</span><h2 id="finish-title">Two harvests. One shared source.</h2><p id="finish-copy"></p><div class="finish-actions"><button class="primary" data-drawer="results" id="compare-crops">Compare rice & wheat</button><button class="text-button" id="replay">Replay ↻</button></div><button class="text-button" data-drawer="comparison" id="try-straw">Try the other straw choice ↗</button></div>
+  <div id="input-objects" class="input-objects" aria-label="Cumulative water and crop inputs"></div>
  </section>
  <footer class="timeline">
   <div class="quantity-row"><div class="unit-switch" role="group" aria-label="Quantity basis"><button data-unit="acre" aria-pressed="true">Whole field</button><button data-unit="bowl" aria-pressed="false">Per 100 g dry food</button></div><button data-drawer="metrics" class="live-metrics" aria-label="Water and harvest details"><span><strong id="metric-water">0 L</strong><small id="label-water">Water drawn underground</small></span><span><strong id="metric-grain">0 kg</strong><small id="label-grain">Grain has not formed yet</small></span><span class="metrics-arrow" aria-hidden="true">↗</span></button></div>
   <div class="playback-row"><button id="play" aria-label="Play simulation"><span aria-hidden="true">▷</span><span id="play-label">Play</span></button><span id="timeline-caption">Rice · June</span><span class="timeline-speed" id="playback-context">Explore at your pace</span><button id="next-chapter">Next chapter <span aria-hidden="true">→</span></button></div>
   <div class="slider-wrap"><input id="timeline-slider" type="range" min="0" max="304" step="0.01" value="0" aria-label="Crop growing timeline"></div><div id="month-list" aria-label="Season months"></div>
-  <div class="timeline-note"><span id="baseline-note">Straw kept as mulch · baseline</span><button data-drawer="comparison" id="compare-straw">Compare straw choices</button><button data-drawer="evidence" id="estimates-link">About these estimates</button></div>
+  <div class="timeline-note"><span id="baseline-note">Straw kept as mulch · baseline</span><button data-drawer="comparison" id="compare-straw-footer">Compare straw choices</button><button data-drawer="evidence" id="estimates-link">About these estimates</button></div>
  </footer>
 </main>
 <dialog id="residue-dialog" aria-labelledby="residue-title"><div class="drawer-top"><span id="residue-kicker">TRY A DIFFERENT PATH</span><button id="close-residue" aria-label="Close straw choices">✕</button></div><h2 id="residue-title"></h2><p id="residue-description"></p><button class="residue-option" data-residue="mulch"></button><button class="residue-option" data-residue="burn"></button><p id="residue-note"></p></dialog>
@@ -5471,7 +5099,9 @@ const Scene3D=(()=>{
   let renderer,scene,camera,plant,roots,water,pond,rainGroup,pumpGroup,particles,infiltrationGroup,fertilizerGroup,host,currentStage='',cloudGroup,uptakeGroup,rechargeGroup,grainMaterialRef,reproductiveMaterialRef,plantMaterials=[],seedMesh,moisture,dischargeGroup,pipeCurve,outletCurve,waterLine,poolLine;
   const T=THREE,V=(x,y,z)=>new T.Vector3(x,y,z),rng=Sim.random(630126);
   let strawGroup,fireGroup,smokeGroup,themeSeen='',slowFrames=0,fieldGroup,fieldSurface,fieldLines,fieldRoots,fieldCrop='',viewMode='bowl',viewBlend=0,baseHeight=9.8,fieldBatches=[],pumpAnchor=1.37,pumpOffset=0;
-  const fieldCount=120,fieldUniforms={growth:{value:1},grain:{value:0},cut:{value:4},time:{value:0},wind:{value:1},spread:{value:1}};
+  const fieldCount=96,fieldUniforms={growth:{value:1},grain:{value:0},cut:{value:4},time:{value:0},wind:{value:1},spread:{value:1}};
+  let heroPlants=[];
+  let lastQuantity='acre',lastMetrics=null;
   let soilTexture,lastPaused=false,lastReduced=false,lastViewBlend=-1;
   const materials={},mat=(color,extra={})=>new T.MeshStandardMaterial({color,roughness:.84,...extra});
   const stemMat=mat('#71814b'),rootMat=mat('#d7c49b'),metal=mat('#6f8079',{metalness:.65,roughness:.42});
@@ -5495,7 +5125,7 @@ const Scene3D=(()=>{
     for(const meshes of buckets.values()){if(meshes.length<2)continue;const positions=[],normals=[];for(const m of meshes){const g=m.geometry.index?m.geometry.toNonIndexed():m.geometry,matrix=new T.Matrix4().multiplyMatrices(inverse,m.matrixWorld),normalMatrix=new T.Matrix3().getNormalMatrix(matrix),p=g.getAttribute('position'),n=g.getAttribute('normal');for(let i=0;i<p.count;i++){const v=V(p.getX(i),p.getY(i),p.getZ(i)).applyMatrix4(matrix),normal=V(n.getX(i),n.getY(i),n.getZ(i)).applyNormalMatrix(normalMatrix);positions.push(v.x,v.y,v.z);normals.push(normal.x,normal.y,normal.z);}if(g!==m.geometry)g.dispose();m.geometry.dispose();m.parent.remove(m);}const merged=new T.BufferGeometry();merged.setAttribute('position',new T.Float32BufferAttribute(positions,3));merged.setAttribute('normal',new T.Float32BufferAttribute(normals,3));mesh(merged,meshes[0].material,group);}
   }
   function disposeGroup(group){if(!group)return;group.traverse(o=>{if(o.isMesh||o.isLine){o.geometry.dispose();if(o.material!==stemMat&&o.material!==rootMat&&o.material!==metal)o.material.dispose();}});scene.remove(group);}
-  function buildPlant(id,index){disposeGroup(plant);disposeGroup(roots);plant=new T.Group();roots=new T.Group();scene.add(plant,roots);plant.position.set(0,.035,.03);roots.position.x=.4;
+  function buildPlant(id,index){heroPlants.forEach(o=>scene.remove(o));heroPlants=[];disposeGroup(plant);disposeGroup(roots);plant=new T.Group();roots=new T.Group();scene.add(plant,roots);plant.position.set(0,.035,.03);roots.position.x=.4;
     const rice=id==='rice',gold=index>=8,color=gold?'#b8a153':rice?'#658344':'#7b8b42',leafMaterial=mat(color,{side:T.DoubleSide}),grainMaterial=mat(gold?'#d0ad61':index===7?'#a4a46a':'#9da563'),stemMaterial=mat(gold?'#a9914c':'#6c8248'),seedMat=mat(rice?'#b49d64':'#bca66e'),grainGeo=new T.SphereGeometry(1,7,5),flowerGeo=new T.SphereGeometry(.008,5,4),flowerMat=mat('#e4deb0'),N=index<2?1:index===2?3:index===3?8:7;
     const reproductiveMaterial=mat(gold?'#ac965c':'#779153',{transparent:true,opacity:0,depthWrite:false});
     const height=[.32,.72,1.08,1.52,2.07,2.45,2.82,2.85,2.82,2.8][index],r=Sim.random(2612+(rice?0:100));
@@ -5518,7 +5148,7 @@ const Scene3D=(()=>{
     if(index===9){const sheaf=new T.Group();plant.add(sheaf);sheaf.rotation.z=-.55;sheaf.position.set(.14,.02,0);for(let j=0;j<8;j++){const x=(j-4)*.025;line(V(x,0,0),V(x,.98,(j%2)*.04),.009,stemMaterial,sheaf);grain(V(x,.99,(j%2)*.04),0,rice?.11:.14,grainMaterial,sheaf,grainGeo);}const tie=mesh(new T.TorusGeometry(.13,.012,4,12),mat('#8c7757'),sheaf);tie.rotation.x=Math.PI/2;tie.position.y=.35;}
     const length=[.16,.31,.48,.62,.77,.9,1.0,1.05,1.12,1.1][index],count=index===0?3:8+index*3;
     for(let j=0;j<count;j++){const spread=(r()-.5)*length*.95,origin=V(-.4,-.03,1.132),end=V(-.4+spread,-length*(.6+r()*.4),1.14);tube([origin,V(-.4+spread*.35,-length*.35,1.14),end],j%3===0?.009:.004,rootMat,roots,10);for(let k=0;k<3;k++){const t=.25+k*.23,from=origin.clone().lerp(end,t);tube([from,from.clone().add(V(spread*.2+(k%2?.035:-.035),-.045,0)),from.clone().add(V(spread*.35+(k%2?.07:-.07),-.10,0))],.002,rootMat,roots,5);}}
-    instanceRepeats(plant);mergeStatic(plant);mergeStatic(roots);grainMaterialRef=grainMaterial;reproductiveMaterialRef=reproductiveMaterial;currentStage=id;configureGrowth();
+    instanceRepeats(plant);mergeStatic(plant);mergeStatic(roots);grainMaterialRef=grainMaterial;reproductiveMaterialRef=reproductiveMaterial;currentStage=id;configureGrowth();for(let i=0;i<4;i++){const copy=plant.clone(true);scene.add(copy);heroPlants.push(copy);}
   }
   const uniforms={time:{value:0},height:{value:1},spread:{value:1},root:{value:1},wind:{value:1},cut:{value:4}};
   let soilSurface,waterSurface=-1.84,waterGoal=-1.84,surfaceHeight=0,pumpStrength=0,rainStrength=0,rechargeStrength=0,infiltrationStrength=0,uptakeStrength=0,lastDay=-1,renderedFrames=0,geometryBuilds=0,waterDirection=0,lastPosition=null,lastMotion=false,failed=false;
@@ -5551,22 +5181,34 @@ const Scene3D=(()=>{
     const textureCanvas=document.createElement('canvas');textureCanvas.width=textureCanvas.height=256;const ctx=textureCanvas.getContext('2d'),texRandom=Sim.random(805);
     ctx.fillStyle='#e0d1b3';ctx.fillRect(0,0,256,256);for(let i=0;i<6500;i++){const a=.04+texRandom()*.13;ctx.fillStyle=texRandom()>.5?'rgba(68,48,26,'+a+')':'rgba(255,250,228,'+a+')';ctx.fillRect(texRandom()*256,texRandom()*256,1+texRandom()*3,1+texRandom()*2);}
     soilTexture=new T.CanvasTexture(textureCanvas);soilTexture.wrapS=soilTexture.wrapT=T.RepeatWrapping;soilTexture.repeat.set(22,3);soilTexture.colorSpace=T.SRGBColorSpace;
-    function stratum(top,bottom,color,offset){const points=[],uvs=[];for(let j=0;j<400;j++){const a=-30+j*.15,b=a+.15,w=x=>Math.sin(x*2.1+offset)*.045+Math.sin(x*5.7+offset)*.014;points.push(a,top+w(a),-2,b,top+w(b),-2,a,bottom+w(a)*.8,-2,b,top+w(b),-2,b,bottom+w(b)*.8,-2,a,bottom+w(a)*.8,-2);uvs.push(j/400,0,(j+1)/400,0,j/400,1,(j+1)/400,0,(j+1)/400,1,j/400,1);}const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(points,3));g.setAttribute('uv',new T.Float32BufferAttribute(uvs,2));const m=mesh(g,new T.MeshBasicMaterial({color,map:soilTexture}));m.userData.soil=true;m.userData.originalColor=m.material.color.clone();return m;}
-    plane(100,16,0,-8,-2.1,'#c5ac87');soilSurface=stratum(0,-.42,'#856542',0);stratum(-.42,-1.12,'#aa8456',1);stratum(-1.12,-1.9,'#b99c73',2);stratum(-1.9,-7,'#b6a07c',3);
+    function stratum(top,bottom,color,offset){const points=[],uvs=[];for(let j=0;j<400;j++){const a=-30+j*.15,b=a+.15,w=x=>Math.sin(x*2.1+offset)*.055+Math.sin(x*5.7+offset)*.022;points.push(a,top+w(a),-2,b,top+w(b),-2,a,bottom+w(a)*.8,-2,b,top+w(b),-2,b,bottom+w(b)*.8,-2,a,bottom+w(a)*.8,-2);uvs.push(j/400,0,(j+1)/400,0,j/400,1,(j+1)/400,0,(j+1)/400,1,j/400,1);}const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(points,3));g.setAttribute('uv',new T.Float32BufferAttribute(uvs,2));const m=mesh(g,new T.MeshBasicMaterial({color,map:soilTexture}));m.userData.soil=true;m.userData.originalColor=m.material.color.clone();return m;}
+    plane(100,16,0,-8,-2.1,'#aa8556');soilSurface=stratum(0,-.42,'#6f4c2e',0);stratum(-.42,-1.12,'#926d40',1);stratum(-1.12,-1.9,'#ae8756',2);stratum(-1.9,-7,'#ab9164',3);
     moisture=plane(100,.95,0,-.475,-1.5,'#405f4a',scene,.08);
     // Tint the saturated sediment instead of drawing an opaque underground reservoir.
-    water=plane(100,12,0,waterSurface-6,-1.1,'#426969',scene,.58);pond=plane(100,1,0,.03,.5,'#96c9c4',scene,.55);pond.visible=false;
+    water=plane(100,12,0,waterSurface-6,-1.1,'#548b90',scene,.72);pond=plane(100,1,0,.03,.5,'#96c9c4',scene,.55);pond.visible=false;
     waterLine=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#a2d2d0',transparent:true,opacity:.8}));poolLine=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#bddeda',transparent:true,opacity:.9}));scene.add(waterLine,poolLine);
     const dirt=new T.Group();scene.add(dirt);const geo=new T.SphereGeometry(1,5,4),dirtMat=mat('#796343');for(let j=0;j<550;j++){const m=mesh(geo,dirtMat,dirt);m.position.set((rng()-.5)*22,-rng()*5,.2);m.scale.set(.006+rng()*.02,.005+rng()*.007,.003);}instanceRepeats(dirt);
-    pumpGroup=new T.Group();scene.add(pumpGroup);pipeCurve=new T.CatmullRomCurve3([V(1.37,-2.8,1.4),V(1.37,.16,1.4),V(1.29,.24,1.4),V(.94,.24,1.4),V(.87,.10,1.4)],false,'centripetal');
-    mesh(new T.TubeGeometry(pipeCurve,55,.035,7,false),metal,pumpGroup);plane(.47,.045,1.36,.028,1.5,'#b8b49e',pumpGroup);plane(.36,.12,1.36,.085,1.5,'#748b73',pumpGroup);for(let j=0;j<5;j++)plane(.011,.07,1.24+j*.05,.095,1.7,'#adba9f',pumpGroup);
-    outletCurve=new T.QuadraticBezierCurve3(V(.87,.10,1.8),V(.75,.13,1.8),V(.64,.016,1.8));
+    pumpGroup=new T.Group();scene.add(pumpGroup);
+    // A ground-mounted motor and centrifugal pump, connected to the bore and outlet.
+    const concrete=mat('#aaa58d'),paint=mat('#486956',{metalness:.18,roughness:.72}),darkMetal=mat('#344943',{metalness:.55,roughness:.48});
+    box(.66,.09,.38,1.27,.045,1.45,'#aaa58d',pumpGroup);
+    const motor=mesh(new T.CylinderGeometry(.12,.12,.36,18),paint,pumpGroup);motor.rotation.z=Math.PI/2;motor.position.set(1.37,.23,1.52);
+    for(let j=0;j<8;j++){const fin=mesh(new T.TorusGeometry(.125,.009,5,18),darkMetal,pumpGroup);fin.rotation.y=Math.PI/2;fin.position.set(1.22+j*.037,.23,1.52);}
+    box(.14,.07,.13,1.35,.39,1.52,'#586f5c',pumpGroup);
+    const housing=mesh(new T.SphereGeometry(.135,18,12),paint,pumpGroup);housing.scale.set(.85,1,1);housing.position.set(1.09,.23,1.52);
+    for(const x of [1.22,1.48])box(.07,.09,.22,x,.12,1.52,'#344943',pumpGroup);
+    pipeCurve=new T.CatmullRomCurve3([V(1.37,-2.9,1.4),V(1.37,-.12,1.4),V(1.34,.15,1.4),V(1.09,.23,1.4),V(1.08,.49,1.4),V(.90,.53,1.4),V(.80,.44,1.4),V(.80,.18,1.4)],false,'centripetal');
+    mesh(new T.TubeGeometry(pipeCurve,70,.048,12,false),metal,pumpGroup);
+    for(const y of [-2.6,-1.5,-.2]){const collar=mesh(new T.CylinderGeometry(.067,.067,.08,12),metal,pumpGroup);collar.position.set(1.37,y,1.4);}
+    const outletCollar=mesh(new T.CylinderGeometry(.067,.067,.08,12),metal,pumpGroup);outletCollar.position.set(.80,.20,1.4);
+    box(.30,.025,.15,.72,.024,1.5,'#8a8d78',pumpGroup);
+    outletCurve=new T.QuadraticBezierCurve3(V(.80,.18,1.8),V(.70,.12,1.8),V(.58,.02,1.8));
     dischargeGroup=dotGroup(18,.017,'#9bd9da');particles=dotGroup(25,.019,'#94d3d9');
     rainGroup=new T.Group();scene.add(rainGroup);const rainMat=new T.LineBasicMaterial({color:'#7fa5b1',transparent:true,opacity:.65});for(let j=0;j<70;j++){const drop=new T.Line(new T.BufferGeometry().setFromPoints([V(0,0,0),V(-.025,-.13,0)]),rainMat);drop.userData.phase=j/70;drop.userData.x=(rng()-.5)*8;rainGroup.add(drop);}
     cloudGroup=new T.Group();scene.add(cloudGroup);const cloudMat=new T.MeshBasicMaterial({color:'#d8e1de',transparent:true,opacity:.7,depthWrite:false});for(let c=0;c<3;c++){const cloud=new T.Group();cloud.position.set(-1.4+c*1.05,2.85+(c%2)*.25,2.2);cloud.userData.baseX=cloud.position.x;for(let j=0;j<5;j++){const puff=mesh(new T.SphereGeometry(1,12,8),cloudMat,cloud);puff.position.set((j-2)*.15,Math.sin(j*1.8)*.07,0);puff.scale.set(.26,.12+(j%2)*.07,.025);}cloudGroup.add(cloud);}
     infiltrationGroup=dotGroup(22,.011,'#b3ded4');uptakeGroup=dotGroup(12,.012,'#b9e4d5');rechargeGroup=dotGroup(18,.013,'#a8dcd3');fertilizerGroup=dotGroup(14,.011,'#e0dbb2');seedMesh=mesh(new T.SphereGeometry(1,7,5),mat('#b6a46b'));seedMesh.position.set(0,.025,1.2);seedMesh.scale.set(.045,.018,.025);
     strawGroup=dotGroup(70,.035,'#b9a167');fireGroup=dotGroup(42,.085,'#ff9e32');smokeGroup=dotGroup(22,.09,'#77776b');smokeGroup.userData.batch.geometry.dispose();smokeGroup.userData.batch.geometry=new T.SphereGeometry(.09,12,8);
-    resize();window.addEventListener('resize',resize);return true;
+    resize();window.addEventListener('resize',resize);new ResizeObserver(resize).observe(host);return true;
   }
 
   // Small reusable botanical clumps keep a full field economical on phones.
@@ -5585,7 +5227,7 @@ const Scene3D=(()=>{
       else{for(let grain=0;grain<9;grain++)for(let side of [-1,1]){const yy=h+grain*.028,xx=tip+side*.027;tri(ears,[tip,yy,0],[xx+side*.02,yy+.04,.025],[xx,yy+.053,.025]);tri(ears,[xx,yy+.025,.015],[xx+side*.06,yy+.17,.015],[xx+side*.004,yy+.025,.015]);}}
     }
     for(const [points,isGrain] of [[blades,false],[ears,true]]){
-      const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(points,3));geo.computeVertexNormals();const material=new T.MeshStandardMaterial({color:isGrain?'#d2b76f':'#638143',side:T.DoubleSide,roughness:.92,transparent:isGrain,opacity:1,depthWrite:!isGrain});
+      const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(points,3));geo.computeVertexNormals();const material=new T.MeshStandardMaterial({color:isGrain?'#d2b76f':'#638143',side:T.DoubleSide,roughness:.92,transparent:true,opacity:1,depthWrite:!isGrain});
       material.onBeforeCompile=shader=>{Object.assign(shader.uniforms,{fGrowth:fieldUniforms.growth,fGrain:fieldUniforms.grain,fCut:fieldUniforms.cut,fTime:fieldUniforms.time,fWind:fieldUniforms.wind,fSpread:fieldUniforms.spread});shader.vertexShader='uniform float fGrowth,fTime,fWind,fSpread; varying float fHeight;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','vec3 transformed=vec3(position);fHeight=position.y;transformed.y*=fGrowth;transformed.x*=fSpread;float phase=0.0;\n#ifdef USE_INSTANCING\nphase=instanceMatrix[3].x*2.3+instanceMatrix[3].y*7.0;\n#endif\ntransformed.x+=sin(fTime*1.3+phase+position.y*1.7)*.023*position.y*position.y*fWind;');shader.fragmentShader='uniform float fCut,fGrain;varying float fHeight;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif(fHeight>fCut)discard;'+(isGrain?'if(fGrain<.01)discard;':''));};material.customProgramCacheKey=()=>isGrain?'field-grain-v2':'field-leaf-v2';
       const batch=new T.InstancedMesh(geo,material,fieldCount);batch.frustumCulled=false;batch.userData.grain=isGrain;for(let j=0;j<fieldCount;j++){const tone=.87+random()*.19;batch.setColorAt(j,new T.Color(tone,tone,tone));}fieldGroup.add(batch);fieldBatches.push(batch);
     }
@@ -5594,40 +5236,42 @@ const Scene3D=(()=>{
   const fieldDummy=new T.Object3D();
   function updateField(v,{motion,time,dark}){
     if(fieldCrop!==v.id)buildField(v.id);
-    const visible=viewBlend>.02,width=(camera.right-camera.left)*.84;fieldGroup.visible=fieldSurface.visible=fieldLines.visible=fieldRoots.visible=visible;
+    const visible=viewBlend>.02,width=(camera.right-camera.left)*.96;fieldGroup.visible=fieldSurface.visible=fieldLines.visible=fieldRoots.visible=visible;
     fieldUniforms.growth.value=v.growth.height;fieldUniforms.grain.value=Timeline.phase(v.das,v.def.stages[5].start_das,v.def.stages[7].start_das);fieldUniforms.cut.value=2.3-v.growth.harvest*2.17;fieldUniforms.time.value=time;fieldUniforms.wind.value=motion?0:1;fieldUniforms.spread.value=.18+v.growth.spread*.82;
-    fieldSurface.scale.x=width;fieldSurface.material.color.set(dark?'#526644':v.pondDepthMm>5?'#6c6b48':'#95805a');fieldSurface.material.opacity=viewBlend;
-    const rootPoints=[];for(let j=0;j<20;j++){const x=-width/2+(j+.5)*width/20;for(let k=0;k<7;k++){const spread=(k-3)*.023*v.growth.root,depth=(.16+k*.038)*v.growth.root;rootPoints.push(x,-.015,1.35,x+spread,-depth,1.35,x+spread,-depth,1.35,x+spread*1.6,-depth-.09*v.growth.root,1.35);}}fieldRoots.geometry.setAttribute('position',new T.Float32BufferAttribute(rootPoints,3));fieldRoots.material.opacity=viewBlend*.55;
-    const linePoints=[-width/2,0,1.1,width/2,0,1.1,-width/2,0,1.1,-width*.42,.76,1.1,width/2,0,1.1,width*.42,.76,1.1,-width*.42,.76,1.1,width*.42,.76,1.1];for(let j=0;j<21;j++){const x=-width/2+j/20*width;linePoints.push(x,0,1.1,x*.84,.76,1.1);}fieldLines.geometry.setAttribute('position',new T.Float32BufferAttribute(linePoints,3));fieldLines.material.opacity=.4*viewBlend;
-    fieldBatches.forEach(batch=>{batch.material.opacity=viewBlend*(batch.userData.grain?fieldUniforms.grain.value:1);batch.material.color.set(batch.userData.grain?'#cfb16e':dark?'#89a958':new T.Color('#526f35').lerp(new T.Color('#b29a51'),v.growth.ripe));for(let j=0;j<fieldCount;j++){const row=Math.floor(j/20),column=j%20,back=(5-row)/5,variation=Math.sin(j*73.3);fieldDummy.position.set((-width/2+(column+.5)*width/20)*(1-back*.16)+variation*.018,back*.72+.02,1.25+row*.05);fieldDummy.scale.set((.80-back*.18+variation*.045)*Math.min(1,width/9),.88-back*.17+variation*.07,.8);fieldDummy.rotation.z=variation*.022;fieldDummy.updateMatrix();batch.setMatrixAt(j,fieldDummy.matrix);}batch.instanceMatrix.needsUpdate=true;});
+    fieldSurface.scale.x=width;fieldSurface.material.color.set(dark?'#66553d':v.pondDepthMm>5?'#635736':'#7a603d');fieldSurface.material.opacity=viewBlend;
+    const rootPoints=[],rootRandom=Sim.random(1926);
+    for(let j=0;j<12;j++){const x=-width/2+(j+.5)*width/12;for(let k=0;k<5;k++){const spread=(rootRandom()-.5)*.36*v.growth.root,depth=(.3+rootRandom()*.8)*v.growth.root;let previous=V(x,-.02,1.35);for(let step=1;step<=6;step++){const f=step/6,next=V(x+spread*Math.sin(f*1.5)+Math.sin(j+k+f*9)*.012,-depth*f,1.35);rootPoints.push(previous.x,previous.y,previous.z,next.x,next.y,next.z);if(step>2){const tip=next.clone().add(V((k%2?1:-1)*.04,-.06,0));rootPoints.push(next.x,next.y,next.z,tip.x,tip.y,tip.z);}previous=next;}}}fieldRoots.geometry.setAttribute('position',new T.Float32BufferAttribute(rootPoints,3));fieldRoots.material.opacity=viewBlend*.70;
+    const linePoints=[-width/2,0,1.1,width/2,0,1.1,-width/2,0,1.1,-width*.42,.76,1.1,width/2,0,1.1,width*.42,.76,1.1,-width*.42,.76,1.1,width*.42,.76,1.1];for(let j=0;j<21;j++){const x=-width/2+j/20*width;linePoints.push(x,0,1.1,x*.84,.76,1.1);}fieldLines.geometry.setAttribute('position',new T.Float32BufferAttribute(linePoints,3));fieldLines.material.opacity=0;
+    fieldBatches.forEach(batch=>{batch.material.opacity=viewBlend*(batch.userData.grain?fieldUniforms.grain.value:1);batch.material.color.set(batch.userData.grain?'#cfb16e':dark?'#93b860':new T.Color('#486d32').lerp(new T.Color('#b29a51'),v.growth.ripe));for(let j=0;j<fieldCount;j++){const row=Math.floor(j/12),column=j%12,back=(7-row)/7,variation=Math.sin(j*73.3);fieldDummy.position.set((-width/2+(column+.5)*width/12)*(1-back*.16)+variation*.018,back*.55+.02,-.2+row*.035);fieldDummy.scale.set((.95-back*.16+variation*.045)*Math.min(1.3,width/5),1.14-back*.17+variation*.11,.8);fieldDummy.rotation.z=variation*.022;fieldDummy.updateMatrix();batch.setMatrixAt(j,fieldDummy.matrix);}batch.instanceMatrix.needsUpdate=true;});
   }
 
   function positionPump(){
     const screenX=host.clientWidth*.91;pumpAnchor=(screenX/host.clientWidth*2-1)*camera.right;pumpOffset=pumpAnchor-1.37*.85;
     for(const group of [pumpGroup,particles,dischargeGroup]){group.position.x=pumpOffset;group.scale.x=.85;}
   }
-  function resize(){if(!renderer)return;lastPosition=null;const w=host.clientWidth,h=host.clientHeight; baseHeight=6.6;const height=baseHeight*(1+viewBlend*.06),width=height*w/h;camera.left=-width/2;camera.right=width/2;camera.top=height*.54;camera.bottom=-height*.46;camera.updateProjectionMatrix();renderer.setSize(w,h);positionPump();positionMarker();renderer.render(scene,camera);}
+  function resize(){if(!renderer)return;lastPosition=null;const w=host.clientWidth,h=host.clientHeight; baseHeight=7.0;const height=baseHeight,width=height*w/h;camera.left=-width/2;camera.right=width/2;camera.top=3.95;camera.bottom=-3.05;camera.updateProjectionMatrix();renderer.setSize(w,h);positionPump();positionMarker();renderer.render(scene,camera);}
   function positionMarker(){if(!camera)return;const label=document.getElementById('groundwater-marker'),p=V(0,waterSurface,0).project(camera);if(label)label.style.top=((1-p.y)*host.clientHeight/2)+'px';}
   const ease=(value,target,dt,rate=4)=>value+(target-value)*(1-Math.exp(-dt*rate));
   const wavePoints=[];for(let i=0;i<48;i++)wavePoints.push(V(0,0,0));
   function wave(line,level,time,amplitude){const width=camera.right-camera.left;for(let i=0;i<wavePoints.length;i++){const x=-width/2+i/(wavePoints.length-1)*width;wavePoints[i].set(x,level+amplitude*(Math.sin(x*3+time*.9)+Math.sin(x*5-time*.65)*.45),1.2);}line.geometry.setFromPoints(wavePoints);}
-  function update(v,{motion,time,dt,displayMode='acre',paused=false}){
+  function update(v,{motion,time,dt,displayMode='acre',quantityMode='acre',metrics=null,paused=false}){
     if(failed||!renderer&&!initialize())return;
     const dark=document.documentElement.dataset.theme==='dark',themeKey=dark?'dark':'light';
     if(themeSeen!==themeKey){themeSeen=themeKey;renderer.setClearColor(dark?0x14231e:0xf3f0e5,1);scene.children.filter(o=>o.isMesh&&(o.geometry.type==='PlaneGeometry'||o.userData.soil)).forEach(o=>{if(!o.userData.originalColor)o.userData.originalColor=o.material.color.clone();o.material.color.copy(o.userData.originalColor).multiplyScalar(dark?.57:1);});lastPosition=null;}
     if(dt>.028&&!motion)slowFrames++;else slowFrames=Math.max(0,slowFrames-1);if(slowFrames>120&&renderer.getPixelRatio()>1){renderer.setPixelRatio(1);resize();slowFrames=0;}
-    if(viewMode!==displayMode){viewMode=displayMode;lastPosition=null;}
-    const oldBlend=viewBlend;viewBlend=motion?(viewMode==='acre'?1:0):ease(viewBlend,viewMode==='acre'?1:0,dt,6);if(Math.abs(viewBlend-oldBlend)>.00001){const height=baseHeight*(1+viewBlend*.06),width=height*host.clientWidth/host.clientHeight;camera.left=-width/2;camera.right=width/2;camera.top=height*.54;camera.bottom=-height*.46;camera.updateProjectionMatrix();}
+    if(viewMode!==displayMode||lastQuantity!==quantityMode){viewMode=displayMode;lastQuantity=quantityMode;lastPosition=null;}lastMetrics=metrics;
+    const fitTop=v.fallow?1.15:Math.max(1.3,Math.min(3.95,v.growth.height*3.25+.75));if(Math.abs(camera.top-fitTop)>.001){camera.top=fitTop;const fitWidth=(camera.top-camera.bottom)*host.clientWidth/host.clientHeight;camera.left=-fitWidth/2;camera.right=fitWidth/2;camera.updateProjectionMatrix();}cloudGroup.position.y=Math.min(0,camera.top-3.4);
+    const oldBlend=viewBlend;viewBlend=motion?(viewMode==='acre'?1:0):ease(viewBlend,viewMode==='acre'?1:0,dt,6);
     const staticFrame=motion||paused;if(staticFrame&&lastMotion&&paused===lastPaused&&motion===lastReduced&&v.position===lastPosition&&Math.abs(viewBlend-lastViewBlend)<.00001)return;lastPosition=v.position;lastMotion=staticFrame;lastPaused=paused;lastReduced=motion;lastViewBlend=viewBlend;
     if(currentStage!==v.id)buildPlant(v.id,8);
     uniforms.time.value=motion?0:time;uniforms.wind.value=motion?0:1;uniforms.height.value=v.growth.height;uniforms.spread.value=v.growth.spread;uniforms.root.value=v.growth.root;uniforms.cut.value=4-v.growth.harvest*3.82;
     const green=new T.Color(dark?'#95b96a':v.id==='rice'?'#668946':'#7a914e'),gold=new T.Color(dark?'#dac676':'#b8a15b');plantMaterials.forEach(m=>{if(m!==grainMaterialRef)m.color.copy(green).lerp(gold,v.growth.ripe);});grainMaterialRef.color.set('#c8b47a');grainMaterialRef.opacity=v.growth.grain;reproductiveMaterialRef.opacity=Timeline.phase(v.das,v.def.stages[5].start_das,v.def.stages[6].start_das+3);rootMat.color.set(v.fallow?'#b7a686':'#d5c39e');plant.visible=roots.visible=true;seedMesh.visible=!v.fallow&&v.das<5;
     positionPump();
     updateField(v,{motion,time,dark});
-    plant.visible=viewBlend<.85;plant.scale.setScalar(1-viewBlend*.4);seedMesh.visible=seedMesh.visible&&viewBlend<.5;roots.visible=viewBlend<.85;roots.scale.setScalar(1-viewBlend*.42);
+    plant.visible=true;plant.position.z=2;plant.scale.setScalar(viewBlend>.5?.96:1.03);heroPlants.forEach((o,i)=>{o.visible=viewBlend>.04&&!v.fallow;o.position.set((i<2?-1:1)*(i%2?.73:.39)*camera.right,.015,1.9);o.scale.setScalar((.82+(i%2)*.10)*viewBlend);});seedMesh.visible=seedMesh.visible&&viewBlend<.5;roots.visible=true;roots.position.z=.3;roots.scale.setScalar(viewBlend>.5?1:1.18);
     // All values are driven by the same continuously sampled, conserved daily ledger.
     const oldWater=waterSurface;waterGoal=-2.75+v.aquiferL/Sim.H.aquifer_capacity_L*1.05;waterSurface=(motion||paused)?waterGoal:ease(waterSurface,waterGoal,dt,7);waterDirection=Math.sign(waterSurface-oldWater);water.position.y=waterSurface-6;positionMarker();
-    const moistureFraction=v.soilL/(Sim.A*Sim.H.soil_capacity_mm);soilSurface.material.color.set(dark?(moistureFraction>.75?'#4d4535':'#685740'):(moistureFraction>.75?'#83694d':'#9d805c'));moisture.material.opacity=.03+Math.min(1,moistureFraction)*.16;
+    const moistureFraction=v.soilL/(Sim.A*Sim.H.soil_capacity_mm);soilSurface.material.color.set(dark?(moistureFraction>.75?'#705b41':'#826948'):(moistureFraction>.75?'#654930':'#795633'));moisture.material.opacity=.03+Math.min(1,moistureFraction)*.16;
     // A true surface pool is held above y=0 before the timeline releases it into the root zone.
     const poolTarget=v.pondDepthMm>.05?.012+Math.min(v.pondDepthMm,130)/130*.13:0;surfaceHeight=(motion||paused)?poolTarget:ease(surfaceHeight,poolTarget,dt,6);pond.visible=surfaceHeight>.003;pond.scale.y=Math.max(.001,surfaceHeight);pond.position.y=surfaceHeight/2+.003;poolLine.visible=pond.visible;
     pumpStrength=(motion||paused)?(v.flow.pumped>0&&v.fraction<.4?1:0):ease(pumpStrength,v.flow.pumped>0&&v.fraction>.005&&v.fraction<.4?1:0,dt,6);
@@ -5635,7 +5279,7 @@ const Scene3D=(()=>{
     infiltrationStrength=(motion||paused)?(v.flow.infiltration>0&&v.fraction>=.3&&v.fraction<.72?1:0):ease(infiltrationStrength,v.flow.infiltration>0&&v.fraction>=.3&&v.fraction<.72?1:0,dt,5);
     uptakeStrength=(motion||paused)?(v.flow.cropET>0?1:0):ease(uptakeStrength,v.flow.cropET>0?1:0,dt,3);rechargeStrength=(motion||paused)?(v.flow.recharge>0||v.flow.queuedRecharge>0&&v.fraction>.8?1:0):ease(rechargeStrength,v.flow.recharge>0||v.flow.queuedRecharge>0&&v.fraction>.8?1:0,dt,4);
     cloudGroup.children[0].children[0].material.opacity=.7*rainStrength;cloudGroup.visible=rainStrength>.03;cloudGroup.children.forEach((c,i)=>{c.position.x=c.userData.baseX+(motion?0:Math.sin(time*.18+i)*.17);});rainGroup.visible=rainStrength>.04&&!motion;rainGroup.children.forEach((p,i)=>{p.visible=i<Math.min(70,20+Math.round(v.s.rainMm));p.position.set(p.userData.x,3.2-((motion?0:time*1.1)+p.userData.phase)%1*3.2,2);});rainGroup.children[0].material.opacity=.6*rainStrength;
-    particles.visible=dischargeGroup.visible=pumpStrength>.03;particles.userData.dots.forEach(p=>{const f=((motion?0:time*.38)+p.userData.phase)%1;p.position.copy(pipeCurve.getPoint(f));p.position.z=1.85;p.material.opacity=.85*pumpStrength;});dischargeGroup.userData.dots.forEach(p=>{const f=((motion?0:time*1.6)+p.userData.phase)%1;p.position.copy(outletCurve.getPoint(f));p.position.y+=(surfaceHeight-.016)*(f*f);p.material.opacity=.85*pumpStrength;});
+    particles.visible=dischargeGroup.visible=pumpStrength>.03;particles.userData.dots.forEach(p=>{const f=((motion?0:time*.38)+p.userData.phase)%1;p.scale.setScalar(quantityMode==='bowl'?.65:1);p.position.copy(pipeCurve.getPoint(f));p.position.z=1.85;p.material.opacity=.85*pumpStrength;});dischargeGroup.userData.dots.forEach(p=>{const f=((motion?0:time*1.6)+p.userData.phase)%1;p.scale.setScalar(quantityMode==='bowl'?.65:1);p.position.copy(outletCurve.getPoint(f));p.position.y+=(surfaceHeight-.016)*(f*f);p.material.opacity=.85*pumpStrength;});
     infiltrationGroup.visible=infiltrationStrength>.04;infiltrationGroup.userData.dots.forEach((p,j)=>{const f=((motion?0:time*.38)+p.userData.phase)%1;p.position.set(-1.1+(j%11)*.21,-.04-f*.85,1.25);p.material.opacity=.55*infiltrationStrength;});
     uptakeGroup.visible=uptakeStrength>.05&&!v.fallow;uptakeGroup.userData.dots.forEach((p,j)=>{const f=((motion?0:time*.28)+p.userData.phase)%1;p.position.set(Math.sin(j*2.4)*.22*(1-f),-.55+f*.7,1.27);p.material.opacity=.6*uptakeStrength;});
     rechargeGroup.visible=rechargeStrength>.03;rechargeGroup.userData.dots.forEach((p,j)=>{const f=((motion?0:time*.27)+p.userData.phase)%1,arriving=v.flow.recharge>0,top=arriving?waterSurface+.28:-.9,bottom=arriving?waterSurface-.03:waterSurface+.15;p.position.set(-1.12+(j%9)*.23,top+(bottom-top)*f,1.3);p.material.opacity=.75*rechargeStrength;});
@@ -5649,9 +5293,9 @@ const Scene3D=(()=>{
     fireGroup.userData.dots.forEach((p,j)=>{const f=(clock*.9+j/42)%1;p.position.set(-1.4+(j%14)*.17+Math.sin(clock*3+j)*.025,.05+f*.42,1.8);p.scale.set((1-f)*.7,(1-f)*(1.5+Math.sin(clock*5+j)*.4),.4);p.material.opacity=.85*(1-v.residueProgress);});
     smokeGroup.userData.dots.forEach((p,j)=>{const f=(clock*.2+j/22)%1;p.position.set(-1.3+(j%7)*.32+f*.25,.3+f*1.7,1.7);p.scale.setScalar(.5+f*1.4);p.material.opacity=.13*(1-v.residueProgress);});
     for(const group of [particles,dischargeGroup,infiltrationGroup,uptakeGroup,rechargeGroup,fertilizerGroup,strawGroup,fireGroup,smokeGroup]){if(!group.visible)continue;group.userData.dots.forEach((p,i)=>{p.updateMatrix();group.userData.batch.setMatrixAt(i,p.matrix);});group.userData.batch.instanceMatrix.needsUpdate=true;}
-    water.material.color.set(dark?'#274c4e':v.flow.recharge>0?'#54817a':'#426969');wave(waterLine,waterSurface,motion?0:time,motion?0:.002);if(pond.visible)wave(poolLine,surfaceHeight+.003,motion?0:time,motion?0:.004);renderer.render(scene,camera);renderedFrames++;lastDay=v.day;
+    water.material.color.set(dark?'#42797f':v.flow.recharge>0?'#518e8a':'#548b90');wave(waterLine,waterSurface,motion?0:time,motion?0:.002);if(pond.visible)wave(poolLine,surfaceHeight+.003,motion?0:time,motion?0:.004);renderer.render(scene,camera);renderedFrames++;lastDay=v.day;
   }
-  return{update,resize,invalidate:()=>{lastPosition=null;},info:()=>({representation:viewMode==='acre'?'representative field canopy':'plant close-up',viewMode,zoomBlend:viewBlend,visiblePlantClumps:viewBlend>.5?(lastDay>=121&&lastDay<Sim.wheatStart()?0:fieldCount):1,revision:T.REVISION,locked:true,renderer:!!renderer,reduced:lastReduced,paused:lastPaused,position:lastPosition,crop:currentStage,geometryBuilds,renderedFrames,waterSurface,waterGoal,waterDirection,surfacePoolHeight:surfaceHeight,pumpStrength,rainStrength,cloudsVisible:!!cloudGroup?.visible,infiltrationAnimating:!!infiltrationGroup?.visible,uptakeAnimating:!!uptakeGroup?.visible,rechargeAnimating:!!rechargeGroup?.visible,rainAnimating:!!rainGroup?.visible,pumpAnimating:!!particles?.visible,dischargeAnimating:!!dischargeGroup?.visible,growth:uniforms.height.value,windTime:uniforms.time.value,day:lastDay,tubewellScreenX:camera?(pumpAnchor/camera.right+1)*host.clientWidth/2:null,tubewellOutletX:pumpOffset+.87*.85,cropCenterX:plant?new T.Vector3(plant.position.x,0,0).project(camera).x:null,drawCalls:renderer?.info.render.calls,theme:themeSeen,fireVisible:!!fireGroup?.visible,residueVisible:!!strawGroup?.visible,fertilizerVisible:!!fertilizerGroup?.visible,pixelRatio:renderer?.getPixelRatio()})};
+  return{update,resize,invalidate:()=>{lastPosition=null;},info:()=>({representation:viewMode==='acre'?'representative field canopy':'plant close-up',viewMode,zoomBlend:viewBlend,visiblePlantClumps:viewBlend>.5?(lastDay>=121&&lastDay<Sim.wheatStart()?0:fieldCount):1,revision:T.REVISION,locked:true,renderer:!!renderer,reduced:lastReduced,paused:lastPaused,position:lastPosition,crop:currentStage,geometryBuilds,renderedFrames,waterSurface,waterGoal,waterDirection,surfacePoolHeight:surfaceHeight,pumpStrength,rainStrength,cloudsVisible:!!cloudGroup?.visible,infiltrationAnimating:!!infiltrationGroup?.visible,uptakeAnimating:!!uptakeGroup?.visible,rechargeAnimating:!!rechargeGroup?.visible,rainAnimating:!!rainGroup?.visible,pumpAnimating:!!particles?.visible,dischargeAnimating:!!dischargeGroup?.visible,growth:uniforms.height.value,windTime:uniforms.time.value,day:lastDay,tubewellScreenX:camera?(pumpAnchor/camera.right+1)*host.clientWidth/2:null,tubewellBounds:camera?{left:(pumpOffset+.58*.85-camera.left)/(camera.right-camera.left)*host.clientWidth,right:(pumpOffset+1.70*.85-camera.left)/(camera.right-camera.left)*host.clientWidth,top:(camera.top-.61)/(camera.top-camera.bottom)*host.clientHeight,bottom:(camera.top-.02)/(camera.top-camera.bottom)*host.clientHeight}:null,tubewellOutletX:pumpOffset+.80*.85,quantityMode:lastQuantity,allocatedWaterL:lastMetrics?.pumpedL,sceneHeight:host?.clientHeight,soilScreenY:camera?(camera.top/(camera.top-camera.bottom))*host.clientHeight:null,waterScreenY:camera?((camera.top-waterSurface)/(camera.top-camera.bottom))*host.clientHeight:null,cropCenterX:plant?new T.Vector3(plant.position.x,0,0).project(camera).x:null,drawCalls:renderer?.info.render.calls,theme:themeSeen,fireVisible:!!fireGroup?.visible,residueVisible:!!strawGroup?.visible,fertilizerVisible:!!fertilizerGroup?.visible,pixelRatio:renderer?.getPixelRatio()})};
 })();
 </script><script>/* Presentation quantities are read-only allocations of the same acre. */
 const Metrics=(()=>{
@@ -5680,7 +5324,7 @@ function displayDate(date,year=false){return language==='pa'?date.getUTCDate()+'
 let residueStrategy='mulch',residueExplicit=false,result=Sim.ideal({residueStrategy}),flows=Timeline.prepare(result);
 const maxDay=result.snapshots.length,chapters=[0,3,27,45,75,105,122,Sim.wheatStart(),Sim.wheatStart()+25,Sim.wheatStart()+80,Sim.wheatStart()+120,maxDay];
 const comparisonCache={mulch:result},planned={};
-let position=0,target=0,playing=false,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,viewMode='acre',journey='welcome',lastTime=0,uiTime=0,current,animationTime=0,orientationElapsed=0,harvestHold=null,seenHarvest=new Set(),drawerKind=null,dialogTrigger=null;
+let position=0,target=0,playing=false,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,viewMode=displayMode,journey='welcome',lastTime=0,uiTime=0,current,animationTime=0,orientationElapsed=0,harvestHold=null,seenHarvest=new Set(),drawerKind=null,dialogTrigger=null;
 const speed=1.5,guidedSpeed=4.5,game=document.querySelector('.game');
 function refreshPlanned(){for(const id of ['rice','wheat']){planned[id]={};for(const cat of ['fertilizer','herbicide','pest_control'])planned[id][cat]=result.state.cropStates[id].products.filter(p=>p.category===cat).reduce((n,p)=>n+p.quantity,0);}}
 refreshPlanned();
@@ -5720,8 +5364,8 @@ function updateHarvest(v){
 function updateUI(v){
  const m=Metrics.sample(result,v,displayMode),welcome=journey==='welcome',date=new Date(Sim.dateAt(v.day)+'T00:00:00Z');
  document.querySelectorAll('[data-unit]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.unit===displayMode));document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===viewMode));
- $('metric-water').textContent=liters(m.pumpedL);$('metric-grain').textContent=mass(m.grainKg);$('label-water').textContent=tr('Water drawn underground','ਧਰਤੀ ਹੇਠੋਂ ਲਿਆ ਪਾਣੀ');$('label-grain').textContent=tr(m.harvested?'Harvested dry grain':m.grainKg>.001?'Dry grain forming':'Grain has not formed yet',m.harvested?'ਵਾਢੀ ਦਾ ਸੁੱਕਾ ਅਨਾਜ':m.grainKg>.001?'ਬਣ ਰਿਹਾ ਸੁੱਕਾ ਅਨਾਜ':'ਅਜੇ ਦਾਣੇ ਨਹੀਂ ਬਣੇ');
- $('stage-title').textContent=welcome?tr('A year in one Punjab field','ਪੰਜਾਬ ਦੇ ਇੱਕ ਖੇਤ ਦਾ ਸਾਲ'):v.fallow?tr('The field prepares for wheat','ਖੇਤ ਕਣਕ ਲਈ ਤਿਆਰ ਹੁੰਦਾ ਹੈ'):stageLabel(v);
+ $('metric-water').textContent=liters(m.pumpedL);$('metric-grain').textContent=mass(m.grainKg);$('label-water').textContent=tr('Pumped water','ਪੰਪ ਕੀਤਾ ਪਾਣੀ');$('label-grain').textContent=tr(m.harvested?'Dry harvest':m.grainKg>.001?'Dry grain':'Dry grain',m.harvested?'ਵਾਢੀ ਦਾ ਸੁੱਕਾ ਅਨਾਜ':m.grainKg>.001?'ਬਣ ਰਿਹਾ ਸੁੱਕਾ ਅਨਾਜ':'ਅਜੇ ਦਾਣੇ ਨਹੀਂ ਬਣੇ');
+ $('stage-title').textContent=welcome?tr('A year in one Punjab field','ਪੰਜਾਬ ਦੇ ਇੱਕ ਖੇਤ ਦਾ ਸਾਲ'):v.fallow?tr('Straw covers the soil','ਪਰਾਲੀ ਮਿੱਟੀ ਢੱਕਦੀ ਹੈ'):stageLabel(v);
  $('story-caption').textContent=welcome?tr('Rice → straw → wheat. The same soil. The same underground water.','ਝੋਨਾ → ਪਰਾਲੀ → ਕਣਕ। ਉਹੀ ਮਿੱਟੀ। ਉਹੀ ਧਰਤੀ ਹੇਠਲਾ ਪਾਣੀ।'):storyCaption(v);
  $('chapter-label').textContent=welcome?tr('PUNJAB · ONE FIELD','ਪੰਜਾਬ · ਇੱਕ ਖੇਤ'):tr(v.fallow?'BETWEEN SEASONS':v.id==='rice'?'01 · THE RICE SEASON':'02 · THE WHEAT SEASON',v.fallow?'ਦੋ ਫ਼ਸਲਾਂ ਵਿਚਕਾਰ':v.id==='rice'?'01 · ਝੋਨੇ ਦਾ ਮੌਸਮ':'02 · ਕਣਕ ਦਾ ਮੌਸਮ');$('current-date').textContent=welcome?'':displayDate(date,true);
  $('timeline-caption').textContent=tr(v.fallow?'Between seasons':v.def.name,v.fallow?'ਦੋ ਫ਼ਸਲਾਂ ਵਿਚਕਾਰ':v.id==='rice'?'ਝੋਨਾ':'ਕਣਕ')+' · '+displayDate(date);
@@ -5730,25 +5374,25 @@ function updateUI(v){
  $('play').firstElementChild.textContent=playing?'Ⅱ':'▷';$('play-label').textContent=tr(playing?'Pause':position>=maxDay?'Replay':'Play',playing?'ਰੋਕੋ':position>=maxDay?'ਦੁਬਾਰਾ':'ਚਲਾਓ');$('play').setAttribute('aria-label',tr(playing?'Pause simulation':'Play simulation',playing?'ਸਿਮੂਲੇਸ਼ਨ ਰੋਕੋ':'ਸਿਮੂਲੇਸ਼ਨ ਚਲਾਓ'));
  $('next-chapter').disabled=position>=maxDay;$('playback-context').textContent=tr(journey==='guided'?'Guided story · time accelerated':'Explore · care is automatic',journey==='guided'?'ਕਹਾਣੀ · ਸਮਾਂ ਤੇਜ਼ ਚੱਲਦਾ ਹੈ':'ਖੋਜੋ · ਦੇਖਭਾਲ ਆਪਣੇ ਆਪ');
  $('baseline-note').textContent=residueStrategy==='mulch'?tr(residueExplicit?'Straw kept as mulch · your choice':'Straw kept as mulch · baseline',residueExplicit?'ਪਰਾਲੀ ਮਲਚ ਵਜੋਂ · ਤੁਹਾਡੀ ਚੋਣ':'ਪਰਾਲੀ ਮਲਚ ਵਜੋਂ · ਮੂਲ ਰਾਹ'):tr('Straw burned · your choice','ਪਰਾਲੀ ਸਾੜੀ · ਤੁਹਾਡੀ ਚੋਣ');
- $('soil-status').textContent=soilLabel(v.soil.trend);
- const diff=v.aquiferL-v.previous.aquifer;$('groundwater-label').textContent=(Math.abs(diff)<.5?'↔':diff>0?'↑':'↓')+' '+tr('Illustrative groundwater','ਧਰਤੀ ਹੇਠਲੇ ਪਾਣੀ ਦਾ ਮਾਡਲ');
+ $('soil-status').textContent=tr('Soil & roots ↗','ਮਿੱਟੀ ਤੇ ਜੜ੍ਹਾਂ ↗');
+ const diff=v.aquiferL-v.previous.aquifer;$('groundwater-label').textContent=(Math.abs(diff)<.5?'↔':diff>0?'↑':'↓')+' '+tr('Groundwater','ਧਰਤੀ ਹੇਠਲਾ ਪਾਣੀ');
  const effects=Scene3D.info();$('weather-status').textContent=v.flow.rain>0&&v.fraction<.4?tr('Rain wets the field','ਮੀਂਹ ਖੇਤ ਨੂੰ ਗਿੱਲਾ ਕਰਦਾ ਹੈ'):v.flow.pumped>0&&v.fraction<.4?tr('Underground water → field','ਧਰਤੀ ਹੇਠੋਂ ਪਾਣੀ → ਖੇਤ'):effects.infiltrationAnimating?tr('Water seeps into the soil','ਪਾਣੀ ਮਿੱਟੀ ਵਿੱਚ ਰਿਸਦਾ ਹੈ'):v.flow.recharge>0?tr('Delayed water returns underground','ਦੇਰੀ ਨਾਲ ਪਾਣੀ ਧਰਤੀ ਹੇਠ ਵਾਪਸ ਜਾਂਦਾ ਹੈ'):'';
- updateHarvest(v);
+ updateHarvest(v);updateInputObjects(v,m);
 }
 function applyTheme(){document.documentElement.dataset.theme=theme==='system'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):theme;document.querySelector('meta[name="theme-color"]').content=document.documentElement.dataset.theme==='dark'?'#14231e':'#f3f0e5';}
 function applyLabels(){
  document.documentElement.lang=language;
  const labels={
-  'welcome-kicker':['A SMALL STORY ABOUT WHAT FEEDS US','ਸਾਡੇ ਭੋਜਨ ਦੀ ਇੱਕ ਛੋਟੀ ਕਹਾਣੀ'], 'welcome-copy':['Follow rice and wheat from seed to food—and see the water used along the way.','ਝੋਨੇ ਅਤੇ ਕਣਕ ਨੂੰ ਬੀਜ ਤੋਂ ਭੋਜਨ ਤੱਕ ਦੇਖੋ—ਅਤੇ ਰਾਹ ਵਿੱਚ ਵਰਤਿਆ ਪਾਣੀ ਸਮਝੋ।'], 'welcome-note':['About 80 seconds · pause or skip ahead anytime','ਲਗਭਗ 80 ਸਕਿੰਟ · ਕਦੇ ਵੀ ਰੋਕੋ ਜਾਂ ਅੱਗੇ ਜਾਓ'], 'start-story':['Start the story →','ਕਹਾਣੀ ਸ਼ੁਰੂ ਕਰੋ →'], 'explore':['Explore freely','ਆਪਣੇ ਤਰੀਕੇ ਨਾਲ ਖੋਜੋ'], 'care-label':['How this field is cared for','ਖੇਤ ਦੀ ਦੇਖਭਾਲ ਕਿਵੇਂ ਹੁੰਦੀ ਹੈ'], 'representation-label':['Representative plants · enlarged roots','ਨੁਮਾਇੰਦਾ ਪੌਦੇ · ਵੱਡੀਆਂ ਜੜ੍ਹਾਂ'], 'cutaway-note':['Underground cutaway · not to scale','ਧਰਤੀ ਹੇਠਲਾ ਦ੍ਰਿਸ਼ · ਅਸਲ ਪੈਮਾਨਾ ਨਹੀਂ'], 'orientation-copy':['Above: the crop. Below: roots, soil and water. Crop care happens automatically.','ਉੱਪਰ: ਫ਼ਸਲ। ਹੇਠਾਂ: ਜੜ੍ਹਾਂ, ਮਿੱਟੀ ਅਤੇ ਪਾਣੀ। ਦੇਖਭਾਲ ਆਪਣੇ ਆਪ ਹੁੰਦੀ ਹੈ।'], 'next-chapter':['Next chapter →','ਅਗਲਾ ਪੜਾਅ →'], 'compare-straw':['Compare straw choices','ਪਰਾਲੀ ਦੇ ਰਾਹਾਂ ਦੀ ਤੁਲਨਾ'], 'estimates-link':['About these estimates','ਇਨ੍ਹਾਂ ਅੰਦਾਜ਼ਿਆਂ ਬਾਰੇ'], 'harvest-results':['See this harvest ↗','ਇਹ ਵਾਢੀ ਦੇਖੋ ↗'], 'finish-kicker':['THE FIELD KEEPS ITS HISTORY','ਖੇਤ ਦਾ ਇਤਿਹਾਸ ਅੱਗੇ ਚੱਲਦਾ ਹੈ'], 'finish-title':['Two harvests. One shared source.','ਦੋ ਵਾਢੀਆਂ। ਇੱਕ ਸਾਂਝਾ ਸਰੋਤ।'], 'compare-crops':['Compare rice & wheat','ਝੋਨੇ ਅਤੇ ਕਣਕ ਦੀ ਤੁਲਨਾ'], 'replay':['Replay ↻','ਦੁਬਾਰਾ ਦੇਖੋ ↻'], 'try-straw':['Try the other straw choice ↗','ਪਰਾਲੀ ਦਾ ਦੂਜਾ ਰਾਹ ਅਜ਼ਮਾਓ ↗']
- };for(const [id,pair] of Object.entries(labels))$(id).textContent=tr(...pair);
- $('welcome-title').innerHTML=tr('One field.<br>Two harvests.','ਇੱਕ ਖੇਤ।<br>ਦੋ ਵਾਢੀਆਂ।');
+  'welcome-kicker':['A SMALL STORY ABOUT WHAT FEEDS US','ਸਾਡੇ ਭੋਜਨ ਦੀ ਇੱਕ ਛੋਟੀ ਕਹਾਣੀ'], 'welcome-copy':['Follow rice and wheat from seed to food—and see the water used along the way.','ਝੋਨੇ ਅਤੇ ਕਣਕ ਨੂੰ ਬੀਜ ਤੋਂ ਭੋਜਨ ਤੱਕ ਦੇਖੋ—ਅਤੇ ਰਾਹ ਵਿੱਚ ਵਰਤਿਆ ਪਾਣੀ ਸਮਝੋ।'], 'welcome-note':['About 80 seconds · pause or skip ahead anytime','ਲਗਭਗ 80 ਸਕਿੰਟ · ਕਦੇ ਵੀ ਰੋਕੋ ਜਾਂ ਅੱਗੇ ਜਾਓ'], 'start-story':['Start →','ਕਹਾਣੀ ਸ਼ੁਰੂ ਕਰੋ →'], 'explore':['Explore','ਆਪਣੇ ਤਰੀਕੇ ਨਾਲ ਖੋਜੋ'], 'care-label':['How this field is cared for','ਖੇਤ ਦੀ ਦੇਖਭਾਲ ਕਿਵੇਂ ਹੁੰਦੀ ਹੈ'], 'representation-label':['Representative plants · enlarged roots','ਨੁਮਾਇੰਦਾ ਪੌਦੇ · ਵੱਡੀਆਂ ਜੜ੍ਹਾਂ'], 'cutaway-note':['Illustrative cutaway','ਧਰਤੀ ਹੇਠਲਾ ਦ੍ਰਿਸ਼ · ਅਸਲ ਪੈਮਾਨਾ ਨਹੀਂ'], 'orientation-copy':['Above: the crop. Below: roots, soil and water. Crop care happens automatically.','ਉੱਪਰ: ਫ਼ਸਲ। ਹੇਠਾਂ: ਜੜ੍ਹਾਂ, ਮਿੱਟੀ ਅਤੇ ਪਾਣੀ। ਦੇਖਭਾਲ ਆਪਣੇ ਆਪ ਹੁੰਦੀ ਹੈ।'], 'next-chapter':['Next →','ਅਗਲਾ ਪੜਾਅ →'], 'compare-straw-footer':['Compare straw choices','ਪਰਾਲੀ ਦੇ ਰਾਹਾਂ ਦੀ ਤੁਲਨਾ'], 'estimates-link':['About these estimates','ਇਨ੍ਹਾਂ ਅੰਦਾਜ਼ਿਆਂ ਬਾਰੇ'], 'harvest-results':['Harvest ↗','ਇਹ ਵਾਢੀ ਦੇਖੋ ↗'], 'finish-kicker':['THE FIELD KEEPS ITS HISTORY','ਖੇਤ ਦਾ ਇਤਿਹਾਸ ਅੱਗੇ ਚੱਲਦਾ ਹੈ'], 'finish-title':['Two harvests. One shared source.','ਦੋ ਵਾਢੀਆਂ। ਇੱਕ ਸਾਂਝਾ ਸਰੋਤ।'], 'compare-crops':['Results ↗','ਝੋਨੇ ਅਤੇ ਕਣਕ ਦੀ ਤੁਲਨਾ'], 'replay':['Replay ↻','ਦੁਬਾਰਾ ਦੇਖੋ ↻'], 'try-straw':['Try the other straw choice ↗','ਪਰਾਲੀ ਦਾ ਦੂਜਾ ਰਾਹ ਅਜ਼ਮਾਓ ↗']
+ };for(const [id,pair] of Object.entries(labels))if($(id))$(id).textContent=tr(...pair);
+ $('welcome-title').innerHTML=tr('One field. Two harvests.','ਇੱਕ ਖੇਤ।<br>ਦੋ ਵਾਢੀਆਂ।');
  $('home').setAttribute('aria-label',tr('Return to the introduction','ਜਾਣ-ਪਛਾਣ ਵੱਲ ਵਾਪਸ'));
  $('language-toggle').textContent=tr('ਪੰਜਾਬੀ','English');$('language-toggle').lang=language==='en'?'pa':'en';$('language-toggle').setAttribute('aria-label',tr('Switch to Punjabi','Switch to English'));
- document.querySelector('.menu').textContent=tr('About','ਜਾਣਕਾਰੀ');document.querySelector('.menu').setAttribute('aria-label',tr('Settings and information','ਸੈਟਿੰਗਾਂ ਅਤੇ ਜਾਣਕਾਰੀ'));
+ document.querySelector('.menu').textContent=tr('Menu','ਮੀਨੂ');document.querySelector('.menu').setAttribute('aria-label',tr('Settings and information','ਸੈਟਿੰਗਾਂ ਅਤੇ ਜਾਣਕਾਰੀ'));
  for(const b of document.querySelectorAll('[data-scene]'))b.textContent=tr(b.dataset.scene==='rice'?'Rice':'Wheat',b.dataset.scene==='rice'?'ਝੋਨਾ':'ਕਣਕ');
- document.querySelector('[data-view=acre]').textContent=tr('Field','ਖੇਤ');document.querySelector('[data-view=bowl]').textContent=tr('Plant close-up','ਪੌਦਾ ਨੇੜੇ ਤੋਂ');document.querySelector('[data-unit=acre]').textContent=tr('Whole field','ਪੂਰਾ ਖੇਤ');document.querySelector('[data-unit=bowl]').textContent=tr('Per 100 g dry food','ਪ੍ਰਤੀ 100 g ਸੁੱਕਾ ਭੋਜਨ');
- $('timeline-slider').setAttribute('aria-label',tr('Crop growing timeline','ਫ਼ਸਲ ਦੀ ਸਮਾਂ ਰੇਖਾ'));$('close-drawer').setAttribute('aria-label',tr('Close details','ਵੇਰਵੇ ਬੰਦ ਕਰੋ'));$('close-residue').setAttribute('aria-label',tr('Close straw choices','ਪਰਾਲੀ ਦੇ ਰਾਹ ਬੰਦ ਕਰੋ'));$('dismiss-orientation').setAttribute('aria-label',tr('Dismiss introduction','ਜਾਣ-ਪਛਾਣ ਬੰਦ ਕਰੋ'));document.querySelector('.drawer-top>span').textContent=tr('FIELD NOTES','ਖੇਤ ਦੇ ਵੇਰਵੇ');
- document.querySelector('.view-switch').setAttribute('aria-label',tr('Camera view','ਦ੍ਰਿਸ਼'));document.querySelector('.unit-switch').setAttribute('aria-label',tr('Quantity basis','ਮਾਤਰਾ ਦਾ ਆਧਾਰ'));document.querySelector('.live-metrics').setAttribute('aria-label',tr('Water and harvest details','ਪਾਣੀ ਅਤੇ ਵਾਢੀ ਦੇ ਵੇਰਵੇ'));
+ document.querySelector('[data-unit=acre]').textContent=tr('Field','ਖੇਤ');document.querySelector('[data-unit=bowl]').textContent=tr('100 g','100 g');document.querySelector('[data-unit=acre]').setAttribute('aria-label',tr('Whole field: one acre','ਪੂਰਾ ਖੇਤ: ਇੱਕ ਏਕੜ'));document.querySelector('[data-unit=bowl]').setAttribute('aria-label',tr('Per 100 grams of dry food','ਪ੍ਰਤੀ 100 ਗ੍ਰਾਮ ਸੁੱਕਾ ਭੋਜਨ'));
+ $('timeline-slider').setAttribute('aria-label',tr('Crop growing timeline','ਫ਼ਸਲ ਦੀ ਸਮਾਂ ਰੇਖਾ'));$('close-drawer').setAttribute('aria-label',tr('Close details','ਵੇਰਵੇ ਬੰਦ ਕਰੋ'));$('close-residue').setAttribute('aria-label',tr('Close straw choices','ਪਰਾਲੀ ਦੇ ਰਾਹ ਬੰਦ ਕਰੋ'));document.querySelector('.drawer-top>span').textContent=tr('FIELD NOTES','ਖੇਤ ਦੇ ਵੇਰਵੇ');
+ document.querySelector('.unit-switch').setAttribute('aria-label',tr('Quantity basis','ਮਾਤਰਾ ਦਾ ਆਧਾਰ'));document.querySelector('.live-metrics').setAttribute('aria-label',tr('Water and harvest details','ਪਾਣੀ ਅਤੇ ਵਾਢੀ ਦੇ ਵੇਰਵੇ'));
  document.querySelectorAll('[data-month]').forEach(el=>el.textContent=language==='pa'?paMonths[Number(el.dataset.month.slice(5))-1]:new Date(el.dataset.month+'-01T00:00:00Z').toLocaleDateString('en',{month:'short',timeZone:'UTC'}));uiTime=0;
 }
 function inputsIcon(cat){return cat==='fertilizer'?'<svg viewBox="0 0 40 50" aria-hidden="true"><path d="M9 5h22l-2 6 4 34H7l4-34z" fill="#c4b48a" stroke="#887653"/><path d="M10 15h20v22H10z" fill="#f8f3e5"/><path d="M20 31V20m0 5q-6-5-6-1t6 5m0-5q6-5 6-1t-6 5" fill="none" stroke="#4c7044"/></svg>':'<svg viewBox="0 0 40 50" aria-hidden="true"><path d="M15 7h13v7l5 6v24H9V20l6-6z" fill="#adb8a0" stroke="#677e60"/><path d="M13 24h16v14H13z" fill="#f8f3e5"/><path d="M16 7V3h13v4" fill="none" stroke="#677e60"/><path d="M18 30h6" stroke="#677e60"/></svg>';}
@@ -5760,14 +5404,15 @@ function resultsDetails(){const done=position>=maxDay-.001;return `<p>${tr(done?
 function comparisonDetails(){for(const strategy of ['mulch','burn'])if(!comparisonCache[strategy])comparisonCache[strategy]=Sim.ideal({residueStrategy:strategy});const a=resultCrop(comparisonCache.mulch,'wheat'),b=resultCrop(comparisonCache.burn,'wheat');return `<p>${tr('What happens after rice harvest? Compare two modeled paths with the same rain and automatic crop care. These are season-end projections.','ਝੋਨੇ ਦੀ ਵਾਢੀ ਤੋਂ ਬਾਅਦ ਕੀ ਹੁੰਦਾ ਹੈ? ਇੱਕੋ ਮੀਂਹ ਅਤੇ ਆਪਣੇ ਆਪ ਦੇਖਭਾਲ ਨਾਲ ਦੋ ਰਾਹਾਂ ਦੀ ਤੁਲਨਾ ਕਰੋ। ਇਹ ਮੌਸਮ ਦੇ ਅੰਤ ਦੇ ਅੰਦਾਜ਼ੇ ਹਨ।')}</p><div class="comparison-grid">${[['mulch',a],['burn',b]].map(([s,c])=>`<section class="comparison-card"><h3>${tr(s==='mulch'?'Keep as mulch':'Burn straw',s==='mulch'?'ਮਲਚ ਵਜੋਂ ਰੱਖੋ':'ਪਰਾਲੀ ਸਾੜੋ')}</h3><strong>${liters(c.pump)}</strong><small>${tr('Wheat pumping · whole acre','ਕਣਕ ਲਈ ਪੰਪ ਕੀਤਾ · ਪੂਰਾ ਏਕੜ')}</small><strong>${fmt(c.edible,0)} kg</strong><small>${tr('Dry wheat harvest','ਕਣਕ ਦਾ ਸੁੱਕਾ ਅਨਾਜ')}</small><button class="action" data-watch="${s}">${tr('Watch this path →','ਇਹ ਰਾਹ ਦੇਖੋ →')}</button></section>`).join('')}</div><p>${tr(Math.abs(a.edible-b.edible)<1?'The modeled harvests are similar. Retaining straw can change water demand without a fixed yield bonus.':'Harvest and pumping reflect the model’s automatic-care response. There is no fixed burn penalty or mulch yield bonus.',Math.abs(a.edible-b.edible)<1?'ਮਾਡਲ ਵਿੱਚ ਝਾੜ ਮਿਲਦੇ-ਜੁਲਦੇ ਹਨ। ਪਰਾਲੀ ਰੱਖਣ ਨਾਲ ਪਾਣੀ ਦੀ ਲੋੜ ਬਦਲ ਸਕਦੀ ਹੈ; ਨਿਸ਼ਚਿਤ ਝਾੜ ਲਾਭ ਨਹੀਂ ਹੈ।':'ਝਾੜ ਅਤੇ ਪਾਣੀ ਮਾਡਲ ਦੀ ਦੇਖਭਾਲ ਮੁਤਾਬਕ ਹਨ। ਸਾੜਨ ਲਈ ਨਿਸ਼ਚਿਤ ਕਟੌਤੀ ਜਾਂ ਮਲਚ ਲਈ ਝਾੜ ਲਾਭ ਨਹੀਂ ਹੈ।')}</p><p>${tr('The mulch moisture effect and straw decomposition are uncalibrated teaching assumptions. Soil-carbon improvements are not predicted for this single season.','ਮਲਚ ਦੀ ਨਮੀ ਅਤੇ ਪਰਾਲੀ ਦਾ ਸੜਨਾ ਸਿੱਖਿਆ ਮਾਡਲ ਦੀਆਂ ਧਾਰਨਾਵਾਂ ਹਨ। ਇਸ ਇੱਕ ਮੌਸਮ ਲਈ ਮਿੱਟੀ ਦੇ ਕਾਰਬਨ ਦਾ ਲਾਭ ਨਹੀਂ ਦੱਸਿਆ ਗਿਆ।')}</p><button class="action" id="change-residue">${tr('Change path at the current date','ਮੌਜੂਦਾ ਤਾਰੀਖ਼ ਉੱਤੇ ਰਾਹ ਬਦਲੋ')}</button>`;}
 function settingsHTML(){return `<div class="settings"><button class="action" id="language">${tr('Language: English → ਪੰਜਾਬੀ','ਭਾਸ਼ਾ: ਪੰਜਾਬੀ → English')}</button><button class="action" id="theme">${tr('Theme','ਦਿੱਖ')}: ${tr(theme,{system:'ਸਿਸਟਮ',light:'ਹਲਕੀ',dark:'ਗੂੜ੍ਹੀ'}[theme])}</button><button class="action" id="motion">${tr(reduced?'Enable motion':'Reduce motion',reduced?'ਹਰਕਤ ਚਾਲੂ ਕਰੋ':'ਹਰਕਤ ਘਟਾਓ')}</button><button class="action" id="export">${tr('Download model data','ਮਾਡਲ ਦੇ ਅੰਕੜੇ ਡਾਊਨਲੋਡ ਕਰੋ')}</button></div>`;}
 function openDrawer(kind){playing=false;drawerKind=kind;const v=current||Timeline.sample(result,flows,position);let title,html;
- if(kind==='metrics'){title=tr('Water & harvest details','ਪਾਣੀ ਅਤੇ ਵਾਢੀ ਦੇ ਵੇਰਵੇ');html=metricsDetails(v);}
+ if(kind==='water'){title=tr('Water drawn underground','ਧਰਤੀ ਹੇਠੋਂ ਲਿਆ ਪਾਣੀ');html=waterDetails(v)+containerDetails("water");}
+ else if(kind==='metrics'){title=tr('Water & harvest details','ਪਾਣੀ ਅਤੇ ਵਾਢੀ ਦੇ ਵੇਰਵੇ');html=metricsDetails(v);}
  else if(kind==='soil'){title=tr('What the soil carries forward','ਮਿੱਟੀ ਅੱਗੇ ਕੀ ਲੈ ਜਾਂਦੀ ਹੈ');html=soilDetails(v);}
  else if(kind==='care'){title=tr('The field is cared for automatically','ਖੇਤ ਦੀ ਦੇਖਭਾਲ ਆਪਣੇ ਆਪ ਹੁੰਦੀ ਹੈ');html=careDetails(v);}
- else if(['fertilizer','herbicide','pest_control'].includes(kind)){title=tr({fertilizer:'Plant nutrition',herbicide:'Weed management',pest_control:'Pest management'}[kind],{fertilizer:'ਪੌਦਿਆਂ ਦਾ ਪੋਸ਼ਣ',herbicide:'ਨਦੀਨਾਂ ਦਾ ਪ੍ਰਬੰਧ',pest_control:'ਕੀਟਾਂ ਦਾ ਪ੍ਰਬੰਧ'}[kind]);html=inputDetails(v,kind);}
+ else if(['fertilizer','herbicide','pest_control'].includes(kind)){title=tr({fertilizer:'Plant nutrition',herbicide:'Weed management',pest_control:'Pest management'}[kind],{fertilizer:'ਪੌਦਿਆਂ ਦਾ ਪੋਸ਼ਣ',herbicide:'ਨਦੀਨਾਂ ਦਾ ਪ੍ਰਬੰਧ',pest_control:'ਕੀਟਾਂ ਦਾ ਪ੍ਰਬੰਧ'}[kind]);html=inputDetails(v,kind)+containerDetails(kind)+`<p>${tr('The scene shows cumulative applied amounts. Containers are magnified quantity illustrations, with different capacities in Field and 100 g. Product mass is not a measured volume; unlike units stay separate.','ਦ੍ਰਿਸ਼ ਵਿੱਚ ਕੁੱਲ ਵਰਤੇ ਸਾਧਨ ਹਨ। ਖੇਤ ਅਤੇ 100 g ਵਿੱਚ ਭਾਂਡਿਆਂ ਦੇ ਪੈਮਾਨੇ ਵੱਖਰੇ ਹਨ। ਵੱਖਰੀਆਂ ਇਕਾਈਆਂ ਵੱਖ ਰੱਖੀਆਂ ਹਨ।')}</p>`;}
  else if(kind==='results'){title=tr('The water behind your food','ਤੁਹਾਡੇ ਭੋਜਨ ਲਈ ਪਾਣੀ');html=resultsDetails();}
  else if(kind==='comparison'){title=tr('Two paths for the straw','ਪਰਾਲੀ ਲਈ ਦੋ ਰਾਹ');html=comparisonDetails();}
  else if(kind==='evidence'){title=tr('About these estimates','ਇਨ੍ਹਾਂ ਅੰਦਾਜ਼ਿਆਂ ਬਾਰੇ');html=evidenceDetails(v);}
- else{title=tr('One field. Two harvests.','ਇੱਕ ਖੇਤ। ਦੋ ਵਾਢੀਆਂ।');html=`<p>${tr('Follow a Punjab field from rice to wheat. Play the guided story, or pause and move through the timeline. Crop care happens automatically. Straw is retained as the disclosed baseline; you can compare burning at any time.','ਪੰਜਾਬ ਦੇ ਖੇਤ ਵਿੱਚ ਝੋਨੇ ਤੋਂ ਕਣਕ ਤੱਕ ਦੇਖੋ। ਕਹਾਣੀ ਚਲਾਓ ਜਾਂ ਰੋਕ ਕੇ ਸਮਾਂ ਰੇਖਾ ਖਿਸਕਾਓ। ਦੇਖਭਾਲ ਆਪਣੇ ਆਪ ਹੁੰਦੀ ਹੈ। ਮੂਲ ਰਾਹ ਵਿੱਚ ਪਰਾਲੀ ਰੱਖੀ ਜਾਂਦੀ ਹੈ; ਸਾੜਨ ਨਾਲ ਕਦੇ ਵੀ ਤੁਲਨਾ ਕਰੋ।')}</p>${settingsHTML()}<p>${tr('Field / Plant close-up changes the camera. Whole field / Per 100 g dry food changes quantities. Both preserve your date and model history.','ਖੇਤ / ਪੌਦਾ ਨੇੜੇ ਤੋਂ ਦ੍ਰਿਸ਼ ਬਦਲਦਾ ਹੈ। ਪੂਰਾ ਖੇਤ / ਪ੍ਰਤੀ 100 g ਸੁੱਕਾ ਭੋਜਨ ਮਾਤਰਾ ਬਦਲਦਾ ਹੈ। ਦੋਵੇਂ ਤਾਰੀਖ਼ ਅਤੇ ਮਾਡਲ ਦਾ ਇਤਿਹਾਸ ਰੱਖਦੇ ਹਨ।')}</p><button class="action" data-drawer="evidence">${tr('Sources & model assumptions','ਸਰੋਤ ਅਤੇ ਮਾਡਲ ਦੀਆਂ ਧਾਰਨਾਵਾਂ')}</button>`;}
+ else{title=tr('One field. Two harvests.','ਇੱਕ ਖੇਤ। ਦੋ ਵਾਢੀਆਂ।');html=`<button class="action" data-drawer="care">${tr('Crop care & inputs','ਦੇਖਭਾਲ ਤੇ ਸਾਧਨ')}</button><button class="action" data-drawer="comparison" id="compare-straw">${tr('Compare straw choices','ਪਰਾਲੀ ਦੇ ਰਾਹਾਂ ਦੀ ਤੁਲਨਾ')}</button><button class="action" data-drawer="results">${tr('Compare harvests','ਵਾਢੀਆਂ ਦੀ ਤੁਲਨਾ')}</button><p>${tr('Follow a Punjab field from rice to wheat. Start plays an accelerated story of about 84 seconds; pause or move through the timeline. Crop care happens automatically. Straw is retained as the disclosed baseline; you can compare burning at any time.','ਪੰਜਾਬ ਦੇ ਖੇਤ ਵਿੱਚ ਝੋਨੇ ਤੋਂ ਕਣਕ ਤੱਕ ਦੇਖੋ। ਕਹਾਣੀ ਚਲਾਓ ਜਾਂ ਰੋਕ ਕੇ ਸਮਾਂ ਰੇਖਾ ਖਿਸਕਾਓ। ਦੇਖਭਾਲ ਆਪਣੇ ਆਪ ਹੁੰਦੀ ਹੈ। ਮੂਲ ਰਾਹ ਵਿੱਚ ਪਰਾਲੀ ਰੱਖੀ ਜਾਂਦੀ ਹੈ; ਸਾੜਨ ਨਾਲ ਕਦੇ ਵੀ ਤੁਲਨਾ ਕਰੋ।')}</p>${settingsHTML()}<p>${tr('Field / 100 g changes the crop presentation and allocated input amounts. Containers are magnified illustrations with different capacities; their sizes are not a common physical scale. Tap an object for its exact quantities. Straw is retained as the baseline.','ਖੇਤ / 100 g ਦ੍ਰਿਸ਼ ਅਤੇ ਸਾਧਨਾਂ ਦੀ ਮਾਤਰਾ ਇਕੱਠੇ ਬਦਲਦਾ ਹੈ। ਛੋਟੀਆਂ ਮਾਤਰਾਵਾਂ ਵੱਡੀਆਂ ਕਰਕੇ ਦਿਖਾਈਆਂ ਹਨ। ਭਾਂਡਿਆਂ ਦੀ ਸਮਰੱਥਾ ਵੱਖਰੀ ਹੈ। ਸਹੀ ਮਾਤਰਾ ਲਈ ਭਾਂਡੇ ਨੂੰ ਛੂਹੋ।')}</p><button class="action" data-drawer="evidence">${tr('Sources & model assumptions','ਸਰੋਤ ਅਤੇ ਮਾਡਲ ਦੀਆਂ ਧਾਰਨਾਵਾਂ')}</button>`;}
  $('drawer-title').textContent=title;$('drawer-content').innerHTML=html;if(!$('drawer').open){dialogTrigger=document.activeElement;$('drawer').showModal();}uiTime=0;
 }
 function chooseResidue(){playing=false;if($('drawer').open)$('drawer').close();drawerKind=null;$('residue-title').textContent=tr('What happens to the rice straw?','ਝੋਨੇ ਦੀ ਪਰਾਲੀ ਦਾ ਕੀ ਹੁੰਦਾ ਹੈ?');$('residue-description').textContent=tr('Change the path while keeping the same date, weather and automatic care.','ਉਹੀ ਤਾਰੀਖ਼, ਮੌਸਮ ਅਤੇ ਦੇਖਭਾਲ ਰੱਖ ਕੇ ਰਾਹ ਬਦਲੋ।');$('residue-kicker').textContent=tr('TRY A DIFFERENT PATH','ਦੂਜਾ ਰਾਹ ਅਜ਼ਮਾਓ');$('residue-note').textContent=tr('The baseline keeps straw as mulch. Closing this sheet keeps the current path.','ਮੂਲ ਰਾਹ ਵਿੱਚ ਪਰਾਲੀ ਮਲਚ ਵਜੋਂ ਹੈ। ਇਹ ਸ਼ੀਟ ਬੰਦ ਕਰਨ ਨਾਲ ਮੌਜੂਦਾ ਰਾਹ ਰਹਿੰਦਾ ਹੈ।');for(const s of ['mulch','burn']){const b=document.querySelector(`[data-residue=${s}]`);b.textContent=tr(s==='mulch'?'Keep as mulch · chop, spread and sow wheat':'Burn straw · fire, smoke and ash',s==='mulch'?'ਮਲਚ ਵਜੋਂ ਰੱਖੋ · ਕੁਤਰਾ ਕਰੋ, ਵਿਛਾਓ ਅਤੇ ਕਣਕ ਬੀਜੋ':'ਪਰਾਲੀ ਸਾੜੋ · ਅੱਗ, ਧੂੰਆਂ ਅਤੇ ਸੁਆਹ');b.setAttribute('aria-pressed',s===residueStrategy);}dialogTrigger=document.activeElement;$('residue-dialog').showModal();uiTime=0;}
@@ -5778,11 +5423,11 @@ $('timeline-slider').addEventListener('input',e=>jump(Number(e.target.value)));
 $('timeline-slider').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End','PageUp','PageDown'].includes(e.key))return;e.preventDefault();const step=e.shiftKey?7:1;jump(e.key==='Home'?0:e.key==='End'?maxDay:target+(['ArrowLeft','PageDown'].includes(e.key)?-1:1)*(e.key.startsWith('Page')?14:step));});
 $('home').addEventListener('click',e=>{e.preventDefault();playing=false;journey='welcome';game.dataset.journey=journey;$('welcome').hidden=false;$('orientation').hidden=true;document.querySelector('.timeline').inert=true;harvestHold=null;position=target=0;uiTime=0;});
 function restoreFocus(fallback){requestAnimationFrame(()=>{if(!$('drawer').open&&!$('residue-dialog').open){const trigger=dialogTrigger?.isConnected&&!dialogTrigger.closest('dialog')?dialogTrigger:$(fallback);trigger?.focus();}});}
-$('drawer').addEventListener('close',()=>{if(!$('drawer').open)drawerKind=null;restoreFocus('language-toggle');});$('residue-dialog').addEventListener('close',()=>restoreFocus('compare-straw'));
+$('drawer').addEventListener('close',()=>{if(!$('drawer').open)drawerKind=null;restoreFocus('language-toggle');});$('residue-dialog').addEventListener('close',()=>restoreFocus('language-toggle'));
 // All mutations are explicit controls; changing view or units never touches the reducer.
  document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
- if(b.dataset.unit){displayMode=b.dataset.unit;savePref('fasl-units',displayMode);uiTime=0;return;}
- if(b.dataset.view){viewMode=b.dataset.view;uiTime=0;return;}
+ if(b.dataset.unit){displayMode=b.dataset.unit;viewMode=displayMode;savePref('fasl-units',displayMode);uiTime=0;return;}
+
  if(b.dataset.scene){jump(b.dataset.scene==='rice'?0:Sim.wheatStart());return;}
  if(b.dataset.drawer){openDrawer(b.dataset.drawer);return;}
  if(b.dataset.residue){setResidue(b.dataset.residue);return;}
@@ -5803,7 +5448,7 @@ function frame(time){requestAnimationFrame(frame);const dt=lastTime?Math.min(.1,
  }
  position=target;current=Timeline.sample(result,flows,position);
  const welcome=journey==='welcome',sceneSample=welcome?Timeline.sample(result,flows,78):current;
- Scene3D.update(sceneSample,{motion:reduced,time:animationTime,dt,displayMode:viewMode,paused:!playing||!!harvestHold||welcome});
+ Scene3D.update(sceneSample,{motion:reduced,time:animationTime,dt,displayMode:viewMode,quantityMode:displayMode,metrics:Metrics.sample(result,sceneSample,displayMode),paused:!playing||!!harvestHold||welcome});
  if(time-uiTime>100||uiTime===0){updateUI(current);uiTime=time;if(!Scene3D.info().renderer){const fallback=document.querySelector('.webgl-fallback');if(fallback)fallback.innerHTML='<strong>'+tr('The story is still here.','ਕਹਾਣੀ ਅਜੇ ਵੀ ਇੱਥੇ ਹੈ।')+'</strong>'+tr('This device cannot draw the field. Follow the chapter descriptions, water totals and harvest bowl using the controls below.','ਇਹ ਜੰਤਰ ਖੇਤ ਦਾ ਦ੍ਰਿਸ਼ ਨਹੀਂ ਬਣਾ ਸਕਦਾ। ਹੇਠਲੇ ਬਟਨਾਂ ਨਾਲ ਕਹਾਣੀ, ਪਾਣੀ ਦੇ ਅੰਕੜੇ ਅਤੇ ਵਾਢੀ ਦੀ ਕੌਲੀ ਦੇਖੋ।');}}
 }
 // Exact model history and a read-only presentation snapshot remain available to verification tools.
@@ -5815,9 +5460,34 @@ function basisLabel(v){return displayMode==='acre'?tr('1 acre','1 ਏਕੜ'):tr
 function productAmount(p,v){const m=Metrics.sample(result,v,displayMode),f=p.date===v.s.date?Timeline.phase(v.fraction,0,.3):1,n=p.quantity*f*m.scale;return p.unit==='kg'&&displayMode==='bowl'?fmt(n*1000,3)+' g':fmt(n,displayMode==='bowl'?3:2)+' '+p.unit;}
 function soilAmount(n,unit,v){const scale=Metrics.sample(result,v,displayMode).scale;return displayMode==='bowl'?fmt(n*scale*1000,3)+' '+(unit==='kg N'?'g N':'g'):fmt(n,1)+' '+unit;}
 function waterDetails(v){const m=Metrics.sample(result,v,displayMode);return `<h3>${tr('Water balance','ਪਾਣੀ ਦਾ ਹਿਸਾਬ')} · ${basisLabel(v)}</h3><table>${[[tr('Rain','ਮੀਂਹ'),m.water.rain],[tr('Gross pumping','ਕੁੱਲ ਪੰਪ ਕੀਤਾ'),m.water.pumped],[tr('Plant use + evaporation','ਫ਼ਸਲ ਦੀ ਖਪਤ ਅਤੇ ਭਾਫ਼'),m.water.et],[tr('Arrived recharge','ਪਹੁੰਚੀ ਭਰਪਾਈ'),m.water.recharge],[tr('Groundwater storage','ਧਰਤੀ ਹੇਠਲਾ ਪਾਣੀ'),v.aquiferL*m.scale]].map(([label,n])=>`<tr><td>${label}</td><td>${liters(n)}</td></tr>`).join('')}</table><p>${tr('Rotation totals; bowl mode allocates this acre’s totals to the active crop’s final dry output. Groundwater percentage and rainfall depth keep their original scale.','ਪੂਰੇ ਚੱਕਰ ਦੇ ਅੰਕੜੇ; ਕੌਲੀ ਮੋਡ ਵਿੱਚ ਇਸ ਏਕੜ ਦੇ ਅੰਕੜੇ ਮੌਜੂਦਾ ਫ਼ਸਲ ਦੇ ਅੰਤਿਮ ਸੁੱਕੇ ਅਨਾਜ ਦੇ ਹਿੱਸੇ ਅਨੁਸਾਰ ਹਨ। ਪਾਣੀ ਦੀ ਪ੍ਰਤੀਸ਼ਤ ਅਤੇ ਮੀਂਹ ਦੀ ਡੂੰਘਾਈ ਨਹੀਂ ਬਦਲਦੇ।')}</p>`;}
-function metricsDetails(v){const m=Metrics.sample(result,v,displayMode);return `<p>${basisLabel(v)}</p><table>${[[tr('Standing plants (estimate)','ਖੜ੍ਹੇ ਪੌਦੇ (ਅੰਦਾਜ਼ਾ)'),count(m.plants)],[tr('Shoots including tillers (estimate)','ਟਾਹਣੀਆਂ ਸਮੇਤ ਫੁਟਾਰਾ (ਅੰਦਾਜ਼ਾ)'),count(m.shoots)],[tr('Water pumped · this crop','ਪੰਪ ਕੀਤਾ ਪਾਣੀ · ਇਸ ਫ਼ਸਲ ਲਈ'),liters(m.pumpedL)],[tr('Rain · this crop','ਮੀਂਹ · ਇਸ ਫ਼ਸਲ ਲਈ'),liters(m.rainL)],[tr('Plant use + evaporation','ਫ਼ਸਲ ਦੀ ਖਪਤ ਅਤੇ ਭਾਫ਼'),liters(m.etL)],[tr(m.harvested?'Harvested dry grain':'Dry grain forming (estimate)',m.harvested?'ਵਾਢੀ ਦਾ ਸੁੱਕਾ ਅਨਾਜ':'ਬਣ ਰਿਹਾ ਸੁੱਕਾ ਅਨਾਜ (ਅੰਦਾਜ਼ਾ)'),mass(m.grainKg)],[tr('Final dry output (projection)','ਅੰਤਿਮ ਸੁੱਕਾ ਅਨਾਜ (ਅੰਦਾਜ਼ਾ)'),mass(m.edibleKg*m.scale)]].map(([label,value])=>`<tr><td>${label}</td><td>${value}</td></tr>`).join('')}</table><p>${tr('Field and Plant close-up show representative plants independently of quantity units. Plant numbers rise with emergence, stay stable through tillering and fall as the crop is harvested. Shoots increase separately. Grain accumulation follows the illustrative grain-filling phase.','ਦ੍ਰਿਸ਼ ਮਾਤਰਾ ਦੀ ਇਕਾਈ ਤੋਂ ਵੱਖਰਾ ਹੈ। ਪੌਦੇ ਖੇਤ ਦੀ ਨੁਮਾਇੰਦਗੀ ਕਰਦੇ ਹਨ। ਪੌਦਿਆਂ ਦੀ ਗਿਣਤੀ ਉੱਗਣ ਨਾਲ ਵਧਦੀ ਹੈ, ਫੁਟਾਰੇ ਦੌਰਾਨ ਸਥਿਰ ਰਹਿੰਦੀ ਹੈ ਅਤੇ ਵਾਢੀ ਨਾਲ ਘਟਦੀ ਹੈ। ਟਾਹਣੀਆਂ ਵੱਖਰੇ ਤੌਰ ਉੱਤੇ ਵਧਦੀਆਂ ਹਨ। ਅਨਾਜ ਦਾ ਵਾਧਾ ਮਾਡਲ ਦੇ ਦਾਣਾ ਭਰਨ ਦੇ ਪੜਾਅ ਅਨੁਸਾਰ ਹੈ।')}</p><p>${tr('Rice target: 20 × 15 cm spacing and 2 seedlings per hill (PAU). Wheat: illustrative 250 plants/m². Emergence, shoot counts and no plant mortality are demonstration assumptions, not measured field populations.','ਝੋਨਾ: 20 × 15 cm ਦੂਰੀ ਅਤੇ ਹਰ ਥਾਂ 2 ਪਨੀਰੀ ਦੇ ਪੌਦੇ (PAU)। ਕਣਕ: ਮਾਡਲ ਲਈ 250 ਪੌਦੇ/m²। ਉੱਗਣ, ਟਾਹਣੀਆਂ ਅਤੇ ਪੌਦਿਆਂ ਦੀ ਮੌਤ ਨਾ ਹੋਣ ਦੀਆਂ ਧਾਰਨਾਵਾਂ ਖੇਤ ਦੇ ਮਾਪ ਨਹੀਂ ਹਨ।')}</p><p>${tr('A bowl means 100 g dry edible output. Its field share uses this crop’s final modeled harvest, so water and inputs remain comparable throughout scrubbing.','ਕੌਲੀ ਦਾ ਮਤਲਬ 100 g ਸੁੱਕਾ ਖਾਣ ਯੋਗ ਅਨਾਜ ਹੈ। ਖੇਤ ਦਾ ਹਿੱਸਾ ਇਸ ਫ਼ਸਲ ਦੇ ਮਾਡਲ ਦੇ ਅੰਤਿਮ ਝਾੜ ਅਨੁਸਾਰ ਹੈ।')}</p><a class="source-link" href="https://pau.edu/content/ccil/pf/pp_kharif.pdf" target="_blank" rel="noopener">${tr('PAU transplant spacing ↗','PAU ਲੁਆਈ ਦੀ ਦੂਰੀ ↗')}</a>`;}
+function metricsDetails(v){const m=Metrics.sample(result,v,displayMode);return `<p>${basisLabel(v)}</p><table>${[[tr('Standing plants (estimate)','ਖੜ੍ਹੇ ਪੌਦੇ (ਅੰਦਾਜ਼ਾ)'),count(m.plants)],[tr('Shoots including tillers (estimate)','ਟਾਹਣੀਆਂ ਸਮੇਤ ਫੁਟਾਰਾ (ਅੰਦਾਜ਼ਾ)'),count(m.shoots)],[tr('Water pumped · this crop','ਪੰਪ ਕੀਤਾ ਪਾਣੀ · ਇਸ ਫ਼ਸਲ ਲਈ'),liters(m.pumpedL)],[tr('Rain · this crop','ਮੀਂਹ · ਇਸ ਫ਼ਸਲ ਲਈ'),liters(m.rainL)],[tr('Plant use + evaporation','ਫ਼ਸਲ ਦੀ ਖਪਤ ਅਤੇ ਭਾਫ਼'),liters(m.etL)],[tr(m.harvested?'Harvested dry grain':'Dry grain forming (estimate)',m.harvested?'ਵਾਢੀ ਦਾ ਸੁੱਕਾ ਅਨਾਜ':'ਬਣ ਰਿਹਾ ਸੁੱਕਾ ਅਨਾਜ (ਅੰਦਾਜ਼ਾ)'),mass(m.grainKg)],[tr('Final dry output (projection)','ਅੰਤਿਮ ਸੁੱਕਾ ਅਨਾਜ (ਅੰਦਾਜ਼ਾ)'),mass(m.edibleKg*m.scale)]].map(([label,value])=>`<tr><td>${label}</td><td>${value}</td></tr>`).join('')}</table><p>${tr('Field / 100 g changes the representative crop view and allocated quantities. Illustrative container capacities differ between modes; small quantities are magnified to remain visible. Plant numbers rise with emergence, stay stable through tillering and fall as the crop is harvested. Shoots increase separately. Grain accumulation follows the illustrative grain-filling phase.','ਖੇਤ / 100 g ਦ੍ਰਿਸ਼ ਅਤੇ ਮਾਤਰਾ ਇਕੱਠੇ ਬਦਲਦਾ ਹੈ। ਭਾਂਡਿਆਂ ਦੇ ਪੈਮਾਨੇ ਵੱਖਰੇ ਹਨ। ਪੌਦੇ ਖੇਤ ਦੀ ਨੁਮਾਇੰਦਗੀ ਕਰਦੇ ਹਨ। ਪੌਦਿਆਂ ਦੀ ਗਿਣਤੀ ਉੱਗਣ ਨਾਲ ਵਧਦੀ ਹੈ, ਫੁਟਾਰੇ ਦੌਰਾਨ ਸਥਿਰ ਰਹਿੰਦੀ ਹੈ ਅਤੇ ਵਾਢੀ ਨਾਲ ਘਟਦੀ ਹੈ। ਟਾਹਣੀਆਂ ਵੱਖਰੇ ਤੌਰ ਉੱਤੇ ਵਧਦੀਆਂ ਹਨ। ਅਨਾਜ ਦਾ ਵਾਧਾ ਮਾਡਲ ਦੇ ਦਾਣਾ ਭਰਨ ਦੇ ਪੜਾਅ ਅਨੁਸਾਰ ਹੈ।')}</p><p>${tr('Rice target: 20 × 15 cm spacing and 2 seedlings per hill (PAU). Wheat: illustrative 250 plants/m². Emergence, shoot counts and no plant mortality are demonstration assumptions, not measured field populations.','ਝੋਨਾ: 20 × 15 cm ਦੂਰੀ ਅਤੇ ਹਰ ਥਾਂ 2 ਪਨੀਰੀ ਦੇ ਪੌਦੇ (PAU)। ਕਣਕ: ਮਾਡਲ ਲਈ 250 ਪੌਦੇ/m²। ਉੱਗਣ, ਟਾਹਣੀਆਂ ਅਤੇ ਪੌਦਿਆਂ ਦੀ ਮੌਤ ਨਾ ਹੋਣ ਦੀਆਂ ਧਾਰਨਾਵਾਂ ਖੇਤ ਦੇ ਮਾਪ ਨਹੀਂ ਹਨ।')}</p><p>${tr('A bowl means 100 g dry edible output. Its field share uses this crop’s final modeled harvest, so water and inputs remain comparable throughout scrubbing.','ਕੌਲੀ ਦਾ ਮਤਲਬ 100 g ਸੁੱਕਾ ਖਾਣ ਯੋਗ ਅਨਾਜ ਹੈ। ਖੇਤ ਦਾ ਹਿੱਸਾ ਇਸ ਫ਼ਸਲ ਦੇ ਮਾਡਲ ਦੇ ਅੰਤਿਮ ਝਾੜ ਅਨੁਸਾਰ ਹੈ।')}</p><a class="source-link" href="https://pau.edu/content/ccil/pf/pp_kharif.pdf" target="_blank" rel="noopener">${tr('PAU transplant spacing ↗','PAU ਲੁਆਈ ਦੀ ਦੂਰੀ ↗')}</a>`;}
 
 function soilDetails(v){return `<p class="soil-trend">${soilLabel(v.soil.trend)}</p><p>${tr(v.soil.trend==='baseline'?'Starting condition. No soil test has been supplied.':v.soil.trend==='improving'?'Retained straw covers the soil and gradually returns nutrients. Soil-carbon benefits develop over repeated seasons.':'Burning removes organic inputs and loses residue nutrients. Ash remains; this does not imply instant crop failure.',v.soil.trend==='baseline'?'ਸ਼ੁਰੂਆਤੀ ਹਾਲਤ। ਮਿੱਟੀ ਦੀ ਜਾਂਚ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।':v.soil.trend==='improving'?'ਪਰਾਲੀ ਮਿੱਟੀ ਨੂੰ ਢੱਕਦੀ ਹੈ ਅਤੇ ਹੌਲੀ-ਹੌਲੀ ਪੌਸ਼ਟਿਕ ਤੱਤ ਵਾਪਸ ਕਰਦੀ ਹੈ। ਕਾਰਬਨ ਦੇ ਲਾਭ ਕਈ ਮੌਸਮਾਂ ਵਿੱਚ ਬਣਦੇ ਹਨ।':'ਸਾੜਨ ਨਾਲ ਜੈਵਿਕ ਪਦਾਰਥ ਅਤੇ ਪੌਸ਼ਟਿਕ ਤੱਤ ਘਟਦੇ ਹਨ। ਸੁਆਹ ਰਹਿੰਦੀ ਹੈ; ਇਸ ਦਾ ਮਤਲਬ ਤੁਰੰਤ ਫ਼ਸਲ ਖਰਾਬ ਹੋਣਾ ਨਹੀਂ ਹੈ।')}</p><h3>${tr('Nutrition','ਪੋਸ਼ਣ')} · ${basisLabel(v)}</h3><table>${[[tr('Fertilizer nitrogen applied','ਖਾਦ ਤੋਂ ਦਿੱਤਾ ਨਾਈਟ੍ਰੋਜਨ'),v.soil.fertilizerN,'kg N'],[tr('Straw remaining','ਬਾਕੀ ਪਰਾਲੀ'),v.soil.residueKg,'kg'],[tr('Residue nitrogen returned (modeled)','ਪਰਾਲੀ ਤੋਂ ਵਾਪਸ ਨਾਈਟ੍ਰੋਜਨ (ਮਾਡਲ)'),v.soil.residueNReturned,'kg N'],[tr('Residue nitrogen lost (modeled)','ਪਰਾਲੀ ਤੋਂ ਨਾਈਟ੍ਰੋਜਨ ਦਾ ਨੁਕਸਾਨ (ਮਾਡਲ)'),v.soil.residueNRemoved,'kg N']].map(([label,n,unit])=>`<tr><td>${label}</td><td>${soilAmount(n,unit,v)}</td></tr>`).join('')}</table><p>${tr('Applied nitrogen is not available soil nitrogen. Fertilizer supports crop nutrition; it does not automatically improve soil health.','ਦਿੱਤਾ ਨਾਈਟ੍ਰੋਜਨ ਮਿੱਟੀ ਵਿੱਚ ਉਪਲਬਧ ਨਾਈਟ੍ਰੋਜਨ ਦੇ ਬਰਾਬਰ ਨਹੀਂ ਹੈ। ਖਾਦ ਫ਼ਸਲ ਨੂੰ ਪੋਸ਼ਣ ਦਿੰਦੀ ਹੈ; ਮਿੱਟੀ ਦੀ ਸਿਹਤ ਆਪਣੇ ਆਪ ਨਹੀਂ ਸੁਧਰਦੀ।')}</p><h3>${tr('Research evidence','ਖੋਜ ਦੇ ਸਬੂਤ')}</h3><p>${tr('A north-west India study reported surface soil organic carbon of 5.15 g/kg under Happy Seeder residue retention versus 4.61 g/kg under conventional tillage: a difference of 0.54 g/kg (11.7%). These are study observations, not predictions for this field or a burn comparison.','ਉੱਤਰ-ਪੱਛਮੀ ਭਾਰਤ ਦੇ ਅਧਿਐਨ ਵਿੱਚ ਹੈਪੀ ਸੀਡਰ ਨਾਲ ਪਰਾਲੀ ਰੱਖਣ ਹੇਠ ਕਾਰਬਨ 5.15 g/kg ਅਤੇ ਰਵਾਇਤੀ ਵਾਹੀ ਹੇਠ 4.61 g/kg ਸੀ: ਫ਼ਰਕ 0.54 g/kg (11.7%)। ਇਹ ਖੋਜ ਦੇ ਅੰਕੜੇ ਹਨ, ਇਸ ਖੇਤ ਦੀ ਭਵਿੱਖਬਾਣੀ ਜਾਂ ਸਾੜਨ ਨਾਲ ਤੁਲਨਾ ਨਹੀਂ।')}</p><a class="source-link" href="https://epubs.icar.org.in/index.php/JSWC/article/view/165436" target="_blank" rel="noopener">${tr('Read soil study ↗','ਮਿੱਟੀ ਦਾ ਅਧਿਐਨ ਪੜ੍ਹੋ ↗')}</a><p>${tr('Demonstration assumptions: 3,000 kg straw/acre, 0.6% straw N, 90% N loss when burned, 180-day exponential decomposition, and an initial 12% reduction in combined soil/plant water loss under mulch. Released residue N is informational, not credited as immediately plant-available. Yield has no fixed burn penalty.','ਮਾਡਲ ਦੀਆਂ ਧਾਰਨਾਵਾਂ: 3,000 kg ਪਰਾਲੀ/ਏਕੜ, 0.6% ਨਾਈਟ੍ਰੋਜਨ, ਸਾੜਨ ਨਾਲ 90% ਨਾਈਟ੍ਰੋਜਨ ਨੁਕਸਾਨ, 180 ਦਿਨਾਂ ਦੇ ਅਨੁਪਾਤ ਨਾਲ ਸੜਨਾ, ਮਲਚ ਹੇਠ ਸ਼ੁਰੂ ਵਿੱਚ 12% ਘੱਟ ਪਾਣੀ ਦੀ ਖਪਤ। ਪਰਾਲੀ ਦਾ ਨਾਈਟ੍ਰੋਜਨ ਤੁਰੰਤ ਫ਼ਸਲ ਨੂੰ ਉਪਲਬਧ ਨਹੀਂ ਮੰਨਿਆ ਗਿਆ। ਸਾੜਨ ਲਈ ਝਾੜ ਦੀ ਕੋਈ ਨਿਸ਼ਚਿਤ ਕਟੌਤੀ ਨਹੀਂ।')}</p>${residueStrategy?'<button class="action" id="change-residue">'+tr('Change residue method','ਪਰਾਲੀ ਦਾ ਤਰੀਕਾ ਬਦਲੋ')+'</button>':''}`;}
+
+
+const objectKinds=[['water','water','Water','ਪਾਣੀ'],['fertilizer','fertilizer','Fertilizer','ਖਾਦ'],['herbicide','herbicide','Weed care','ਨਦੀਨ'],['pest_control','pest_control','Pest care','ਕੀਟ']];
+function createInputObjects(){
+ $('input-objects').innerHTML=objectKinds.map(([id,kind])=>{
+  const sack=id==='fertilizer',shape=sack?'M11 6H39L36 13L43 57H7L14 13Z':id==='water'?'M9 9H41V57H9Z':'M18 9H32V17L39 24V57H11V24L18 17Z';
+  return `<button class="input-object" id="object-${id}" data-drawer="${kind}"><svg viewBox="0 0 50 64" aria-hidden="true"><defs><clipPath id="clip-${id}"><path d="${shape}"/></clipPath></defs><path d="${shape}" fill="#ede8d7" stroke="#918f7b" stroke-width="1.5"/><rect class="object-fill" id="fill-${id}" x="7" y="57" width="36" height="0" fill="${id==='water'?'#73babb':sack?'#b5a477':'#859e74'}" clip-path="url(#clip-${id})"/>${sack?'<path d="M14 13H36M12 47H38" stroke="#8a7b5b"/>':id==='water'?'<path d="M33 20H41M33 30H41M33 40H41M33 50H41" stroke="#627f7b"/>':'<rect x="18" y="5" width="14" height="6" rx="2" fill="#4e6758"/>'}<path d="M23 42V29M23 35Q14 28 16 35Q17 39 23 39M23 34Q32 27 30 34Q29 38 23 38" fill="none" stroke="#3f644a" stroke-width="1.6"/></svg><strong id="amount-${id}"></strong><small id="name-${id}"></small></button>`;
+ }).join('');
+}
+function containerDetails(kind){const e=$('object-'+kind),unit=e?.dataset.amountUnit||'kg',g=displayMode==='bowl'&&unit==='kg',capacity=Number(e?.dataset.capacity||0)*(g?1000:1);return '<p>'+tr('Illustrated container capacity: ','ਦਿਖਾਏ ਭਾਂਡੇ ਦੀ ਸਮਰੱਥਾ: ')+fmt(capacity,3)+' '+(g?'g':unit)+'. '+tr('Fill shows the cumulative amount within this capacity.','ਭਰਾਅ ਇਸ ਸਮਰੱਥਾ ਵਿੱਚ ਕੁੱਲ ਮਾਤਰਾ ਦਿਖਾਉਂਦਾ ਹੈ।')+'</p>';}
+function updateInputObjects(v,m){
+ for(const [id,kind,en,pa] of objectKinds){
+  const crop=result.state.cropStates[v.id],totals={};for(const p of crop.products.filter(p=>p.category===kind))totals[p.unit]=(totals[p.unit]||0)+p.quantity;
+  const unit=id==='water'?'L':['kg','g','mL'].find(u=>totals[u]>0)||'kg';
+  const value=id==='water'?m.pumpedL:m.products[kind][unit],final=(id==='water'?crop.water.pumped:totals[unit]||0)*m.scale;
+  const conversion=displayMode==='bowl'&&unit==='kg'?1000:1,shownUnit=conversion===1000?'g':unit,shown=value*conversion,full=final*conversion;
+  // Each mode has its own readable capacity. Fill is quantitative within that capacity.
+  const magnitude=full>0?10**Math.floor(Math.log10(full)):1,capacity=full>0?Math.ceil(full/magnitude)*magnitude:1,fill=Math.max(0,Math.min(1,shown/capacity));
+  const el=$('object-'+id);el.style.setProperty('--object-size',displayMode==='bowl'?'.60':'1');el.dataset.quantity=String(value);el.dataset.capacity=String(capacity/conversion);el.dataset.fill=String(fill);el.dataset.amountUnit=unit;
+  $('fill-'+id).setAttribute('height',String(fill*46));$('fill-'+id).setAttribute('y',String(57-fill*46));
+  const parts=[fmt(shown,shown<1?3:shown<10?2:0)+' '+shownUnit];if(id!=='water')for(const u of ['kg','g','mL'])if(u!==unit&&totals[u]){const n=m.products[kind][u],g=displayMode==='bowl'&&u==='kg';parts.push(fmt(n*(g?1000:1),3)+' '+(g?'g':u));}
+  $('amount-'+id).textContent=parts.join(' · ');$('name-'+id).textContent=tr(en,pa);el.setAttribute('aria-label',tr(en,pa)+': '+parts.join(', ')+'. '+basisLabel(v));el.title=tr('Cumulative amount · capacity ','ਕੁੱਲ ਮਾਤਰਾ · ਸਮਰੱਥਾ ')+fmt(capacity,3)+' '+shownUnit;
+ }
+}
+createInputObjects();
 
 if(readPref('fasl-motion','')==='reduced')reduced=true;
 applyTheme();applyLabels();document.querySelector('.timeline').inert=true;

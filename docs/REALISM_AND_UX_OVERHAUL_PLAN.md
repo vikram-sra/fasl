@@ -1,93 +1,91 @@
-# Realism and first-time-user overhaul
+# Crop-first realism and UX redesign — revised plan
 
-Plan prepared 7 October 2026. Scope: a compelling educational experience for people with no farming knowledge, with deeper field details available. The implementation is now in `app/` and the rebuilt standalone page. Automated checks and local browser review cover the delivered behavior; participant testing, independent Punjabi review and physical-phone performance measurement remain outstanding external validation.
+7 October 2026. Supersedes the previous plan. Status: implemented locally; see ACCEPTANCE_RESULTS.md for verification and outstanding external validation. The user's phone screenshot is the principal acceptance reference: the current experience gives text, navigation and a harvest card more prominence than the crop, and fails to keep the underground section visible.
 
-## Direction
+## What went wrong
 
-**Follow one Punjab field from seed to food, and understand where its water goes.**
+The previous overhaul optimized narrative and control completeness before composing the actual scene. Passing functional checks did not establish a compelling visual experience.
 
-Build a believable, tactile field with a clear beginning, visible cause and effect, and a rewarding harvest. Preserve the continuous rice–wheat rotation, reversible timeline, deterministic accounting, offline operation, English/Punjabi support and reduced-motion option.
+- The header, standalone story section and large footer compete with the field. The phone footer has a 275 px minimum height.
+- The harvest card covers the scene during the interval between crops.
+- The camera is not fitted to explicit visible bounds for canopy, roots and groundwater at each viewport size.
+- The quantity switch changes numbers, but the renderer receives camera mode instead of quantity basis. Input quantities have no corresponding persistent visual representation.
+- Fertilizer and crop-care objects were moved into a drawer. This removed a useful visual explanation.
+- The tubewell is a narrow bent tube and small rectangular planes. Its pump, inlet, outlet and ground connection are difficult to recognize.
 
-Realism has three separate requirements: believable plants and materials; physically coherent actions; honest communication of the model's limits. Better graphics must not make illustrative aquifer storage or synthetic weather appear measured.
+## Primary composition
 
-## Current experience: reviewed findings
+The crop and its underground cutaway are the experience. Text supports this scene.
 
-Inspected the source and existing specifications, then exercised the local build in Chrome at 1440×1100 and 390×844. Checked playback, the Wheat transition, mulch choice, timeline endpoint and bowl mode. Screenshots are in `output/playwright/overhaul-{desktop,mobile,ending}.png`. These are expert-review findings, not results from participant testing; contrast, screen readers and physical-device performance still need dedicated validation.
+At ordinary text size, target 75–80% of the usable app viewport for the scene, excluding browser chrome and device safe areas. Keep the full surface-to-groundwater cross-section visible before scrolling. Reserve approximately 60% of the scene height for canopy and field surface, and 40% for roots, soil and saturated ground. Mature crops occupy 80–90% of scene width, with a narrow edge for the pump and input objects. Leave roughly 10–12% of the mature-crop scene as headroom above the grain heads, so the stage label does not crowd the canopy.
 
-| Priority | Current observation | Proposed change |
-|---|---|---|
-| P0 | Playback begins immediately; the first heading is a crop stage rather than an explanation of the experience. | Start paused with a short premise and one prominent “Start the story” button. Provide “Explore freely” as a secondary route. |
-| P0 | “Tillering”, “Baseline”, “Pumped”, plant counts and abbreviated large numbers require interpretation. | Lead with a plain-language sentence, show units and scope nearby, and reveal technical terminology in details. |
-| P0 | Selecting Wheat opens the straw-choice dialog and initially shows rice harvest. | Make chapter navigation predictable: preview wheat with a clearly disclosed baseline; offer the straw experiment separately. |
-| P0 | The groundwater label says, for example, “71.4%”, with the explanatory limitation hidden in Menu. | Label the visible section “Illustrative groundwater store · not to scale”; move exact percentages into model details. |
-| P0 | The observed ending is cut stalks and “100 g”; there is no visible bowl or concluding explanation. | Add harvest, processing and a bowl reveal followed by a concise seasonal result. |
-| P1 | Acre mode uses 48 repeated clumps with thin triangular leaves; the desktop field is visually slight. | Give the canopy readable density, depth, leaf curvature and deterministic variation. |
-| P1 | Soil is composed of straight colored bands; underground water resembles an open reservoir. | Add irregular soil structure and depict saturated sediment, with a clear schematic annotation. |
-| P1 | On the phone, three input buttons occupy the right side of the crop view. | Move care details into one “How this field is cared for” sheet; show an input cue only during a relevant event. |
-| P1 | “Per bowl / 1 acre” changes both amounts and camera framing. | Separate “Field / Plant close-up” from “Whole field / Per 100 g dry food”. Preserve date and scenario under either switch. |
-| P1 | Timeline pause stops progression while environmental effects can continue. | Make Pause freeze all event motion; provide an explicit reduced-motion preference and static event explanation. |
-| P1 | Older documents describe incompatible automatic/decision-driven behavior. | Reconcile the README, product specification and run instructions with the accepted experience. |
+These are layout targets to validate in screenshots, not claims that plants fill 75% of all pixels. Seedling and post-harvest states must remain biologically honest: move closer to seedlings or show stubble and residue, rather than inventing mature crops at every date.
 
-## Proposed first visit
+Phone layout, top to bottom:
 
-1. **Invite.** A recognizable field and the title “One field. Two harvests.” Supporting text: “Follow rice and wheat from seed to food—and see the water used along the way.” Visible English / ਪੰਜਾਬੀ choice. No advancing dates before Start.
-2. **Orient.** Introduce the plant, soil and underground water with three short, dismissible annotations. Explain: “The field is cared for automatically. You can pause or skip ahead.”
-3. **Show cause and effect.** Present a short guided sequence: seedlings → growing field → water movement → grain filling → rice harvest → straw → wheat → final harvest. A caption explains the event currently in view. Skip uneventful intervals; disclose that time is accelerated.
-4. **Offer agency.** At rice harvest, offer “Compare what happens to the straw” and “Continue the story”. The latter uses a disclosed retained-straw baseline. Comparison uses the same rainfall and crop-care policy on both paths, with no invented yield bonus.
-5. **Deliver the payoff.** Show rice threshing and milling, or wheat threshing, before grain fills the bowl. Label it “100 g dry food”; do not imply cooked portions or nutritional equivalence. Show model-estimated pumping, rainfall contribution and harvested output using the existing accounting definitions.
-6. **Invite exploration.** Finish with “Compare rice and wheat”, “Try the other straw choice” and “Replay”. Keep comparison to a few understandable facts. Explain explicitly when two strategies have similar harvests.
+1. Compact 48–56 px header: Rice / Wheat, language and an accessible menu.
+2. Large continuous scene: one short stage label at its top edge, crop canopy, ground surface, visible roots, soil and groundwater. Small input objects sit along an edge without masking the canopy.
+3. Compact 100–120 px control dock: Field / 100 g, play/pause, date and scrubber. Water and grain values sit next to their visual objects or in a single compact row.
 
-Target guided duration: roughly 60–90 seconds, excluding reading and optional comparison. This is a prototype target to test, not a measured user preference. Free exploration retains the full continuous timeline and chapter jumps.
+On a 390 × 844 CSS viewport, aim for roughly 650 px of scene with a 56 px header and 120 px dock before safe-area adjustments. On a short phone, preserve the scene's underground section and move secondary controls into the menu. At enlarged text sizes, allow scrolling without clipping text or obscuring controls. Desktop retains the same hierarchy with wider field depth, not larger narrative panels.
 
-## Screen hierarchy and language
+## Remove the text burden
 
-Desktop: compact title/navigation, a dominant field, one caption near the active event, and a bottom control strip. Phone: header, caption, reserved scene region and compact playback/chapter controls; expandable metrics and care details. At short heights or enlarged text, allow document scrolling instead of compressing every element into a locked viewport.
+- Remove the separate headline-and-paragraph story block from ordinary playback.
+- Use a single short event label, typically 3–7 words: “Roots reach water”, “Watering the rice”, “Grain turns gold”. Show detail on tap.
+- Remove the permanent care sentence, representative-plant sentence and baseline sentence from the main view. Put context in the associated detail panel.
+- Keep one small “Illustrative cutaway” label attached to the underground section; retain full assumptions in details.
+- Replace the large welcome panel with a visible field and one Start control. Keep help available from the menu.
+- Replace the large harvest overlay with a small grain/bowl object near the controls. A results sheet opens only when requested. Harvest animation should show cutting and grain collection in the scene.
+- Move straw comparison, sources, playback options and detailed ledgers into the menu or contextual sheets.
+- Remove the permanent Field / Plant close-up switch. The main Field / 100 g control drives a coordinated presentation; optional inspection zoom belongs in a secondary control.
 
-Use one focal message at a time. Show water and harvest as the primary quantities; put estimated plant counts and product ledgers in details. Surface “About these estimates” near results. Keep language switching outside Menu and obtain native Punjabi review before calling localization complete.
+## Field / 100 g must change the visible quantities
 
-| Current label | Proposed everyday copy |
-|---|---|
-| Tillering | More stems are growing |
-| Pumped | Water drawn from underground |
-| Grain forming: 0 kg | Grain has not formed yet |
-| Soil · Baseline | Soil at the start of the story |
-| Per bowl | Per 100 g dry food |
-| Auto care | Watering and crop care happen automatically |
+Use one primary quantity control: “Field” and “100 g”, with accessible names “Whole field: one acre” and “Per 100 grams of dry food”. Keep crop, date, playback state and management scenario unchanged.
 
-Use “New stems (tillering)” inside details. Keep quantitative labels precise: crop pumping is not total water use, and applied nitrogen is not available soil nitrogen. Prefer understandable rounded numbers; keep exact values in expandable tables. Do not use a single-season “soil health” score.
+In Field mode, show the broad canopy with substantial water and input containers. In 100 g mode, transition toward a small representative cluster while retaining large, readable plants and the underground section. Show smaller allocated water, fertilizer and treatment quantities alongside a 100 g grain reference. This is an explanatory change of presentation, not a claim that the representative cluster produces exactly 100 g.
 
-## Visual realism work
+Restore a small, persistent visual input group: fertilizer sack/granules, labeled treatment container(s), and a water measure. Tap any object for exact amounts and product breakdown. Keep unlike products and units separate; do not add kilograms and millilitres together.
 
-**Plants first.** Distinct rice panicles and wheat ears; curved, tapered leaves; plausible tiller emergence; visible grain filling and senescence. Add seeded variation in height, leaf angle, ripeness and wind phase without changing the modeled population. Use dense, inexpensive instances for the field and higher-detail geometry for close-ups. Explicitly label representative plants and enlarged roots.
+- Derive displayed amounts from the existing metrics allocation: crop input quantity × (0.1 kg / final edible crop output in kg) for the 100 g view.
+- Represent cumulative applied quantities at the selected date, with the same definition in both modes. Zero stays visually empty, not a decorative filled container.
+- Change both the illustrated container size and its fill. Field mode can use sacks or large measures; 100 g mode uses a small packet, measure or vial. Exact values remain visibly attached.
+- Within a shared container type and scale, volume maps to quantity; uniform three-dimensional scaling uses the cube root of volume ratio, not the raw ratio on each axis.
+- Across field and 100 g, use explicitly different container capacities and a readable minimum glyph size. True physical ratios would make the small allocation disappear. Do not present the illustrative sizes as a common physical ruler; explain magnification on tap.
+- Water measure and moving flow cues respond to quantity mode. The tubewell itself stays a recognizable piece of equipment: changing food allocation does not physically shrink a real pump or its bore.
+- Make the switch visibly change container size, capacity, fill and labels together. Respect reduced motion and support repeated toggling without changing model totals.
 
-**Field and light.** Give the field a defined edge, shallow bunds, readable row spacing and restrained depth. Introduce soft contact shading, matte soil and leaf highlights. Keep a controlled camera so the cutaway remains understandable. Prototype lighting on representative phones before committing to expensive shadows or postprocessing.
+## Underground is always part of the scene
 
-**Soil and water.** Use uneven horizons, clods, residue and branching roots. Wetness should spread near the surface and through the root zone in response to model state. Depict the water table within porous ground, not an underground swimming pool. Pump discharge should meet the field surface; ponding and runoff should follow the field bounds. Preserve the model's delayed recharge, with the delay identified as illustrative.
+Use a readable cut face with a continuous ground surface across the screen. Expose branching crop roots, uneven topsoil and deeper soil, wetting beneath the surface, and a clearly visible saturated zone. Keep enough contrast in dark mode for soil structure and roots to remain legible.
 
-**Events and harvest.** Reuse ledger-driven rain, pumping and fertilizer timing. Use appropriate bags/granules and spray cues rather than three interchangeable liquid bottles. Stage cutting, straw remaining, threshing and food presentation so users can follow the transformation. Avoid decorative weather that suggests additional water or animation that credits unmodeled inputs.
+Show the water path: underground source → bore pipe → pump → outlet → field → soil/root uptake. Pumping and rainfall cues follow recorded events; they must not suggest unmodeled water. Keep the water-table marker inside the visible frame as its illustrative level changes. Root and aquifer depths use a schematic compressed scale.
 
-## Implementation sequence
+Fit the camera to the composed crop-and-cutaway bounds after the scene container has its final size, and whenever that container resizes. Use a ResizeObserver as well as viewport handling. Protect the soil boundary, visible root zone and waterline from footer clipping. Avoid sizing solely from a fixed world height.
 
-| Phase | Concrete deliverable | Main files | Exit condition |
-|---|---|---|---|
-| 1 — Comprehension | Paused entry, plain-language captions, predictable chapter navigation, visible model context, simpler phone controls | `app/shell.html`, `app/style.css`, `app/application.js` | A newcomer can start, pause, identify automatic care and reach wheat without an unexplained modal. |
-| 2 — Realism prototype | One representative rice scene and one wheat scene across seedling, mature and harvest states | `app/scene3d.js`, `app/timeline.js` | Crops are distinguishable without labels; canopy, soil and water remain legible on a phone. Benchmark before expanding. |
-| 3 — Story and payoff | Guided chapters, harvest/processing/bowl sequence, final results, optional straw comparison | `app/application.js`, `app/scene3d.js`, `app/metrics.js` | The journey ends with a visible food result and an accurate explanation of water and units. |
-| 4 — Validation and polish | Punjabi review, keyboard/screen-reader checks, responsive/performance checks, synchronized docs and rebuilt standalone output | `tests/`, `docs/`, `build.py`, `index.html` | Usability and regression gates below pass. |
+## Rebuild the tubewell
 
-Keep the simulation reducer separate from presentation. Add explicit journey, playback, view and quantity-basis state; do not hide simulation mutations inside camera or unit controls. Drive event captions and effects from sampled state so reverse scrubbing reproduces them. Consolidate the layered CSS overrides into layout tokens and intentional responsive rules. Do not edit the generated `index.html` directly.
+Create a coherent, recognizable assembly: concrete pad, motor body with cooling fins, pump housing, pipe couplings, rising bore pipe and discharge elbow/channel. Ground it at the field edge with contact shading and consistent material scale. Use worn painted metal, restrained metal highlights and an appropriately sized concrete base.
 
-The first release should preserve current model coefficients. A calibrated agronomy edition needs separate evidence work—cultivar phenology, measured water flows, local aquifer behavior and validated responses—as already recorded in `EVIDENCE_AND_GAPS.md`. No new agronomic claims are established by this plan.
+Keep the above-ground equipment visibly connected to the underground pipe and put its outlet over the field. Its silhouette must be readable at phone size. Animate discharge only while recorded pumping occurs. No floating pipe, ornamental faucet shape, or disconnected droplets.
 
-## Acceptance and usability checks
+## Crop realism priorities
 
-- Recruit five people without farming expertise for a formative prototype test. Proposed gate: at least four can start/pause unaided, explain automatic care, distinguish pumped water from rain, and identify the bowl as dry food. Any interpretation of the groundwater display as a measured Punjab reserve triggers a copy/design revision.
-- Observe whether participants notice grain formation and understand the ending; ask them to explain one cause and effect in their own words. Record guided completion and optional exploration as baseline measures rather than inventing an engagement uplift.
-- Check 320×568, 390×844, tablet and desktop, English/Punjabi, both themes, enlarged text and reduced motion. No overlapping controls, obscured field events, trapped focus or inaccessible results. Provide a meaningful static/text fallback without WebGL.
-- Use 44×44 CSS px as the product target for primary touch controls. This is more generous than WCAG 2.2 AA's 24×24 minimum with exceptions; do not misstate it as the AA threshold. See [W3C target-size guidance](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html).
-- Verify visible keyboard focus, dialog focus restoration, non-color status cues and readable text contrast. Pause must stop the journey and animated events; reduced motion must retain the same facts. See [W3C guidance on pausing moving and updating content](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html).
-- Run the existing simulation, irrigation, continuous-timeline, residue and metrics tests after implementation. Add focused journey checks for preview versus committed choice, end/replay, view/unit invariance and rewind across harvest; adapt existing browser flows to the new controls.
-- Set a provisional performance target of at least 30 fps on a named representative midrange phone, then measure it. Check repeated seeking for memory growth and geometry rebuilding. Prefer instancing, bounded particles and adaptive quality; preserve offline loading and stop rendering in hidden tabs.
-- Rebuild and validate the standalone package; reconcile the manifest and documentation according to existing project practice.
+Spend detail on what is large on screen: curved leaves, overlapping stems, branching rice panicles, wheat ears and awns, variation in height and maturity, and visible root structure. Dense mature canopies should read as a field rather than a grid of identical miniature tufts. Use foreground detail and cheaper background instances.
 
-Implementation status: the guided entry, controls, crop/soil art, harvest payoff, straw comparison and documentation are delivered. Participant comprehension testing, independent Punjabi review and physical-phone performance measurements remain follow-up validation tasks. The model coefficients were preserved.
+Maintain recognizable seedling, mature and harvested states. Avoid empty middle-of-screen composition between seasons: frame the residue-covered field surface and its underground history. Keep lighting and material contrast sufficient to distinguish leaves and grain in both themes.
+
+## Delivery order and visual gates
+
+1. **Recompose one phone screen first.** Remove narrative/overlay competition, build the compact dock and fit the crop/underground camera. Capture mature rice, seedlings and the exact between-seasons state from the user's screenshot. Pass only when the field and underground dominate without reading instructions.
+2. **Connect quantities to objects.** Build the fertilizer/treatment/water visuals and coordinated Field / 100 g transition. Verify labels and fill against metrics at identical dates.
+3. **Rebuild the tubewell and water path.** Verify ground contact, connected piping, visible underground source and event-driven discharge.
+4. **Polish rice and wheat at the actual screen size.** Improve the canopy and foreground geometry after composition is established; preserve performance through instancing.
+5. **Verify the whole rotation.** Check phone and desktop, both themes and languages, short screens, enlarged text, reduced motion, keyboard operation and WebGL fallback. Rebuild the standalone page and update the package manifest after implementation.
+
+Do not declare visual success from browser assertion counts. Inspect matched screenshots before and after at 390 × 844, 390 × 667, 320 × 568 and desktop, covering seedling, mature rice, harvest, the between-seasons frame and mature wheat, in both quantity modes. Record scene coverage, crop readability, underground visibility and overlay obstruction. Keep the main controls comfortably tappable.
+
+Regression checks must verify that quantity toggling changes visual amounts without mutating simulation history, that camera fitting survives container resize, that hidden result cards cannot cover the field, and that reverse scrubbing restores the correct quantities and events. Preserve existing model coefficients, offline loading and deterministic accounting.
+
+Completion means the crop is immediately the focal point, the underground section is visible, the pump is recognizable, and switching Field / 100 g explains quantities through objects with minimal reading. User review of that visual result is separate from automated functional verification.

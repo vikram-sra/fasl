@@ -1,10 +1,10 @@
 # UX audit and quantity definitions · October 2026
 
-The overhaul replaces automatic entry with a paused invitation, guided story and free exploration. Everyday stage headings and cause/effect captions orient non-farmers. The main values are crop pumping and forming/harvested dry grain; estimated plants and shoots remain in details. Three side bottles have been replaced with a crop-care sheet and product ledgers.
+The revised experience prioritizes visible crops and a continuous underground cutaway. A short stage title, compact control dock and tap-to-open details replace the narrative strip and large harvest cards. Input objects return to the scene, showing cumulative applied quantities.
 
-Camera view and quantity basis are independent. Field shows 120 representative clumps; Plant close-up shows enlarged botanical geometry. Whole field refers to one acre; Per 100 g dry food allocates the same scenario's quantities. Neither control changes time, weather, model history or management path. The groundwater annotation says illustrative; the section is labeled not to scale. Exact model storage percentage appears in evidence details.
+Field / 100 g coordinates crop framing, allocated amounts and object sizes. Field uses 96 background clumps with detailed foreground plants. The 100 g presentation uses one large representative plant and smaller quantity containers. These are magnified illustrations with separate capacities; glyph size is not a common physical scale. Fill is proportional to the cumulative quantity within the active capacity. Water, fertilizer and treatment units are kept distinct. No presentation control changes time, model history or management scenario.
 
-Mulch is the disclosed baseline. Wheat navigation has no mandatory decision dialog. Optional straw comparison explains both season-end scenarios using identical weather and care. Harvest now has processing/bowl presentation and a final comparison. Short screens scroll to keep controls usable; the final narrative and bowl participate in layout instead of overlapping.
+Menu discloses the retained-straw baseline and provides optional straw comparison, care, results and sources. Wheat navigation has no mandatory choice. Soil, roots, groundwater and connected bore piping remain visible across states and responsive sizes. Between seasons the camera frames residue-covered ground more closely. The harvest reference occupies less than 4% of the phone scene. Enlarged text can scroll rather than clipping controls.
 
 ## Quantity definitions
 
@@ -18,6 +18,6 @@ Rice population uses PAU's 20×15 cm transplant spacing and two seedlings per hi
 
 ## Checks
 
-Pure metric tests cover crop/strategy allocations, product units, emergence, tillering, shoots, removal at harvest, reversible sampling and final 100 g output. Browser flows cover independent camera/units, current-date choice changes, translated controls, paused motion, ledger sampling, short-screen scrolling, responsive endings and WebGL fallback. Palette and focus checks are targeted checks, not a full accessibility certification.
+Pure metric tests cover crop/strategy allocations, product units, emergence, tillering, shoots, removal at harvest, reversible sampling and final 100 g output. Browser flows cover coordinated quantities/camera, quantitative object fills, scene coverage, current-date choice changes, translated controls, paused motion, ledger sampling, short-screen scrolling, responsive endings and WebGL fallback. Palette and focus checks are targeted checks, not a full accessibility certification.
 
 Actual layperson comprehension, native Punjabi copy review, screen-reader testing and named-phone performance remain to be validated with people/devices. See `ACCEPTANCE_RESULTS.md` for the executed checks and their limits.

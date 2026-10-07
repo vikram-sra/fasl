@@ -1,20 +1,22 @@
-# Current acceptance results · realism and UX overhaul · 7 October 2026
+# Current acceptance results · crop-first redesign · 7 October 2026
 
-The standalone build now starts paused, offers a guided seed-to-food story and free exploration, separates camera view from units, shows optional straw comparisons, and ends with processing/bowl presentation and crop results. The scene uses 120 varied instanced crop clumps, textured soil and an explicitly illustrative groundwater cutaway.
+The crop and underground cutaway now dominate the screen. Field / 100 g coordinates crop framing, allocated quantities and visible input-container sizes/fills. A compact dock replaces the large footer, a short title replaces the narrative strip, and small harvest controls replace the covering cards. The tubewell has a grounded motor/pump assembly, couplings and a connected bore/outlet. Mature crops use 96 varied background clumps plus detailed foreground plants; the camera moves closer to seedlings and the residue-covered surface.
 
 ## Executed checks
 
-- Package validator passes. The deterministic simulation, automatic irrigation, continuous sampling, residue and metric-allocation suites pass. The simulation reducer, timeline formulas, metric formulas and data coefficients were not edited.
-- 118 browser assertions pass in local Chrome: journey (35), complete guided playback (9), targeted access checks (13), live flows (17), field/camera view (13), quantity/ledger UX (15), and bilingual/theme/residue controls (16).
-- The timed-playback test runs the complete journey using an isolated virtual clock and a controlled 10 fps callback schedule. It verifies both harvest holds, processing progression, pause/resume, filled bowl and automatic completion. This is a timing/behavior check, not a device-performance benchmark.
-- Responsive checks cover 320×568, 390×667, 390×844, 768×1024 and 1440×1000. Short screens intentionally scroll. Final story/bowl cards do not overlap. English/Punjabi and light/dark controls remain usable.
-- Targeted access checks verify modal keyboard focus, Escape/focus restoration, visible focus, 44 px primary touch targets, solid UI palette contrast, 150% text enlargement and a functional WebGL fallback. This is not a whole-page WCAG conformance or screen-reader certification.
-- Direct opening of the rebuilt `index.html` through `file://` succeeds: field rendering, endpoint navigation and quantitative results work without a local server or runtime network assets.
-- Syntax checks and `git diff --check` pass. The standalone page is regenerated from `app/`, and the manifest is refreshed.
+- Package validation and all existing simulation, automatic-irrigation, continuous sampling, residue and metric-allocation suites pass. Model coefficients, reducer, timeline formulas and metric formulas were preserved.
+- 161 browser assertions pass in local Chrome: journey (35), guided-playback (9), accessibility (13), live-flow (17), acre-view (12), ux-metrics (15), farmer-ui (16), crop-first (44).
+- The new crop-first suite checks scene coverage, visible soil/water, container sizing, unit-specific ledger amounts and fills, date/history preservation, reduced motion, focus restoration and a harvest reference that leaves the tubewell clear. It tests quantities at days 0, 34.15, 90, 150, 250 and 304.
+- Measured scene coverage: 78.6% at 390×844, 72.9% at 390×667, 68.1% at 320×568, 82.3% at 768×1024 and 85.5% at 1440×1000. These are scene-region measurements, not claims that crop leaves occupy that percentage of pixels. Soil and groundwater remain inside the frame. At ordinary text size these tested viewports fit without scrolling; enlarged text may scroll.
+- Screenshots were visually inspected for mature rice and wheat, Field and 100 g, seedlings and the between-seasons state. Crops fill the upper scene with headroom above the canopy, roots/soil and saturated ground stay visible below, and the large harvest overlay is removed. Local screenshots are under ignored `output/playwright/`.
+- The full guided story passes with an isolated virtual clock and controlled 10 fps callback schedule: both harvest holds, processing progression, pause/resume, filled bowl and automatic completion. This is a timing check, not a physical-phone performance benchmark.
+- Targeted accessibility checks pass for modal focus, Escape/focus restoration, visible focus, 44 px primary targets, solid UI palette contrast, 150% text enlargement and WebGL fallback. These are targeted checks, not a full WCAG or screen-reader certification.
+- Direct `file://` opening of the rebuilt page successfully renders the embedded scene and opens final quantitative results without runtime downloads.
+- JavaScript syntax checks and `git diff --check` pass. The standalone page is rebuilt from `app/`; the package manifest records current bytes and hashes.
 
-Local screenshots and test reports are under ignored `output/playwright/`. Independent Punjabi review, formative layperson testing, screen-reader/device checks and named-phone performance measurement remain external validation work. No claim of calibrated agronomic prediction or measured aquifer reserves is introduced.
+Container sizes are magnified illustrations with different capacities in the two modes. Their fill is proportional within the stated capacity; the visible size difference is not a common physical ruler. Exact amounts and unlike product units remain available on tap.
 
-The records below describe earlier builds. Their paused-wind, bottle, choice-gating and no-scroll behaviors were superseded by this overhaul.
+Independent Punjabi review, formative layperson testing, screen-reader testing and named-phone performance measurement remain external validation. The cutaway depicts illustrative groundwater, not a measured local reserve or aquifer depth.
 
 ---
 

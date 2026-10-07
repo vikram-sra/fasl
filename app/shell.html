@@ -6,27 +6,29 @@
   <div class="seasons" role="group" aria-label="Crop chapters"><button data-scene="rice" aria-pressed="true">Rice</button><button data-scene="wheat" aria-pressed="false">Wheat</button></div>
   <div class="header-actions"><button id="language-toggle" lang="pa" aria-label="Switch to Punjabi">ਪੰਜਾਬੀ</button><button class="menu" data-drawer="about">About</button></div>
  </header>
+ <section class="field-scene" aria-label="Field and soil cutaway">
+  <div id="scene-art" role="img" aria-label="Representative crops above soil, roots and illustrative groundwater"></div>
  <section class="narrative" aria-label="The story so far">
   <div class="scene-heading"><div class="eyebrow"><span id="chapter-label">PUNJAB · ONE FIELD</span><span id="current-date"></span></div><h1 id="stage-title" aria-live="polite" aria-atomic="true">One field. Two harvests.</h1><p id="story-caption"></p></div>
   <button class="care-button" data-drawer="care"><span class="care-dot" aria-hidden="true"></span><span id="care-label">How this field is cared for</span><span aria-hidden="true">↗</span></button>
  </section>
- <section class="field-scene" aria-label="Field and soil cutaway">
-  <div id="scene-art" role="img" aria-label="Representative crops above soil, roots and illustrative groundwater"></div>
-  <div class="scene-tools"><div class="view-switch" role="group" aria-label="Camera view"><button data-view="acre" aria-pressed="true">Field</button><button data-view="bowl" aria-pressed="false">Plant close-up</button></div><span id="representation-label">Representative plants · enlarged roots</span></div>
+
+
   <div id="welcome" class="welcome"><span class="eyebrow" id="welcome-kicker">A SMALL STORY ABOUT WHAT FEEDS US</span><h2 id="welcome-title">One field.<br>Two harvests.</h2><p id="welcome-copy">Follow rice and wheat from seed to food—and see the water used along the way.</p><div class="welcome-actions"><button class="primary" id="start-story">Start the story <span aria-hidden="true">→</span></button><button class="text-button" id="explore">Explore freely</button></div><small id="welcome-note">About 80 seconds · pause or skip ahead anytime</small></div>
-  <div id="orientation" class="orientation" hidden><p id="orientation-copy">Above: the crop. Below: roots, soil and water. Crop care happens automatically.</p><button id="dismiss-orientation" aria-label="Dismiss introduction">✕</button></div>
+  <div id="orientation" class="orientation" hidden><p id="orientation-copy">Above: the crop. Below: roots, soil and water. Crop care happens automatically.</p></div>
   <span id="weather-status" class="event-label"></span>
   <button id="soil-status" data-drawer="soil">Soil at the start</button>
   <div id="groundwater-marker"><span class="water-tick" aria-hidden="true"></span><span id="groundwater-label">Illustrative groundwater</span></div>
   <span id="cutaway-note" class="cutaway-note">Underground cutaway · not to scale</span>
   <div id="harvest-reveal" class="harvest-reveal" hidden aria-label="Harvest and dry food"><svg id="food-bowl" viewBox="0 0 240 148" aria-hidden="true"><defs><linearGradient id="ceramic" x2="0" y2="1"><stop stop-color="#faf5e8"/><stop offset="1" stop-color="#c9bb9c"/></linearGradient><clipPath id="bowl-clip"><ellipse cx="120" cy="72" rx="83" ry="25"/></clipPath></defs><ellipse cx="120" cy="132" rx="63" ry="8" fill="#213c2b" opacity=".09"/><path d="M32 72Q40 132 120 134Q200 132 208 72Z" fill="url(#ceramic)" stroke="#99886a" stroke-width="1.5"/><ellipse cx="120" cy="72" rx="88" ry="28" fill="#e0d5bb" stroke="#99886a" stroke-width="1.5"/><g id="bowl-grains" clip-path="url(#bowl-clip)"></g><ellipse cx="120" cy="72" rx="88" ry="28" fill="none" stroke="#fdf9ed" stroke-width="4"/></svg><span class="eyebrow" id="processing-label"></span><strong id="bowl-title">From this field to your bowl</strong><span id="bowl-note">100 g dry food</span><button class="text-button" data-drawer="results" id="harvest-results">See this harvest ↗</button></div>
   <div id="story-finish" class="story-finish" hidden><span class="eyebrow" id="finish-kicker">THE FIELD KEEPS ITS HISTORY</span><h2 id="finish-title">Two harvests. One shared source.</h2><p id="finish-copy"></p><div class="finish-actions"><button class="primary" data-drawer="results" id="compare-crops">Compare rice & wheat</button><button class="text-button" id="replay">Replay ↻</button></div><button class="text-button" data-drawer="comparison" id="try-straw">Try the other straw choice ↗</button></div>
+  <div id="input-objects" class="input-objects" aria-label="Cumulative water and crop inputs"></div>
  </section>
  <footer class="timeline">
   <div class="quantity-row"><div class="unit-switch" role="group" aria-label="Quantity basis"><button data-unit="acre" aria-pressed="true">Whole field</button><button data-unit="bowl" aria-pressed="false">Per 100 g dry food</button></div><button data-drawer="metrics" class="live-metrics" aria-label="Water and harvest details"><span><strong id="metric-water">0 L</strong><small id="label-water">Water drawn underground</small></span><span><strong id="metric-grain">0 kg</strong><small id="label-grain">Grain has not formed yet</small></span><span class="metrics-arrow" aria-hidden="true">↗</span></button></div>
   <div class="playback-row"><button id="play" aria-label="Play simulation"><span aria-hidden="true">▷</span><span id="play-label">Play</span></button><span id="timeline-caption">Rice · June</span><span class="timeline-speed" id="playback-context">Explore at your pace</span><button id="next-chapter">Next chapter <span aria-hidden="true">→</span></button></div>
   <div class="slider-wrap"><input id="timeline-slider" type="range" min="0" max="304" step="0.01" value="0" aria-label="Crop growing timeline"></div><div id="month-list" aria-label="Season months"></div>
-  <div class="timeline-note"><span id="baseline-note">Straw kept as mulch · baseline</span><button data-drawer="comparison" id="compare-straw">Compare straw choices</button><button data-drawer="evidence" id="estimates-link">About these estimates</button></div>
+  <div class="timeline-note"><span id="baseline-note">Straw kept as mulch · baseline</span><button data-drawer="comparison" id="compare-straw-footer">Compare straw choices</button><button data-drawer="evidence" id="estimates-link">About these estimates</button></div>
  </footer>
 </main>
 <dialog id="residue-dialog" aria-labelledby="residue-title"><div class="drawer-top"><span id="residue-kicker">TRY A DIFFERENT PATH</span><button id="close-residue" aria-label="Close straw choices">✕</button></div><h2 id="residue-title"></h2><p id="residue-description"></p><button class="residue-option" data-residue="mulch"></button><button class="residue-option" data-residue="burn"></button><p id="residue-note"></p></dialog>
