@@ -14,7 +14,7 @@
  </section>
 
 
-  <div id="welcome" class="welcome"><span class="eyebrow" id="welcome-kicker">A SMALL STORY ABOUT WHAT FEEDS US</span><h2 id="welcome-title">One field.<br>Two harvests.</h2><p id="welcome-copy">Follow rice and wheat from seed to food—and see the water used along the way.</p><div class="welcome-actions"><button class="primary" id="start-story">Start the story <span aria-hidden="true">→</span></button><button class="text-button" id="explore">Explore freely</button></div><small id="welcome-note">About 80 seconds · pause or skip ahead anytime</small></div>
+  <div id="welcome" class="welcome"><span class="eyebrow" id="welcome-kicker">A SMALL STORY ABOUT WHAT FEEDS US</span><h2 id="welcome-title">One field.<br>Two harvests.</h2><p id="welcome-copy">Follow rice and wheat from seed to food—and see the water used along the way.</p><small id="welcome-note">About 80 seconds · pause or skip ahead anytime</small></div>
   <div id="orientation" class="orientation" hidden><p id="orientation-copy">Above: the crop. Below: roots, soil and water. Crop care happens automatically.</p></div>
   <span id="weather-status" class="event-label"></span>
   <button id="soil-status" data-drawer="soil">Soil at the start</button>
@@ -25,6 +25,7 @@
   <div id="input-objects" class="input-objects" aria-label="Cumulative water and crop inputs"></div>
  </section>
  <footer class="timeline">
+  <div class="welcome-actions"><button class="primary" id="start-story">Start the story <span aria-hidden="true">→</span></button><button class="text-button" id="explore">Explore freely</button></div>
   <div class="quantity-row"><div class="unit-switch" role="group" aria-label="Quantity basis"><button data-unit="acre" aria-pressed="true">Whole field</button><button data-unit="bowl" aria-pressed="false">Per 100 g dry food</button></div><button data-drawer="metrics" class="live-metrics" aria-label="Water and harvest details"><span><strong id="metric-water">0 L</strong><small id="label-water">Water drawn underground</small></span><span><strong id="metric-grain">0 kg</strong><small id="label-grain">Grain has not formed yet</small></span><span class="metrics-arrow" aria-hidden="true">↗</span></button></div>
   <div class="playback-row"><button id="play" aria-label="Play simulation"><span aria-hidden="true">▷</span><span id="play-label">Play</span></button><span id="timeline-caption">Rice · June</span><span class="timeline-speed" id="playback-context">Explore at your pace</span><button id="next-chapter">Next chapter <span aria-hidden="true">→</span></button></div>
   <div class="slider-wrap"><input id="timeline-slider" type="range" min="0" max="304" step="0.01" value="0" aria-label="Crop growing timeline"></div><div id="month-list" aria-label="Season months"></div>

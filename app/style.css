@@ -476,9 +476,24 @@ a {
 .game[data-journey=welcome] .input-objects {
   display:none
 }
+.welcome { text-align:center; justify-content:center; }
+.welcome-actions { display:none; }
 .game[data-journey=welcome] .timeline {
-  opacity:.65
+  display:block;
+  padding:10px 16px max(10px,env(safe-area-inset-bottom));
 }
+.game[data-journey=welcome] .timeline>:not(.welcome-actions) { display:none; }
+.game[data-journey=welcome] .welcome-actions {
+  display:flex; justify-content:center; gap:12px;
+}
+#start-story { min-height:56px; flex:1; max-width:360px; font-size:16px; }
+#explore { min-height:56px; padding:12px 20px; font-size:14px; border:1px solid var(--line); border-radius:16px; text-decoration:none; }
+#play { min-height:56px; min-width:104px; justify-content:center; background:var(--ink); color:var(--surface); font-size:15px; font-weight:600; border-radius:16px; }
+.primary:hover,#play:hover { background:var(--accent); color:var(--surface); }
+#next-chapter { min-height:56px; min-width:64px; border:1px solid var(--line); border-radius:16px; }
+#timeline-slider { height:40px; touch-action:pan-y; }
+.timeline { grid-template-rows:56px 40px; }
+
 @media(max-width:800px) {
   .header {
     padding:4px 12px
@@ -521,7 +536,7 @@ a {
   }
   .timeline {
     grid-template-columns:1fr;
-    grid-template-rows:minmax(44px,auto) minmax(44px,auto) 26px;
+    grid-template-rows:minmax(48px,auto) minmax(56px,auto) 40px;
     gap:0;
     padding:2px 12px max(2px,env(safe-area-inset-bottom))
   }

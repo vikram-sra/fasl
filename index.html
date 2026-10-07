@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta name="app-version" content="7133aa385a57df275bb85476ef07cae820a689fd85d761ff56283b535e83a9fe"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f3f0e5"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ctext y=%2726%27 font-size=%2726%27%3E🌾%3C/text%3E%3C/svg%3E"><title>One field. Two harvests. · A Bowl Across Two Seasons</title><style>/* Layout tokens and current responsive rules. Short screens intentionally scroll. */
+<html lang="en"><head><meta name="app-version" content="9a139db966ee9c80266b4ccf0a636aae1acfd74f0b70ba3c315af34a89d84286"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f3f0e5"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ctext y=%2726%27 font-size=%2726%27%3E🌾%3C/text%3E%3C/svg%3E"><title>One field. Two harvests. · A Bowl Across Two Seasons</title><style>/* Layout tokens and current responsive rules. Short screens intentionally scroll. */
 :root {
   font-family: Arial,Helvetica,sans-serif;
   --sky: #f3f0e5;
@@ -477,9 +477,24 @@ a {
 .game[data-journey=welcome] .input-objects {
   display:none
 }
+.welcome { text-align:center; justify-content:center; }
+.welcome-actions { display:none; }
 .game[data-journey=welcome] .timeline {
-  opacity:.65
+  display:block;
+  padding:10px 16px max(10px,env(safe-area-inset-bottom));
 }
+.game[data-journey=welcome] .timeline>:not(.welcome-actions) { display:none; }
+.game[data-journey=welcome] .welcome-actions {
+  display:flex; justify-content:center; gap:12px;
+}
+#start-story { min-height:56px; flex:1; max-width:360px; font-size:16px; }
+#explore { min-height:56px; padding:12px 20px; font-size:14px; border:1px solid var(--line); border-radius:16px; text-decoration:none; }
+#play { min-height:56px; min-width:104px; justify-content:center; background:var(--ink); color:var(--surface); font-size:15px; font-weight:600; border-radius:16px; }
+.primary:hover,#play:hover { background:var(--accent); color:var(--surface); }
+#next-chapter { min-height:56px; min-width:64px; border:1px solid var(--line); border-radius:16px; }
+#timeline-slider { height:40px; touch-action:pan-y; }
+.timeline { grid-template-rows:56px 40px; }
+
 @media(max-width:800px) {
   .header {
     padding:4px 12px
@@ -522,7 +537,7 @@ a {
   }
   .timeline {
     grid-template-columns:1fr;
-    grid-template-rows:minmax(44px,auto) minmax(44px,auto) 26px;
+    grid-template-rows:minmax(48px,auto) minmax(56px,auto) 40px;
     gap:0;
     padding:2px 12px max(2px,env(safe-area-inset-bottom))
   }
@@ -858,7 +873,7 @@ dialog button.action {
  </section>
 
 
-  <div id="welcome" class="welcome"><span class="eyebrow" id="welcome-kicker">A SMALL STORY ABOUT WHAT FEEDS US</span><h2 id="welcome-title">One field.<br>Two harvests.</h2><p id="welcome-copy">Follow rice and wheat from seed to food—and see the water used along the way.</p><div class="welcome-actions"><button class="primary" id="start-story">Start the story <span aria-hidden="true">→</span></button><button class="text-button" id="explore">Explore freely</button></div><small id="welcome-note">About 80 seconds · pause or skip ahead anytime</small></div>
+  <div id="welcome" class="welcome"><span class="eyebrow" id="welcome-kicker">A SMALL STORY ABOUT WHAT FEEDS US</span><h2 id="welcome-title">One field.<br>Two harvests.</h2><p id="welcome-copy">Follow rice and wheat from seed to food—and see the water used along the way.</p><small id="welcome-note">About 80 seconds · pause or skip ahead anytime</small></div>
   <div id="orientation" class="orientation" hidden><p id="orientation-copy">Above: the crop. Below: roots, soil and water. Crop care happens automatically.</p></div>
   <span id="weather-status" class="event-label"></span>
   <button id="soil-status" data-drawer="soil">Soil at the start</button>
@@ -869,6 +884,7 @@ dialog button.action {
   <div id="input-objects" class="input-objects" aria-label="Cumulative water and crop inputs"></div>
  </section>
  <footer class="timeline">
+  <div class="welcome-actions"><button class="primary" id="start-story">Start the story <span aria-hidden="true">→</span></button><button class="text-button" id="explore">Explore freely</button></div>
   <div class="quantity-row"><div class="unit-switch" role="group" aria-label="Quantity basis"><button data-unit="acre" aria-pressed="true">Whole field</button><button data-unit="bowl" aria-pressed="false">Per 100 g dry food</button></div><button data-drawer="metrics" class="live-metrics" aria-label="Water and harvest details"><span><strong id="metric-water">0 L</strong><small id="label-water">Water drawn underground</small></span><span><strong id="metric-grain">0 kg</strong><small id="label-grain">Grain has not formed yet</small></span><span class="metrics-arrow" aria-hidden="true">↗</span></button></div>
   <div class="playback-row"><button id="play" aria-label="Play simulation"><span aria-hidden="true">▷</span><span id="play-label">Play</span></button><span id="timeline-caption">Rice · June</span><span class="timeline-speed" id="playback-context">Explore at your pace</span><button id="next-chapter">Next chapter <span aria-hidden="true">→</span></button></div>
   <div class="slider-wrap"><input id="timeline-slider" type="range" min="0" max="304" step="0.01" value="0" aria-label="Crop growing timeline"></div><div id="month-list" aria-label="Season months"></div>
@@ -5102,6 +5118,7 @@ const Scene3D=(()=>{
   const fieldCount=96,fieldUniforms={growth:{value:1},grain:{value:0},cut:{value:4},time:{value:0},wind:{value:1},spread:{value:1}};
   let heroPlants=[],underground,boreGroup,depthCompression=1,pumpSceneScale=1;
   const groundFraction=.65;
+  let lastIntro=false;
   let lastQuantity='acre',lastMetrics=null;
   let soilTexture,lastPaused=false,lastReduced=false,lastViewBlend=-1;
   const materials={},mat=(color,extra={})=>new T.MeshStandardMaterial({color,roughness:.84,...extra});
@@ -5260,13 +5277,14 @@ const Scene3D=(()=>{
   const ease=(value,target,dt,rate=4)=>value+(target-value)*(1-Math.exp(-dt*rate));
   const wavePoints=[];for(let i=0;i<48;i++)wavePoints.push(V(0,0,0));
   function wave(line,level,time,amplitude){const width=camera.right-camera.left;for(let i=0;i<wavePoints.length;i++){const x=-width/2+i/(wavePoints.length-1)*width;wavePoints[i].set(x,level+amplitude*(Math.sin(x*3+time*.9)+Math.sin(x*5-time*.65)*.45),1.2);}line.geometry.setFromPoints(wavePoints);}
-  function update(v,{motion,time,dt,displayMode='acre',quantityMode='acre',metrics=null,paused=false}){
+  function update(v,{motion,time,dt,displayMode='acre',quantityMode='acre',metrics=null,paused=false,intro=false}){
     if(failed||!renderer&&!initialize())return;
     const dark=document.documentElement.dataset.theme==='dark',themeKey=dark?'dark':'light';
     if(themeSeen!==themeKey){themeSeen=themeKey;renderer.setClearColor(dark?0x14231e:0xf3f0e5,1);scene.traverse(o=>{if(o.isMesh&&(o.geometry.type==='PlaneGeometry'||o.userData.soil)){if(!o.userData.originalColor)o.userData.originalColor=o.material.color.clone();o.material.color.copy(o.userData.originalColor).multiplyScalar(dark?.57:1);}});lastPosition=null;}
     if(dt>.028&&!motion)slowFrames++;else slowFrames=Math.max(0,slowFrames-1);if(slowFrames>120&&renderer.getPixelRatio()>1){renderer.setPixelRatio(1);resize();slowFrames=0;}
     if(viewMode!==displayMode||lastQuantity!==quantityMode){viewMode=displayMode;lastQuantity=quantityMode;lastPosition=null;}lastMetrics=metrics;
-    const fitTop=v.fallow?1.2:Math.max(.55,Math.min(3.95,v.growth.height*3.3+.30));if(Math.abs(camera.top-fitTop)>.001)fitCamera(fitTop);cloudGroup.position.y=Math.min(0,camera.top-3.4);
+    const fitTop=v.fallow?1.2:Math.max(.75,Math.min(5.1,v.growth.height*4.35+.35));if(Math.abs(camera.top-fitTop)>.001)fitCamera(fitTop);cloudGroup.scale.set(camera.right/2.9,camera.top/4.7,1);cloudGroup.position.y=camera.top*.76-3*cloudGroup.scale.y;
+    if(lastIntro!==intro){lastIntro=intro;lastPosition=null;}
     const oldBlend=viewBlend;viewBlend=motion?(viewMode==='acre'?1:0):ease(viewBlend,viewMode==='acre'?1:0,dt,6);
     const staticFrame=motion||paused;if(staticFrame&&lastMotion&&paused===lastPaused&&motion===lastReduced&&v.position===lastPosition&&Math.abs(viewBlend-lastViewBlend)<.00001)return;lastPosition=v.position;lastMotion=staticFrame;lastPaused=paused;lastReduced=motion;lastViewBlend=viewBlend;
     if(currentStage!==v.id)buildPlant(v.id,8);
@@ -5299,6 +5317,7 @@ const Scene3D=(()=>{
     fireGroup.userData.dots.forEach((p,j)=>{const f=(clock*.9+j/42)%1;p.position.set(-1.4+(j%14)*.17+Math.sin(clock*3+j)*.025,.05+f*.42,1.8);p.scale.set((1-f)*.7,(1-f)*(1.5+Math.sin(clock*5+j)*.4),.4);p.material.opacity=.85*(1-v.residueProgress);});
     smokeGroup.userData.dots.forEach((p,j)=>{const f=(clock*.2+j/22)%1;p.position.set(-1.3+(j%7)*.32+f*.25,.3+f*1.7,1.7);p.scale.setScalar(.5+f*1.4);p.material.opacity=.13*(1-v.residueProgress);});
     for(const group of [particles,dischargeGroup,infiltrationGroup,uptakeGroup,rechargeGroup,fertilizerGroup,strawGroup,fireGroup,smokeGroup]){if(!group.visible)continue;group.userData.dots.forEach((p,i)=>{if(p.position.y<0)p.position.y*=depthCompression;p.updateMatrix();group.userData.batch.setMatrixAt(i,p.matrix);});group.userData.batch.instanceMatrix.needsUpdate=true;}
+    if(intro)for(const group of [cloudGroup,rainGroup,particles,dischargeGroup,infiltrationGroup,uptakeGroup,rechargeGroup,fertilizerGroup])group.visible=false;
     water.material.color.set(dark?'#42797f':v.flow.recharge>0?'#518e8a':'#548b90');wave(waterLine,waterSurface,motion?0:time,motion?0:.002);if(pond.visible)wave(poolLine,surfaceHeight+.003,motion?0:time,motion?0:.004);renderer.render(scene,camera);renderedFrames++;lastDay=v.day;
   }
   return{update,resize,invalidate:()=>{lastPosition=null;},info:()=>({representation:viewMode==='acre'?'representative field canopy':'plant close-up',viewMode,zoomBlend:viewBlend,visiblePlantClumps:viewBlend>.5?(lastDay>=121&&lastDay<Sim.wheatStart()?0:fieldCount):1,revision:T.REVISION,locked:true,renderer:!!renderer,reduced:lastReduced,paused:lastPaused,position:lastPosition,crop:currentStage,geometryBuilds,renderedFrames,waterSurface,waterGoal,waterDirection,surfacePoolHeight:surfaceHeight,pumpStrength,rainStrength,cloudsVisible:!!cloudGroup?.visible,infiltrationAnimating:!!infiltrationGroup?.visible,uptakeAnimating:!!uptakeGroup?.visible,rechargeAnimating:!!rechargeGroup?.visible,rainAnimating:!!rainGroup?.visible,pumpAnimating:!!particles?.visible,dischargeAnimating:!!dischargeGroup?.visible,growth:uniforms.height.value,windTime:uniforms.time.value,day:lastDay,tubewellScreenX:camera?(pumpAnchor/camera.right+1)*host.clientWidth/2:null,tubewellBounds:camera?{left:(pumpOffset+.58*.85*pumpSceneScale-camera.left)/(camera.right-camera.left)*host.clientWidth,right:(pumpOffset+1.70*.85*pumpSceneScale-camera.left)/(camera.right-camera.left)*host.clientWidth,top:(camera.top-.61*pumpSceneScale)/(camera.top-camera.bottom)*host.clientHeight,bottom:(camera.top-.02*pumpSceneScale)/(camera.top-camera.bottom)*host.clientHeight}:null,tubewellOutletX:pumpOffset+.80*.85*pumpSceneScale,quantityMode:lastQuantity,allocatedWaterL:lastMetrics?.pumpedL,sceneHeight:host?.clientHeight,soilScreenY:camera?(camera.top/(camera.top-camera.bottom))*host.clientHeight:null,depthCompression,groundFraction,displayedCropHeightPx:camera?3.12*uniforms.height.value/(camera.top-camera.bottom)*host.clientHeight:null,waterScreenY:camera?((camera.top-waterSurface*depthCompression)/(camera.top-camera.bottom))*host.clientHeight:null,cropCenterX:plant?new T.Vector3(plant.position.x,0,0).project(camera).x:null,drawCalls:renderer?.info.render.calls,theme:themeSeen,fireVisible:!!fireGroup?.visible,residueVisible:!!strawGroup?.visible,fertilizerVisible:!!fertilizerGroup?.visible,pixelRatio:renderer?.getPixelRatio()})};
@@ -5389,7 +5408,7 @@ function applyTheme(){document.documentElement.dataset.theme=theme==='system'?(m
 function applyLabels(){
  document.documentElement.lang=language;
  const labels={
-  'welcome-kicker':['A SMALL STORY ABOUT WHAT FEEDS US','ਸਾਡੇ ਭੋਜਨ ਦੀ ਇੱਕ ਛੋਟੀ ਕਹਾਣੀ'], 'welcome-copy':['Follow rice and wheat from seed to food—and see the water used along the way.','ਝੋਨੇ ਅਤੇ ਕਣਕ ਨੂੰ ਬੀਜ ਤੋਂ ਭੋਜਨ ਤੱਕ ਦੇਖੋ—ਅਤੇ ਰਾਹ ਵਿੱਚ ਵਰਤਿਆ ਪਾਣੀ ਸਮਝੋ।'], 'welcome-note':['About 80 seconds · pause or skip ahead anytime','ਲਗਭਗ 80 ਸਕਿੰਟ · ਕਦੇ ਵੀ ਰੋਕੋ ਜਾਂ ਅੱਗੇ ਜਾਓ'], 'start-story':['Start →','ਕਹਾਣੀ ਸ਼ੁਰੂ ਕਰੋ →'], 'explore':['Explore','ਆਪਣੇ ਤਰੀਕੇ ਨਾਲ ਖੋਜੋ'], 'care-label':['How this field is cared for','ਖੇਤ ਦੀ ਦੇਖਭਾਲ ਕਿਵੇਂ ਹੁੰਦੀ ਹੈ'], 'representation-label':['Representative plants · enlarged roots','ਨੁਮਾਇੰਦਾ ਪੌਦੇ · ਵੱਡੀਆਂ ਜੜ੍ਹਾਂ'], 'cutaway-note':['Illustrative cutaway','ਧਰਤੀ ਹੇਠਲਾ ਦ੍ਰਿਸ਼ · ਅਸਲ ਪੈਮਾਨਾ ਨਹੀਂ'], 'orientation-copy':['Above: the crop. Below: roots, soil and water. Crop care happens automatically.','ਉੱਪਰ: ਫ਼ਸਲ। ਹੇਠਾਂ: ਜੜ੍ਹਾਂ, ਮਿੱਟੀ ਅਤੇ ਪਾਣੀ। ਦੇਖਭਾਲ ਆਪਣੇ ਆਪ ਹੁੰਦੀ ਹੈ।'], 'next-chapter':['Next →','ਅਗਲਾ ਪੜਾਅ →'], 'compare-straw-footer':['Compare straw choices','ਪਰਾਲੀ ਦੇ ਰਾਹਾਂ ਦੀ ਤੁਲਨਾ'], 'estimates-link':['About these estimates','ਇਨ੍ਹਾਂ ਅੰਦਾਜ਼ਿਆਂ ਬਾਰੇ'], 'harvest-results':['Harvest ↗','ਇਹ ਵਾਢੀ ਦੇਖੋ ↗'], 'finish-kicker':['THE FIELD KEEPS ITS HISTORY','ਖੇਤ ਦਾ ਇਤਿਹਾਸ ਅੱਗੇ ਚੱਲਦਾ ਹੈ'], 'finish-title':['Two harvests. One shared source.','ਦੋ ਵਾਢੀਆਂ। ਇੱਕ ਸਾਂਝਾ ਸਰੋਤ।'], 'compare-crops':['Results ↗','ਝੋਨੇ ਅਤੇ ਕਣਕ ਦੀ ਤੁਲਨਾ'], 'replay':['Replay ↻','ਦੁਬਾਰਾ ਦੇਖੋ ↻'], 'try-straw':['Try the other straw choice ↗','ਪਰਾਲੀ ਦਾ ਦੂਜਾ ਰਾਹ ਅਜ਼ਮਾਓ ↗']
+  'welcome-kicker':['A SMALL STORY ABOUT WHAT FEEDS US','ਸਾਡੇ ਭੋਜਨ ਦੀ ਇੱਕ ਛੋਟੀ ਕਹਾਣੀ'], 'welcome-copy':['Follow rice and wheat from seed to food—and see the water used along the way.','ਝੋਨੇ ਅਤੇ ਕਣਕ ਨੂੰ ਬੀਜ ਤੋਂ ਭੋਜਨ ਤੱਕ ਦੇਖੋ—ਅਤੇ ਰਾਹ ਵਿੱਚ ਵਰਤਿਆ ਪਾਣੀ ਸਮਝੋ।'], 'welcome-note':['About 80 seconds · pause or skip ahead anytime','ਲਗਭਗ 80 ਸਕਿੰਟ · ਕਦੇ ਵੀ ਰੋਕੋ ਜਾਂ ਅੱਗੇ ਜਾਓ'], 'start-story':['▶ Play story','▶ ਕਹਾਣੀ ਚਲਾਓ'], 'explore':['Explore','ਆਪਣੇ ਤਰੀਕੇ ਨਾਲ ਖੋਜੋ'], 'care-label':['How this field is cared for','ਖੇਤ ਦੀ ਦੇਖਭਾਲ ਕਿਵੇਂ ਹੁੰਦੀ ਹੈ'], 'representation-label':['Representative plants · enlarged roots','ਨੁਮਾਇੰਦਾ ਪੌਦੇ · ਵੱਡੀਆਂ ਜੜ੍ਹਾਂ'], 'cutaway-note':['Illustrative cutaway','ਧਰਤੀ ਹੇਠਲਾ ਦ੍ਰਿਸ਼ · ਅਸਲ ਪੈਮਾਨਾ ਨਹੀਂ'], 'orientation-copy':['Above: the crop. Below: roots, soil and water. Crop care happens automatically.','ਉੱਪਰ: ਫ਼ਸਲ। ਹੇਠਾਂ: ਜੜ੍ਹਾਂ, ਮਿੱਟੀ ਅਤੇ ਪਾਣੀ। ਦੇਖਭਾਲ ਆਪਣੇ ਆਪ ਹੁੰਦੀ ਹੈ।'], 'next-chapter':['Next →','ਅਗਲਾ ਪੜਾਅ →'], 'compare-straw-footer':['Compare straw choices','ਪਰਾਲੀ ਦੇ ਰਾਹਾਂ ਦੀ ਤੁਲਨਾ'], 'estimates-link':['About these estimates','ਇਨ੍ਹਾਂ ਅੰਦਾਜ਼ਿਆਂ ਬਾਰੇ'], 'harvest-results':['Harvest ↗','ਇਹ ਵਾਢੀ ਦੇਖੋ ↗'], 'finish-kicker':['THE FIELD KEEPS ITS HISTORY','ਖੇਤ ਦਾ ਇਤਿਹਾਸ ਅੱਗੇ ਚੱਲਦਾ ਹੈ'], 'finish-title':['Two harvests. One shared source.','ਦੋ ਵਾਢੀਆਂ। ਇੱਕ ਸਾਂਝਾ ਸਰੋਤ।'], 'compare-crops':['Results ↗','ਝੋਨੇ ਅਤੇ ਕਣਕ ਦੀ ਤੁਲਨਾ'], 'replay':['Replay ↻','ਦੁਬਾਰਾ ਦੇਖੋ ↻'], 'try-straw':['Try the other straw choice ↗','ਪਰਾਲੀ ਦਾ ਦੂਜਾ ਰਾਹ ਅਜ਼ਮਾਓ ↗']
  };for(const [id,pair] of Object.entries(labels))if($(id))$(id).textContent=tr(...pair);
  $('welcome-title').innerHTML=tr('One field. Two harvests.','ਇੱਕ ਖੇਤ।<br>ਦੋ ਵਾਢੀਆਂ।');
  $('home').setAttribute('aria-label',tr('Return to the introduction','ਜਾਣ-ਪਛਾਣ ਵੱਲ ਵਾਪਸ'));
@@ -5427,7 +5446,7 @@ function toggleLanguage(){language=language==='en'?'pa':'en';savePref('fasl-lang
 function downloadData(){const blob=new Blob([JSON.stringify({mode:'managed_rotation',modelVersion:2,displayMode,viewMode,residueStrategy,soil:result.state.soil,seed:result.seed,scenario:result.scenario,assumptions:result.cfg,automaticPolicy:Sim.AUTO_CONFIG,decisions:result.actions,waterLedger:result.state.water,cropStates:result.state.cropStates},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='fasl-rotation.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 $('timeline-slider').addEventListener('input',e=>jump(Number(e.target.value)));
 $('timeline-slider').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End','PageUp','PageDown'].includes(e.key))return;e.preventDefault();const step=e.shiftKey?7:1;jump(e.key==='Home'?0:e.key==='End'?maxDay:target+(['ArrowLeft','PageDown'].includes(e.key)?-1:1)*(e.key.startsWith('Page')?14:step));});
-$('home').addEventListener('click',e=>{e.preventDefault();playing=false;journey='welcome';game.dataset.journey=journey;$('welcome').hidden=false;$('orientation').hidden=true;document.querySelector('.timeline').inert=true;harvestHold=null;position=target=0;uiTime=0;});
+$('home').addEventListener('click',e=>{e.preventDefault();playing=false;journey='welcome';game.dataset.journey=journey;$('welcome').hidden=false;$('orientation').hidden=true;document.querySelector('.timeline').inert=false;harvestHold=null;position=target=0;uiTime=0;});
 function restoreFocus(fallback){requestAnimationFrame(()=>{if(!$('drawer').open&&!$('residue-dialog').open){const trigger=dialogTrigger?.isConnected&&!dialogTrigger.closest('dialog')?dialogTrigger:$(fallback);trigger?.focus();}});}
 $('drawer').addEventListener('close',()=>{if(!$('drawer').open)drawerKind=null;restoreFocus('language-toggle');});$('residue-dialog').addEventListener('close',()=>restoreFocus('language-toggle'));
 // All mutations are explicit controls; changing view or units never touches the reducer.
@@ -5454,7 +5473,7 @@ function frame(time){requestAnimationFrame(frame);const dt=lastTime?Math.min(.1,
  }
  position=target;current=Timeline.sample(result,flows,position);
  const welcome=journey==='welcome',sceneSample=welcome?Timeline.sample(result,flows,78):current;
- Scene3D.update(sceneSample,{motion:reduced,time:animationTime,dt,displayMode:viewMode,quantityMode:displayMode,metrics:Metrics.sample(result,sceneSample,displayMode),paused:!playing||!!harvestHold||welcome});
+ Scene3D.update(sceneSample,{motion:reduced,time:animationTime,dt,displayMode:welcome?'bowl':viewMode,quantityMode:displayMode,metrics:Metrics.sample(result,sceneSample,displayMode),intro:welcome,paused:!playing||!!harvestHold||welcome});
  if(time-uiTime>100||uiTime===0){updateUI(current);uiTime=time;if(!Scene3D.info().renderer){const fallback=document.querySelector('.webgl-fallback');if(fallback)fallback.innerHTML='<strong>'+tr('The story is still here.','ਕਹਾਣੀ ਅਜੇ ਵੀ ਇੱਥੇ ਹੈ।')+'</strong>'+tr('This device cannot draw the field. Follow the chapter descriptions, water totals and harvest bowl using the controls below.','ਇਹ ਜੰਤਰ ਖੇਤ ਦਾ ਦ੍ਰਿਸ਼ ਨਹੀਂ ਬਣਾ ਸਕਦਾ। ਹੇਠਲੇ ਬਟਨਾਂ ਨਾਲ ਕਹਾਣੀ, ਪਾਣੀ ਦੇ ਅੰਕੜੇ ਅਤੇ ਵਾਢੀ ਦੀ ਕੌਲੀ ਦੇਖੋ।');}}
 }
 // Exact model history and a read-only presentation snapshot remain available to verification tools.
@@ -5496,7 +5515,7 @@ function updateInputObjects(v,m){
 createInputObjects();
 
 if(readPref('fasl-motion','')==='reduced')reduced=true;
-applyTheme();applyLabels();document.querySelector('.timeline').inert=true;
+applyTheme();applyLabels();document.querySelector('.timeline').inert=false;
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(theme==='system')applyTheme();});
 requestAnimationFrame(frame);
 </script><script>/* New releases reload automatically; file:// and offline builds remain usable. */

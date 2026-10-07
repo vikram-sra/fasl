@@ -67,3 +67,10 @@ The new content-hash version file and embedded HTML revision are deterministic a
 The ground boundary stays at 65% of scene height across growth stages. Soil, roots and saturated ground share the remaining 35%; above-ground pump size follows the camera framing. Young field perspective depth is reduced so distant rows do not consume the crop area. The cutaway remains illustrative, not a physical depth scale.
 
 68 crop-first checks pass, including five viewport sizes, seedlings matching the reported June 21 state, both quantity modes, crop height, groundwater visibility and pump proportions. The 17 live-flow, 12 acre-view and 35 journey checks also pass. Dark phone screenshots were inspected for seedling and mature rice in both quantity modes; crop headroom is retained.
+
+
+## Opening and touch controls · 7 October 2026
+
+Removed the welcome screen’s inert footer and redundant Start gate. A centered static plant preview has dedicated headroom, with weather hidden. Play story and Explore live in the bottom dock; inactive quantities and playback are hidden until entry. Enlarged Play/Pause, Next and timeline targets remain in the active dock.
+
+18 opening/touch checks pass across 390×844, 390×667, 320×568 and 768×1024, including edge taps, clear title space, centered opening, no overflow and direct entry. 68 crop-first, 35 journey, 13 accessibility, 9 full guided-playback, 17 live-flow and 18 update checks pass (178 browser checks in total). Dark opening and active phone screenshots were inspected.
