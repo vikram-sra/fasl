@@ -1,4 +1,24 @@
-# Current acceptance results
+# Current acceptance results · realism and UX overhaul · 7 October 2026
+
+The standalone build now starts paused, offers a guided seed-to-food story and free exploration, separates camera view from units, shows optional straw comparisons, and ends with processing/bowl presentation and crop results. The scene uses 120 varied instanced crop clumps, textured soil and an explicitly illustrative groundwater cutaway.
+
+## Executed checks
+
+- Package validator passes. The deterministic simulation, automatic irrigation, continuous sampling, residue and metric-allocation suites pass. The simulation reducer, timeline formulas, metric formulas and data coefficients were not edited.
+- 118 browser assertions pass in local Chrome: journey (35), complete guided playback (9), targeted access checks (13), live flows (17), field/camera view (13), quantity/ledger UX (15), and bilingual/theme/residue controls (16).
+- The timed-playback test runs the complete journey using an isolated virtual clock and a controlled 10 fps callback schedule. It verifies both harvest holds, processing progression, pause/resume, filled bowl and automatic completion. This is a timing/behavior check, not a device-performance benchmark.
+- Responsive checks cover 320×568, 390×667, 390×844, 768×1024 and 1440×1000. Short screens intentionally scroll. Final story/bowl cards do not overlap. English/Punjabi and light/dark controls remain usable.
+- Targeted access checks verify modal keyboard focus, Escape/focus restoration, visible focus, 44 px primary touch targets, solid UI palette contrast, 150% text enlargement and a functional WebGL fallback. This is not a whole-page WCAG conformance or screen-reader certification.
+- Direct opening of the rebuilt `index.html` through `file://` succeeds: field rendering, endpoint navigation and quantitative results work without a local server or runtime network assets.
+- Syntax checks and `git diff --check` pass. The standalone page is regenerated from `app/`, and the manifest is refreshed.
+
+Local screenshots and test reports are under ignored `output/playwright/`. Independent Punjabi review, formative layperson testing, screen-reader/device checks and named-phone performance measurement remain external validation work. No claim of calibrated agronomic prediction or measured aquifer reserves is introduced.
+
+The records below describe earlier builds. Their paused-wind, bottle, choice-gating and no-scroll behaviors were superseded by this overhaul.
+
+---
+
+# Earlier implementation results · historical
 
 The application is a full-screen automatic rice → fallow → wheat simulation with a continuous bottom slider, a living plant, connected water animation, changing bottles and a groundwater marker.
 

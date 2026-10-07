@@ -1,29 +1,38 @@
-> Farmer interface update: bilingual controls, themes, and one rice-residue choice are now implemented. See [farmer UI and residue model](docs/FARMER_UI_AND_RESIDUE.md) for current behavior, evidence and assumptions. Earlier automatic-only descriptions below predate this update.
+# A Bowl Across Two Seasons
 
-# Punjab: A Bowl Across Two Seasons
-Living crop simulation • researched 2 October 2026
+**One field. Two harvests.** Follow a Punjab field from rice and wheat seed to dry food, and see where its water comes from.
 
-A full-screen educational crop simulation for Punjab, linking rice and wheat through the same soil and groundwater. Built with a fixed Three.js side view, a mobile-first interface, seasonal rain, automatic crop care, and a continuous month-labelled timeline.
+Play the published version at [vikram-sra.github.io/fasl](https://vikram-sra.github.io/fasl/). Local changes appear there after publication. Open `index.html` in a modern browser for the current standalone build; code, Three.js and datasets are embedded, with no runtime download required.
 
-## Play
-
-Play online: [vikram-sra.github.io/fasl](https://vikram-sra.github.io/fasl/).
-
-Open `index.html` in a modern browser. The application is standalone: all code, Three.js and model data are embedded, so no install or network is required.
-
-For a local server:
+For a local preview:
 
 ```sh
 python3 -m http.server 8080
 ```
 
-Open `http://localhost:8080`. Move the bottom slider through rice, fallow and wheat, or let the simulation play. The plant grows continuously and moves in the breeze. Water leaves the tubewell, pools on the surface, seeps into the soil, feeds the plant, and returns to groundwater after a delay. Bottles empty as automatic applications occur. There are no choices or decision prompts.
+Open `http://127.0.0.1:8080/`.
 
-See [Build and run](docs/BUILD_AND_RUN.md) for controls and maintenance, and [Acceptance results](docs/ACCEPTANCE_RESULTS.md) for verification.
+## Experience
 
-## Development
+The first visit starts paused. **Start the story** follows the rice → straw → wheat rotation in about 80 seconds, with harvest/processing/bowl reveals. **Explore freely** provides a paused timeline, crop navigation and chapter skips. All crop care is automatic.
 
-Editable sources are in `app/`; the supplied datasets and references remain in `data/`. Rebuild and verify:
+Straw is retained as the visibly disclosed baseline. **Compare straw choices** shows season-end projections for retaining or burning straw using identical rain and care. You can watch either path or change it at the current date. Wheat navigation works immediately; it does not require a management decision.
+
+**Field / Plant close-up** changes the camera independently of **Whole field / Per 100 g dry food**, which changes quantities. The field contains 120 representative crop clumps; the detailed plant and roots are enlarged. View and unit changes preserve model history and the displayed date.
+
+The primary amounts are crop pumping and forming/harvested edible dry grain. Tap them for estimated plants, shoots, rainfall and water details. Crop-care details show product ledgers. Pause freezes the date and event motion. Reduced motion retains all facts; short screens can scroll to keep controls readable. English/Punjabi and theme preferences persist locally.
+
+## Evidence
+
+Defaults: Ludhiana rainfall normals, PR 126 transplanted rice, PBW 826 wheat, one acre, and equal 100 g dry-food portions. Rice means uncooked milled grain; wheat means dry grain. These are not equal cooked volumes or equal calories.
+
+PAU publications and IMD 1991–2020 monthly normals provide source anchors. Growth timing, water parameters, synthetic rainy days, recharge delay and responses are teaching assumptions. The underground cutaway shows an illustrative storage bucket, not measured Punjab reserves or aquifer depth. Pumping and rainfall are separate quantities; the app does not calculate a total lifecycle water footprint. Punjabi copy awaits independent review.
+
+See [evidence and gaps](docs/EVIDENCE_AND_GAPS.md), [simulation definitions](docs/SIMULATION.md), and [the implemented overhaul](docs/PRODUCT_AND_VISUALS.md).
+
+## Development and verification
+
+Edit `app/` and rebuild the standalone output:
 
 ```sh
 python3 build.py
@@ -31,31 +40,22 @@ python3 validate_package.py
 node tests/simulation.cjs
 node tests/automatic-irrigation.cjs
 node tests/continuous.cjs
+node tests/residue.cjs
+node tests/metrics.cjs
 ```
 
-`tests/live-flow.js` exercises the current UI through the Playwright CLI. Run it with `python3 tests/run_browser.py` against a local server. Older UI tests are retained in `tests/legacy/`. The original project brief remains in `START_HERE.md`.
+Browser checks use the Playwright CLI, with a local server running:
 
-## Defaults chosen to make the build concrete
-Ludhiana station rainfall; PR 126 transplanted rice; PBW 826 wheat; one underlying acre; display per 100 g uncooked milled rice or dry wheat grain. Field area stays fixed across the rotation. English UI with Punjabi crop labels. These are adjustable defaults, not additional user commitments.
+```sh
+npx --yes --package @playwright/cli playwright-cli -s=acceptance open http://127.0.0.1:8080/ --config tests/playwright.config.json
+python3 tests/run_browser.py
+```
 
-## Contents
-- START_HERE.md — complete Codex implementation prompt
-- docs/PRODUCT_AND_VISUALS.md — interactions, scene and animation design
-- docs/SIMULATION.md — deterministic state, water balance, bowl accounting and outcomes
-- docs/EVIDENCE_AND_GAPS.md — verified evidence, model assumptions and limits
-- docs/ACCEPTANCE.md — implementation checks
-- data/*.json — structured crop, stage, input, weather and model data
-- assets/references.json — official image references and reuse status
-- validate_package.py — data integrity and unit-accounting checks
+The browser runner defaults to `tests/journey.js`. Pass `live-flow.js`, `farmer-ui.js`, `ux-metrics.js`, `acre-view.js`, `guided-playback.js`, or `accessibility.js` to check that flow. Screenshots and reports are written under ignored `output/playwright/`. The original brief and older specifications are historical context; current behavior is described in the documents below.
 
-Run `python3 validate_package.py` from this folder to check the package.
-
-## Evidence status
-PAU Kharif 2026 and Rabi 2025–26 were retrieved directly. IMD 1991–2020 Ludhiana monthly normals are included. Every intermediate stage boundary, yield-response coefficient and aquifer parameter that is not measured is explicitly a game assumption. This is an educational model, not calibrated agronomic decision support.
-
-Original publications/photos are linked rather than redistributed. No external image download is required to build the game; draw original botanical SVG/Canvas assets from the visual brief.
-
-## Confirmed unit toggle
-Provide a prominent **Per bowl ↔ 1 acre** toggle in the main scene. Both modes show the same simulation. Switch all water, product and harvest quantities together; preserve crop progress and aquifer history. Acre mode shows kg/quintals and fertilizer bag equivalents; bowl mode shows allocated grams/millilitres/litres per 100 g dry food. The field-detail drawer is supplementary, not a substitute for this toggle.
-
-The main scene now includes **Per bowl / 1 acre** controls and live plant, water and dry-grain quantities. Tap those values for detailed metrics. See [UX audit and quantity definitions](docs/UX_AUDIT.md).
+- [Build and run](docs/BUILD_AND_RUN.md)
+- [Product and visual behavior](docs/PRODUCT_AND_VISUALS.md)
+- [Farmer interface and straw model](docs/FARMER_UI_AND_RESIDUE.md)
+- [Quantity definitions](docs/UX_AUDIT.md)
+- [Overhaul plan](docs/REALISM_AND_UX_OVERHAUL_PLAN.md)
+- [Acceptance results](docs/ACCEPTANCE_RESULTS.md)

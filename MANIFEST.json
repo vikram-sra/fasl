@@ -11,8 +11,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 4154,
-    "sha256": "8b5a9c4d0ceaaef99416067c5c43ae1cef2aeca567ca1e71364622d17cbd20ab"
+    "bytes": 3853,
+    "sha256": "0b0f66bbf83395b1560a5b1e5e66d9006b428604b4ff94d4da5701e2c656ec4e"
   },
   {
     "path": "START_HERE.md",
@@ -26,8 +26,8 @@
   },
   {
     "path": "app/application.js",
-    "bytes": 31011,
-    "sha256": "359899b2e4b97a27a8b7baea3f1fa155f6cd311a48a6653db66cff990841ca67"
+    "bytes": 55120,
+    "sha256": "e282b58cb145f02d84d6ac5b06ce5a3c2ad405d36f2ba5324b24bd54b4e7f7f3"
   },
   {
     "path": "app/metrics.js",
@@ -36,13 +36,13 @@
   },
   {
     "path": "app/scene3d.js",
-    "bytes": 31789,
-    "sha256": "4f5392634fa6aad29b3920496b72e8c4cdf42751d3780ace1880f731c3df5213"
+    "bytes": 35435,
+    "sha256": "d5a92f1b8f61fc786357570d657710f2758578aa85906303c2b6d6acdef28d3e"
   },
   {
     "path": "app/shell.html",
-    "bytes": 4027,
-    "sha256": "0cd522affdb173d70608dd077e664d0fdacbc541e2352b0111cf66074f460985"
+    "bytes": 7543,
+    "sha256": "5022cab2bbfb1403b421f972977bd2ea8093244f22806a39c4caaa6dd7baefb0"
   },
   {
     "path": "app/simulation.js",
@@ -51,8 +51,8 @@
   },
   {
     "path": "app/style.css",
-    "bytes": 15195,
-    "sha256": "abcf2a3e6109fa70d752e4fc680d4be066e9a534e8ba417a18d0d1abcefda826"
+    "bytes": 22863,
+    "sha256": "83485338e768742d4cbd1e6144961c70bf55b7acd85bbd3151793e22738a3aa0"
   },
   {
     "path": "app/timeline.js",
@@ -126,8 +126,8 @@
   },
   {
     "path": "docs/ACCEPTANCE_RESULTS.md",
-    "bytes": 3952,
-    "sha256": "21b8f95cd7544978803d4cdeef7557a27bbc5bf422e9466a4c954877369cb41b"
+    "bytes": 6459,
+    "sha256": "91670b421c71ebec77f61dc6e49be6d1f3b43390e8a2b66008f984c4d3771ea3"
   },
   {
     "path": "docs/ANIMATION_AUDIT.md",
@@ -136,8 +136,8 @@
   },
   {
     "path": "docs/BUILD_AND_RUN.md",
-    "bytes": 4025,
-    "sha256": "b53c0713983aa59b5d8d015254b319f140fd17c695ae425206f6b3d44e327188"
+    "bytes": 3400,
+    "sha256": "d0b2cd3861daea9da3dd372133b95f3c0a8efccc16dde6275a9d5fb7cddb0ac3"
   },
   {
     "path": "docs/EVIDENCE_AND_GAPS.md",
@@ -146,13 +146,18 @@
   },
   {
     "path": "docs/FARMER_UI_AND_RESIDUE.md",
-    "bytes": 3433,
-    "sha256": "a763c7f5340d8f9ebddb0a51c2a08e23b4d7152af700b70c56e1f2a57ed86739"
+    "bytes": 4094,
+    "sha256": "4a2a9b1d40bd005a9480c5d9f8d6f5e7d1ba615c442bf5b10ef8ee8fdc5362ff"
   },
   {
     "path": "docs/PRODUCT_AND_VISUALS.md",
-    "bytes": 5220,
-    "sha256": "ee2db134fca6c98647cee2ea3c8d55f64a664f4a7d783358e5dc86a7fdc19fda"
+    "bytes": 4902,
+    "sha256": "369b3a13155119bd745fde6dbe8fb2816453c7e95177ec1f25a73d2691a222c3"
+  },
+  {
+    "path": "docs/REALISM_AND_UX_OVERHAUL_PLAN.md",
+    "bytes": 13154,
+    "sha256": "33128dbee35521d52e629632515e325c94bbeaa5b69461654ab0814ebcfff276"
   },
   {
     "path": "docs/SIMULATION.md",
@@ -161,18 +166,23 @@
   },
   {
     "path": "docs/UX_AUDIT.md",
-    "bytes": 4253,
-    "sha256": "8a4590c656b26ceed5987811eaa89a8276910fa2c13d96146d818926e040f520"
+    "bytes": 3504,
+    "sha256": "7c55269d19d085a64b0c7b0d6577a7b8654f66c278b43ffb5b7beb564d2a677e"
   },
   {
     "path": "index.html",
-    "bytes": 853269,
-    "sha256": "94fe9067e472372ffdff5debc3bd3162b8373e7422cb638045f8a822b4f98cc9"
+    "bytes": 892208,
+    "sha256": "e7dfa70e402e984de30e3556f66df24c6e5b8cec4f2f03c3ee57d4f0afd527b9"
+  },
+  {
+    "path": "tests/accessibility.js",
+    "bytes": 4423,
+    "sha256": "598724657ae667d8e88f4ea76bfa0e8dcabcbd3d26932eaae84dde15b70c466a"
   },
   {
     "path": "tests/acre-view.js",
-    "bytes": 3078,
-    "sha256": "c38875096358521880dca0d890647a4455e4477129716c76c8d9866a48c16423"
+    "bytes": 3226,
+    "sha256": "bc9ccd368ccc33d18913206d0a7798fe371f56b75681251d589791e28af1b341"
   },
   {
     "path": "tests/automatic-irrigation.cjs",
@@ -186,8 +196,18 @@
   },
   {
     "path": "tests/farmer-ui.js",
-    "bytes": 3960,
-    "sha256": "f1daf13b640ea8a02c4d4ce7149aa21cf4a79408f91cdc706f642f05bfa91838"
+    "bytes": 3698,
+    "sha256": "350bef11665feb736698018d62687ef26cd33442df3c3cd370b10455adce8879"
+  },
+  {
+    "path": "tests/guided-playback.js",
+    "bytes": 2882,
+    "sha256": "6fae5c5b67182aa9092b4862161922f2c47256fb06a0c184f0b0e58472f7651c"
+  },
+  {
+    "path": "tests/journey.js",
+    "bytes": 8119,
+    "sha256": "a94610703656fd88cc84dab0c80dd097bdfff623bb8a9d98c43c83551ef19c71"
   },
   {
     "path": "tests/legacy/browser-flow.js",
@@ -216,8 +236,8 @@
   },
   {
     "path": "tests/live-flow.js",
-    "bytes": 5847,
-    "sha256": "3ed5b920ed93e74fc4bcb9314f528a18747ceb8ba4c22d2f8c0ec2a821513ddf"
+    "bytes": 4303,
+    "sha256": "17494d5214664a0753109b693efccc6c2063d697c58ce21cda0fb81d942e85a3"
   },
   {
     "path": "tests/metrics.cjs",
@@ -236,8 +256,8 @@
   },
   {
     "path": "tests/run_browser.py",
-    "bytes": 472,
-    "sha256": "f20ace7d5c1a92adaafb9629e70cfacbd708aa6cb1c0f3fe9006c5532525682a"
+    "bytes": 1035,
+    "sha256": "9d5dbcee8d4216020be68b08cd960bc8df30c3aa5515db5f3bf70f5fec40348b"
   },
   {
     "path": "tests/simulation.cjs",
@@ -246,8 +266,8 @@
   },
   {
     "path": "tests/ux-metrics.js",
-    "bytes": 3579,
-    "sha256": "905341004d2d5ef79989388aae3edaa5b34aac83999bc61afa9367c02e663f61"
+    "bytes": 3103,
+    "sha256": "fff300a100d9b5f6908741b7a5f7aee256e244a9b2d0d12da4e575bbb14c55a3"
   },
   {
     "path": "validate_package.py",

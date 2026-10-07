@@ -1,31 +1,23 @@
-# UX audit · centered crop and live units
+# UX audit and quantity definitions · October 2026
 
-## Fixes
+The overhaul replaces automatic entry with a paused invitation, guided story and free exploration. Everyday stage headings and cause/effect captions orient non-farmers. The main values are crop pumping and forming/harvested dry grain; estimated plants and shoots remain in details. Three side bottles have been replaced with a crop-care sheet and product ledgers.
 
-- Centered the crop base, seed and root system horizontally; uptake particles follow the same center. The enlarged botanical view represents the acre rather than drawing hundreds of thousands of plants.
-- Added a persistent Per bowl / 1 acre selector beside the stage heading. Acre is the initial farmer-facing default. Changing units does not advance time or change water, weather, residue choice or crop state.
-- Integrated three compact values into the timeline: estimated standing plants, cumulative crop pumping and dry grain forming/harvested. Tapping them opens the remaining metrics, including estimated shoots, rainfall, ET and projected final output.
-- Removed the duplicate pump overlay, wrapped weather naturally below the date, widened short-phone fertilizer labels and adjusted the smallest-phone framing so groundwater stays above the timeline.
-- Application quantities in input drawers now interpolate partial doses within a day. Product units stay separate: mass converts from kg to g for a bowl, while liquid formulation stays mL.
+Camera view and quantity basis are independent. Field shows 120 representative clumps; Plant close-up shows enlarged botanical geometry. Whole field refers to one acre; Per 100 g dry food allocates the same scenario's quantities. Neither control changes time, weather, model history or management path. The groundwater annotation says illustrative; the section is labeled not to scale. Exact model storage percentage appears in evidence details.
+
+Mulch is the disclosed baseline. Wheat navigation has no mandatory decision dialog. Optional straw comparison explains both season-end scenarios using identical weather and care. Harvest now has processing/bowl presentation and a final comparison. Short screens scroll to keep controls usable; the final narrative and bowl participate in layout instead of overlapping.
 
 ## Quantity definitions
 
-`app/metrics.js` samples existing simulation and timeline state without mutating either. Bowl share is 0.1 kg divided by the active crop's final modeled edible dry harvest; keeping that denominator fixed within a scenario avoids changing historic allocations while scrubbing. All extensive values use this field share. Percentages, rainfall depth and research observations keep their scale. Soil and water-balance drawers label their whole-rotation allocation separately from active-crop metrics.
+`app/metrics.js` samples simulation and timeline state without mutating them. Bowl share is 0.1 kg divided by the active crop's final modeled edible dry harvest; this denominator stays fixed within a scenario while scrubbing. All extensive values use that field share. Percentages, rainfall depth and research observations retain their scale. Soil/water drawers explicitly label whole-rotation allocation separately from active-crop metrics.
 
-Rice population target is derived from PAU flat-puddled transplant spacing of 20×15 cm with two seedlings per hill (2026 package, PDF page 15). Wheat density of 250 plants/m², emergence curves, shoots per plant, no mortality and grain accumulation are illustrative presentation assumptions recorded in `data/model_assumptions.json`. Nursery plants represent the seedlings destined for the acre; the nursery area remains 160m² in the water model. Standing counts rise during emergence and fall through harvest; tillering increases shoots separately. Fallow shows zero standing plants and the harvested rice output. These counts are estimates, not measured populations.
+The main pumping quantity is **this crop's** gross underground withdrawal. Rain is separate. Results are season-end projections before the endpoint, and modeled final outputs after the endpoint. Per-bowl pumping is an allocation to equal dry food mass, not cooked volume, calories or a lifecycle water footprint.
 
-## Acceptance
+Product application amounts interpolate partial doses within a day. Solid formulations convert kg to g in bowl mode; liquid formulations remain mL. Product mass and nitrogen content remain separate. No soil-health score, immediate SOC gain or arbitrary burn yield penalty is added.
 
-- `tests/metrics.cjs`: both crop/strategy allocations, product units, emergence, stable plant count during tillering, increasing shoots, harvest removal, grain accumulation, reversible sampling and final 100g bowl.
-- `tests/ux-metrics.js`: 19 browser checks covering unit preservation, partial-input drawer labels, crop centering, controls and groundwater separation at 390×844, 390×667, 320×568 and 1440×1000, wheat metrics, harvest and preference persistence.
-- Existing water-model, continuous-timeline, residue, live-flow and bilingual/theme checks remain part of regression validation.
+Rice population uses PAU's 20×15 cm transplant spacing and two seedlings per hill (2026 package, PDF page 15). Wheat density of 250 plants/m², emergence, shoots per plant, no mortality and grain accumulation are presentation assumptions in `data/model_assumptions.json`. Nursery plants represent seedlings destined for the acre; the water model retains the 160 m² nursery. Standing plants rise during emergence and disappear with harvest; shoots rise separately during tillering. These are estimates, not measured populations.
 
-## Acre field view
+## Checks
 
-Acre mode now smoothly zooms out 13% and presents a flat trapezoid field surface with 48 representative clumps in four rows. The field uses lightweight instanced botanical geometry, matching continuous height, grain filling, wind and harvest from the active timeline. Root fans span the front row. Bowl mode returns to the enlarged centered crop. These drawn clumps represent the field; the population metric still reports the modeled acre count. Water and timelines are unchanged. Reduced motion switches views immediately. Resize invalidates the rendered frame so reduced-motion rows also adapt to the new viewport.
+Pure metric tests cover crop/strategy allocations, product units, emergence, tillering, shoots, removal at harvest, reversible sampling and final 100 g output. Browser flows cover independent camera/units, current-date choice changes, translated controls, paused motion, ledger sampling, short-screen scrolling, responsive endings and WebGL fallback. Palette and focus checks are targeted checks, not a full accessibility certification.
 
-`tests/acre-view.js` adds 12 passing checks: rows, preserved date/state, geometry reuse, seedling growth, small/large viewport fit, bowl restoration, reduced-motion switching, wheat and browser errors.
-
-## Tubewell placement
-
-The tubewell motor now anchors at 86% of viewport width, toward the field's right edge, with a shorter above-ground profile. On short screens it moves inward when its motor would collide with the input controls. Pipe, internal water particles and discharge share the same horizontal transform. Resize and zoom recalculate the anchor, including reduced-motion mode. Both views were checked at 320×568, 390×667, 390×844 and 1440×1000; all 15 live-flow regression checks pass.
+Actual layperson comprehension, native Punjabi copy review, screen-reader testing and named-phone performance remain to be validated with people/devices. See `ACCEPTANCE_RESULTS.md` for the executed checks and their limits.
