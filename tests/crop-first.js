@@ -5,10 +5,20 @@ async page=>{
  await seek(90);const state=await page.evaluate(()=>JSON.stringify(Fieldnotes.getResult().state));
  for(const [w,h] of [[390,844],[390,667],[320,568],[768,1024],[1440,1000]]){
   await page.setViewportSize({width:w,height:h});await page.waitForTimeout(150);
-  const l=await page.evaluate(()=>{const scene=document.querySelector('#scene-art').getBoundingClientRect(),f=Fieldnotes.Scene3D.info(),footer=document.querySelector('footer').getBoundingClientRect();return{coverage:scene.height/innerHeight,overflow:document.documentElement.scrollWidth>innerWidth,soilVisible:f.soilScreenY>0&&f.soilScreenY<scene.height*.65,waterVisible:f.waterScreenY>f.soilScreenY&&f.waterScreenY<scene.height-20,inside:scene.bottom<=footer.top&&footer.bottom<=innerHeight+1,canvasHeight:document.querySelector('canvas').getBoundingClientRect().height===scene.height};});
+  const l=await page.evaluate(()=>{const scene=document.querySelector('#scene-art').getBoundingClientRect(),f=Fieldnotes.Scene3D.info(),footer=document.querySelector('footer').getBoundingClientRect();return{coverage:scene.height/innerHeight,overflow:document.documentElement.scrollWidth>innerWidth,soilVisible:f.soilScreenY>0&&f.soilScreenY>=scene.height*.64&&f.soilScreenY<=scene.height*.66,waterVisible:f.waterScreenY>f.soilScreenY&&f.waterScreenY<scene.height-20,inside:scene.bottom<=footer.top&&footer.bottom<=innerHeight+1,canvasHeight:document.querySelector('canvas').getBoundingClientRect().height===scene.height};});
   ok(!l.overflow&&l.soilVisible&&l.waterVisible&&l.inside&&l.canvasHeight,'Crop, soil and groundwater fit '+w+'×'+h+' '+JSON.stringify(l));ok(l.coverage>=(h===568?.65:h===667?.72:.75),'Scene dominates '+w+'×'+h);await page.screenshot({path:`output/playwright/crop-first-field-${w}-${h}.png`});
  }
  await page.setViewportSize({width:390,height:844});
+ for(const day of [13.5,34.15,90,250]){
+  await seek(day);
+  for(const mode of ['acre','bowl']){
+   await page.locator('[data-unit='+mode+']').click();await page.waitForTimeout(350);
+   const f=await page.evaluate(()=>Fieldnotes.Scene3D.info());
+   ok(Math.abs(f.soilScreenY/f.sceneHeight-.65)<.01&&f.waterScreenY<f.sceneHeight-20,'Shallow cutaway preserves groundwater at '+day+' '+mode);
+   ok(f.displayedCropHeightPx/f.sceneHeight>.4,'Growing crop dominates phone scene at '+day+' '+mode);
+   ok((f.tubewellBounds.bottom-f.tubewellBounds.top)/f.sceneHeight<.18,'Pump stays proportionate at '+day+' '+mode);
+  }
+ }
  for(const day of [0,34.15,90,150,250,304]){
   await seek(day);await page.locator('[data-unit=acre]').click();await page.waitForFunction(()=>Fieldnotes.getTimeline().metrics.mode==='acre');await page.waitForTimeout(350);const field=await page.evaluate(()=>({m:Fieldnotes.getTimeline().metrics,size:parseFloat(getComputedStyle(document.querySelector('#object-fertilizer svg')).height)}));
   await page.locator('[data-unit=bowl]').click();await page.waitForFunction(()=>Fieldnotes.Scene3D.info().quantityMode==='bowl'&&Fieldnotes.getTimeline().metrics.mode==='bowl');await page.waitForTimeout(350);

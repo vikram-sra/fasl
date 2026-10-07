@@ -180,7 +180,7 @@ a {
 #soil-status {
   position:absolute;
   left:16px;
-  top:62%;
+  top:calc(65% + 12px);
   font-size:11px;
   padding:0 8px;
   border-radius:6px;
@@ -599,7 +599,7 @@ a {
   }
   #soil-status {
     font-size:10px;
-    top:61%;
+    top:calc(65% + 12px);
     left:12px
   }
   #groundwater-marker {

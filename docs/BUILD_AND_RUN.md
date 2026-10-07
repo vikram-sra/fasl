@@ -49,3 +49,11 @@ The runner uses a globally installed CLI when available, otherwise the cached np
 `app/simulation.js` is the deterministic model. `app/timeline.js` samples daily balances and botanical state. `app/metrics.js` allocates quantities. `app/scene3d.js` renders the field. `app/application.js` owns journey, playback, camera, units, dialogs and comparison state. Do not edit generated `index.html` directly.
 
 GitHub Pages serves the repository root with `.nojekyll`. For release, rebuild, verify, refresh tracked-file manifest hashes, commit and publish using the project's normal process. Three.js r182 is bundled under its MIT license. This implementation has no automatic deployment step.
+
+## Publication and cache refresh
+
+GitHub Pages publishes the repository root from `main` using its managed Pages build. A push is not confirmed as deployed until the corresponding Pages run succeeds and the live artifact matches the build.
+
+`python3 build.py` produces both `index.html` and `version.json`; commit and publish them together. The HTML embeds the same deterministic content revision as the version file. Hosted tabs check on startup, every 60 seconds in the foreground, focus/visibility return and reconnect. Newer deployed content reloads automatically through a cache-busting URL after the candidate HTML revision is verified. Failed/offline checks keep the current app running. A one-minute retry guard also uses URL state when session storage is unavailable. Local `file://` pages do not perform update checks.
+
+Run `python3 tests/run_browser.py updates.js` for update detection, real navigation, preserved preferences/URL state, partial publication, offline recovery, periodic checking and retry guards. Older tabs from before this feature need one manual refresh before they can detect future releases.

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f3f0e5"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ctext y=%2726%27 font-size=%2726%27%3E🌾%3C/text%3E%3C/svg%3E"><title>One field. Two harvests. · A Bowl Across Two Seasons</title><style>/* Layout tokens and current responsive rules. Short screens intentionally scroll. */
+<html lang="en"><head><meta name="app-version" content="7133aa385a57df275bb85476ef07cae820a689fd85d761ff56283b535e83a9fe"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f3f0e5"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ctext y=%2726%27 font-size=%2726%27%3E🌾%3C/text%3E%3C/svg%3E"><title>One field. Two harvests. · A Bowl Across Two Seasons</title><style>/* Layout tokens and current responsive rules. Short screens intentionally scroll. */
 :root {
   font-family: Arial,Helvetica,sans-serif;
   --sky: #f3f0e5;
@@ -181,7 +181,7 @@ a {
 #soil-status {
   position:absolute;
   left:16px;
-  top:62%;
+  top:calc(65% + 12px);
   font-size:11px;
   padding:0 8px;
   border-radius:6px;
@@ -600,7 +600,7 @@ a {
   }
   #soil-status {
     font-size:10px;
-    top:61%;
+    top:calc(65% + 12px);
     left:12px
   }
   #groundwater-marker {
@@ -5100,7 +5100,8 @@ const Scene3D=(()=>{
   const T=THREE,V=(x,y,z)=>new T.Vector3(x,y,z),rng=Sim.random(630126);
   let strawGroup,fireGroup,smokeGroup,themeSeen='',slowFrames=0,fieldGroup,fieldSurface,fieldLines,fieldRoots,fieldCrop='',viewMode='bowl',viewBlend=0,baseHeight=9.8,fieldBatches=[],pumpAnchor=1.37,pumpOffset=0;
   const fieldCount=96,fieldUniforms={growth:{value:1},grain:{value:0},cut:{value:4},time:{value:0},wind:{value:1},spread:{value:1}};
-  let heroPlants=[];
+  let heroPlants=[],underground,boreGroup,depthCompression=1,pumpSceneScale=1;
+  const groundFraction=.65;
   let lastQuantity='acre',lastMetrics=null;
   let soilTexture,lastPaused=false,lastReduced=false,lastViewBlend=-1;
   const materials={},mat=(color,extra={})=>new T.MeshStandardMaterial({color,roughness:.84,...extra});
@@ -5124,8 +5125,8 @@ const Scene3D=(()=>{
     group.updateMatrixWorld(true);const buckets=new Map(),inverse=group.matrixWorld.clone().invert();group.traverse(o=>{if(!o.isMesh||o.isInstancedMesh)return;const key=o.material.uuid;if(!buckets.has(key))buckets.set(key,[]);buckets.get(key).push(o);});
     for(const meshes of buckets.values()){if(meshes.length<2)continue;const positions=[],normals=[];for(const m of meshes){const g=m.geometry.index?m.geometry.toNonIndexed():m.geometry,matrix=new T.Matrix4().multiplyMatrices(inverse,m.matrixWorld),normalMatrix=new T.Matrix3().getNormalMatrix(matrix),p=g.getAttribute('position'),n=g.getAttribute('normal');for(let i=0;i<p.count;i++){const v=V(p.getX(i),p.getY(i),p.getZ(i)).applyMatrix4(matrix),normal=V(n.getX(i),n.getY(i),n.getZ(i)).applyNormalMatrix(normalMatrix);positions.push(v.x,v.y,v.z);normals.push(normal.x,normal.y,normal.z);}if(g!==m.geometry)g.dispose();m.geometry.dispose();m.parent.remove(m);}const merged=new T.BufferGeometry();merged.setAttribute('position',new T.Float32BufferAttribute(positions,3));merged.setAttribute('normal',new T.Float32BufferAttribute(normals,3));mesh(merged,meshes[0].material,group);}
   }
-  function disposeGroup(group){if(!group)return;group.traverse(o=>{if(o.isMesh||o.isLine){o.geometry.dispose();if(o.material!==stemMat&&o.material!==rootMat&&o.material!==metal)o.material.dispose();}});scene.remove(group);}
-  function buildPlant(id,index){heroPlants.forEach(o=>scene.remove(o));heroPlants=[];disposeGroup(plant);disposeGroup(roots);plant=new T.Group();roots=new T.Group();scene.add(plant,roots);plant.position.set(0,.035,.03);roots.position.x=.4;
+  function disposeGroup(group){if(!group)return;group.traverse(o=>{if(o.isMesh||o.isLine){o.geometry.dispose();if(o.material!==stemMat&&o.material!==rootMat&&o.material!==metal)o.material.dispose();}});group.removeFromParent();}
+  function buildPlant(id,index){heroPlants.forEach(o=>scene.remove(o));heroPlants=[];disposeGroup(plant);disposeGroup(roots);plant=new T.Group();roots=new T.Group();scene.add(plant);underground.add(roots);plant.position.set(0,.035,.03);roots.position.x=.4;
     const rice=id==='rice',gold=index>=8,color=gold?'#b8a153':rice?'#658344':'#7b8b42',leafMaterial=mat(color,{side:T.DoubleSide}),grainMaterial=mat(gold?'#d0ad61':index===7?'#a4a46a':'#9da563'),stemMaterial=mat(gold?'#a9914c':'#6c8248'),seedMat=mat(rice?'#b49d64':'#bca66e'),grainGeo=new T.SphereGeometry(1,7,5),flowerGeo=new T.SphereGeometry(.008,5,4),flowerMat=mat('#e4deb0'),N=index<2?1:index===2?3:index===3?8:7;
     const reproductiveMaterial=mat(gold?'#ac965c':'#779153',{transparent:true,opacity:0,depthWrite:false});
     const height=[.32,.72,1.08,1.52,2.07,2.45,2.82,2.85,2.82,2.8][index],r=Sim.random(2612+(rice?0:100));
@@ -5176,19 +5177,19 @@ const Scene3D=(()=>{
   function initialize(){
     host=document.getElementById('scene-art');try{renderer=new T.WebGLRenderer({antialias:true,alpha:true,powerPreference:'low-power'});}catch(e){failed=true;host.innerHTML='<p class="webgl-fallback"><strong>The story is still here.</strong>This device cannot draw the field. Follow the chapter descriptions, water totals and harvest bowl using the controls below.</p>';return false;}
     renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setClearColor(0xf3f0e5,1);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;host.appendChild(renderer.domElement);
-    scene=new T.Scene();camera=new T.OrthographicCamera(-4,4,4,-4,.1,40);camera.position.set(0,.05,12);camera.lookAt(0,.05,0);scene.add(new T.HemisphereLight(0xfff9e8,0x8e8768,2));const sun=new T.DirectionalLight(0xfff4d8,2.1);sun.position.set(-3,7,8);scene.add(sun);
+    scene=new T.Scene();underground=new T.Group();scene.add(underground);camera=new T.OrthographicCamera(-4,4,4,-4,.1,40);camera.position.set(0,.05,12);camera.lookAt(0,.05,0);scene.add(new T.HemisphereLight(0xfff9e8,0x8e8768,2));const sun=new T.DirectionalLight(0xfff4d8,2.1);sun.position.set(-3,7,8);scene.add(sun);
     // Original procedural soil texture: offline, deterministic and inexpensive.
     const textureCanvas=document.createElement('canvas');textureCanvas.width=textureCanvas.height=256;const ctx=textureCanvas.getContext('2d'),texRandom=Sim.random(805);
     ctx.fillStyle='#e0d1b3';ctx.fillRect(0,0,256,256);for(let i=0;i<6500;i++){const a=.04+texRandom()*.13;ctx.fillStyle=texRandom()>.5?'rgba(68,48,26,'+a+')':'rgba(255,250,228,'+a+')';ctx.fillRect(texRandom()*256,texRandom()*256,1+texRandom()*3,1+texRandom()*2);}
     soilTexture=new T.CanvasTexture(textureCanvas);soilTexture.wrapS=soilTexture.wrapT=T.RepeatWrapping;soilTexture.repeat.set(22,3);soilTexture.colorSpace=T.SRGBColorSpace;
-    function stratum(top,bottom,color,offset){const points=[],uvs=[];for(let j=0;j<400;j++){const a=-30+j*.15,b=a+.15,w=x=>Math.sin(x*2.1+offset)*.055+Math.sin(x*5.7+offset)*.022;points.push(a,top+w(a),-2,b,top+w(b),-2,a,bottom+w(a)*.8,-2,b,top+w(b),-2,b,bottom+w(b)*.8,-2,a,bottom+w(a)*.8,-2);uvs.push(j/400,0,(j+1)/400,0,j/400,1,(j+1)/400,0,(j+1)/400,1,j/400,1);}const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(points,3));g.setAttribute('uv',new T.Float32BufferAttribute(uvs,2));const m=mesh(g,new T.MeshBasicMaterial({color,map:soilTexture}));m.userData.soil=true;m.userData.originalColor=m.material.color.clone();return m;}
-    plane(100,16,0,-8,-2.1,'#aa8556');soilSurface=stratum(0,-.42,'#6f4c2e',0);stratum(-.42,-1.12,'#926d40',1);stratum(-1.12,-1.9,'#ae8756',2);stratum(-1.9,-7,'#ab9164',3);
-    moisture=plane(100,.95,0,-.475,-1.5,'#405f4a',scene,.08);
+    function stratum(top,bottom,color,offset){const points=[],uvs=[];for(let j=0;j<400;j++){const a=-30+j*.15,b=a+.15,w=x=>Math.sin(x*2.1+offset)*.055+Math.sin(x*5.7+offset)*.022;points.push(a,top+w(a),-2,b,top+w(b),-2,a,bottom+w(a)*.8,-2,b,top+w(b),-2,b,bottom+w(b)*.8,-2,a,bottom+w(a)*.8,-2);uvs.push(j/400,0,(j+1)/400,0,j/400,1,(j+1)/400,0,(j+1)/400,1,j/400,1);}const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(points,3));g.setAttribute('uv',new T.Float32BufferAttribute(uvs,2));const m=mesh(g,new T.MeshBasicMaterial({color,map:soilTexture}),underground);m.userData.soil=true;m.userData.originalColor=m.material.color.clone();return m;}
+    plane(100,16,0,-8,-2.1,'#aa8556',underground);soilSurface=stratum(0,-.42,'#6f4c2e',0);stratum(-.42,-1.12,'#926d40',1);stratum(-1.12,-1.9,'#ae8756',2);stratum(-1.9,-7,'#ab9164',3);
+    moisture=plane(100,.95,0,-.475,-1.5,'#405f4a',underground,.08);
     // Tint the saturated sediment instead of drawing an opaque underground reservoir.
-    water=plane(100,12,0,waterSurface-6,-1.1,'#548b90',scene,.72);pond=plane(100,1,0,.03,.5,'#96c9c4',scene,.55);pond.visible=false;
-    waterLine=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#a2d2d0',transparent:true,opacity:.8}));poolLine=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#bddeda',transparent:true,opacity:.9}));scene.add(waterLine,poolLine);
-    const dirt=new T.Group();scene.add(dirt);const geo=new T.SphereGeometry(1,5,4),dirtMat=mat('#796343');for(let j=0;j<550;j++){const m=mesh(geo,dirtMat,dirt);m.position.set((rng()-.5)*22,-rng()*5,.2);m.scale.set(.006+rng()*.02,.005+rng()*.007,.003);}instanceRepeats(dirt);
-    pumpGroup=new T.Group();scene.add(pumpGroup);
+    water=plane(100,12,0,waterSurface-6,-1.1,'#548b90',underground,.72);pond=plane(100,1,0,.03,.5,'#96c9c4',scene,.55);pond.visible=false;
+    waterLine=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#a2d2d0',transparent:true,opacity:.8}));poolLine=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#bddeda',transparent:true,opacity:.9}));underground.add(waterLine);scene.add(poolLine);
+    const dirt=new T.Group();underground.add(dirt);const geo=new T.SphereGeometry(1,5,4),dirtMat=mat('#796343');for(let j=0;j<550;j++){const m=mesh(geo,dirtMat,dirt);m.position.set((rng()-.5)*22,-rng()*5,.2);m.scale.set(.006+rng()*.02,.005+rng()*.007,.003);}instanceRepeats(dirt);
+    pumpGroup=new T.Group();scene.add(pumpGroup);boreGroup=new T.Group();underground.add(boreGroup);
     // A ground-mounted motor and centrifugal pump, connected to the bore and outlet.
     const concrete=mat('#aaa58d'),paint=mat('#486956',{metalness:.18,roughness:.72}),darkMetal=mat('#344943',{metalness:.55,roughness:.48});
     box(.66,.09,.38,1.27,.045,1.45,'#aaa58d',pumpGroup);
@@ -5197,9 +5198,9 @@ const Scene3D=(()=>{
     box(.14,.07,.13,1.35,.39,1.52,'#586f5c',pumpGroup);
     const housing=mesh(new T.SphereGeometry(.135,18,12),paint,pumpGroup);housing.scale.set(.85,1,1);housing.position.set(1.09,.23,1.52);
     for(const x of [1.22,1.48])box(.07,.09,.22,x,.12,1.52,'#344943',pumpGroup);
-    pipeCurve=new T.CatmullRomCurve3([V(1.37,-2.9,1.4),V(1.37,-.12,1.4),V(1.34,.15,1.4),V(1.09,.23,1.4),V(1.08,.49,1.4),V(.90,.53,1.4),V(.80,.44,1.4),V(.80,.18,1.4)],false,'centripetal');
-    mesh(new T.TubeGeometry(pipeCurve,70,.048,12,false),metal,pumpGroup);
-    for(const y of [-2.6,-1.5,-.2]){const collar=mesh(new T.CylinderGeometry(.067,.067,.08,12),metal,pumpGroup);collar.position.set(1.37,y,1.4);}
+    pipeCurve=new T.CatmullRomCurve3([V(1.37,-2.9,1.4),V(1.37,0,1.4),V(1.34,.15,1.4),V(1.09,.23,1.4),V(1.08,.49,1.4),V(.90,.53,1.4),V(.80,.44,1.4),V(.80,.18,1.4)],false,'centripetal');
+    const surfacePipe=new T.CatmullRomCurve3(pipeCurve.points.slice(1),false,'centripetal');mesh(new T.TubeGeometry(surfacePipe,45,.048,12,false),metal,pumpGroup);line(V(1.37,-2.9,1.4),V(1.37,0,1.4),.048,metal,boreGroup);
+    for(const y of [-2.6,-1.5,-.2]){const collar=mesh(new T.CylinderGeometry(.067,.067,.08,12),metal,boreGroup);collar.position.set(1.37,y,1.4);}
     const outletCollar=mesh(new T.CylinderGeometry(.067,.067,.08,12),metal,pumpGroup);outletCollar.position.set(.80,.20,1.4);
     box(.30,.025,.15,.72,.024,1.5,'#8a8d78',pumpGroup);
     outletCurve=new T.QuadraticBezierCurve3(V(.80,.18,1.8),V(.70,.12,1.8),V(.58,.02,1.8));
@@ -5231,36 +5232,41 @@ const Scene3D=(()=>{
       material.onBeforeCompile=shader=>{Object.assign(shader.uniforms,{fGrowth:fieldUniforms.growth,fGrain:fieldUniforms.grain,fCut:fieldUniforms.cut,fTime:fieldUniforms.time,fWind:fieldUniforms.wind,fSpread:fieldUniforms.spread});shader.vertexShader='uniform float fGrowth,fTime,fWind,fSpread; varying float fHeight;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','vec3 transformed=vec3(position);fHeight=position.y;transformed.y*=fGrowth;transformed.x*=fSpread;float phase=0.0;\n#ifdef USE_INSTANCING\nphase=instanceMatrix[3].x*2.3+instanceMatrix[3].y*7.0;\n#endif\ntransformed.x+=sin(fTime*1.3+phase+position.y*1.7)*.023*position.y*position.y*fWind;');shader.fragmentShader='uniform float fCut,fGrain;varying float fHeight;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif(fHeight>fCut)discard;'+(isGrain?'if(fGrain<.01)discard;':''));};material.customProgramCacheKey=()=>isGrain?'field-grain-v2':'field-leaf-v2';
       const batch=new T.InstancedMesh(geo,material,fieldCount);batch.frustumCulled=false;batch.userData.grain=isGrain;for(let j=0;j<fieldCount;j++){const tone=.87+random()*.19;batch.setColorAt(j,new T.Color(tone,tone,tone));}fieldGroup.add(batch);fieldBatches.push(batch);
     }
-    if(!fieldSurface){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute([-.5,0,-.8,.5,0,-.8,-.42,.76,-.8,.5,0,-.8,.42,.76,-.8,-.42,.76,-.8],3));g.setAttribute('uv',new T.Float32BufferAttribute([0,0,1,0,0,1,1,0,1,1,0,1],2));fieldSurface=new T.Mesh(g,new T.MeshBasicMaterial({color:'#95805a',map:soilTexture,transparent:true,opacity:1,side:T.DoubleSide}));scene.add(fieldSurface);fieldRoots=new T.LineSegments(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#e0cda3',transparent:true,opacity:.65}));scene.add(fieldRoots);fieldLines=new T.LineSegments(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#7e6c47',transparent:true,opacity:.65}));scene.add(fieldLines);}
+    if(!fieldSurface){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute([-.5,0,-.8,.5,0,-.8,-.42,.76,-.8,.5,0,-.8,.42,.76,-.8,-.42,.76,-.8],3));g.setAttribute('uv',new T.Float32BufferAttribute([0,0,1,0,0,1,1,0,1,1,0,1],2));fieldSurface=new T.Mesh(g,new T.MeshBasicMaterial({color:'#95805a',map:soilTexture,transparent:true,opacity:1,side:T.DoubleSide}));scene.add(fieldSurface);fieldRoots=new T.LineSegments(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#e0cda3',transparent:true,opacity:.65}));underground.add(fieldRoots);fieldLines=new T.LineSegments(new T.BufferGeometry(),new T.LineBasicMaterial({color:'#7e6c47',transparent:true,opacity:.65}));scene.add(fieldLines);}
   }
   const fieldDummy=new T.Object3D();
   function updateField(v,{motion,time,dark}){
     if(fieldCrop!==v.id)buildField(v.id);
-    const visible=viewBlend>.02,width=(camera.right-camera.left)*.96;fieldGroup.visible=fieldSurface.visible=fieldLines.visible=fieldRoots.visible=visible;
+    const perspectiveDepth=v.fallow?.16:Math.min(1,v.growth.height/.7),visible=viewBlend>.02,width=(camera.right-camera.left)*.96;fieldGroup.visible=fieldSurface.visible=fieldLines.visible=fieldRoots.visible=visible;
     fieldUniforms.growth.value=v.growth.height;fieldUniforms.grain.value=Timeline.phase(v.das,v.def.stages[5].start_das,v.def.stages[7].start_das);fieldUniforms.cut.value=2.3-v.growth.harvest*2.17;fieldUniforms.time.value=time;fieldUniforms.wind.value=motion?0:1;fieldUniforms.spread.value=.18+v.growth.spread*.82;
-    fieldSurface.scale.x=width;fieldSurface.material.color.set(dark?'#66553d':v.pondDepthMm>5?'#635736':'#7a603d');fieldSurface.material.opacity=viewBlend;
+    fieldSurface.scale.x=width;fieldSurface.scale.y=perspectiveDepth;fieldSurface.material.color.set(dark?'#66553d':v.pondDepthMm>5?'#635736':'#7a603d');fieldSurface.material.opacity=viewBlend;
     const rootPoints=[],rootRandom=Sim.random(1926);
     for(let j=0;j<12;j++){const x=-width/2+(j+.5)*width/12;for(let k=0;k<5;k++){const spread=(rootRandom()-.5)*.36*v.growth.root,depth=(.3+rootRandom()*.8)*v.growth.root;let previous=V(x,-.02,1.35);for(let step=1;step<=6;step++){const f=step/6,next=V(x+spread*Math.sin(f*1.5)+Math.sin(j+k+f*9)*.012,-depth*f,1.35);rootPoints.push(previous.x,previous.y,previous.z,next.x,next.y,next.z);if(step>2){const tip=next.clone().add(V((k%2?1:-1)*.04,-.06,0));rootPoints.push(next.x,next.y,next.z,tip.x,tip.y,tip.z);}previous=next;}}}fieldRoots.geometry.setAttribute('position',new T.Float32BufferAttribute(rootPoints,3));fieldRoots.material.opacity=viewBlend*.70;
     const linePoints=[-width/2,0,1.1,width/2,0,1.1,-width/2,0,1.1,-width*.42,.76,1.1,width/2,0,1.1,width*.42,.76,1.1,-width*.42,.76,1.1,width*.42,.76,1.1];for(let j=0;j<21;j++){const x=-width/2+j/20*width;linePoints.push(x,0,1.1,x*.84,.76,1.1);}fieldLines.geometry.setAttribute('position',new T.Float32BufferAttribute(linePoints,3));fieldLines.material.opacity=0;
-    fieldBatches.forEach(batch=>{batch.material.opacity=viewBlend*(batch.userData.grain?fieldUniforms.grain.value:1);batch.material.color.set(batch.userData.grain?'#cfb16e':dark?'#93b860':new T.Color('#486d32').lerp(new T.Color('#b29a51'),v.growth.ripe));for(let j=0;j<fieldCount;j++){const row=Math.floor(j/12),column=j%12,back=(7-row)/7,variation=Math.sin(j*73.3);fieldDummy.position.set((-width/2+(column+.5)*width/12)*(1-back*.16)+variation*.018,back*.55+.02,-.2+row*.035);fieldDummy.scale.set((.95-back*.16+variation*.045)*Math.min(1.3,width/5),1.14-back*.17+variation*.11,.8);fieldDummy.rotation.z=variation*.022;fieldDummy.updateMatrix();batch.setMatrixAt(j,fieldDummy.matrix);}batch.instanceMatrix.needsUpdate=true;});
+    fieldBatches.forEach(batch=>{batch.material.opacity=viewBlend*(batch.userData.grain?fieldUniforms.grain.value:1);batch.material.color.set(batch.userData.grain?'#cfb16e':dark?'#93b860':new T.Color('#486d32').lerp(new T.Color('#b29a51'),v.growth.ripe));for(let j=0;j<fieldCount;j++){const row=Math.floor(j/12),column=j%12,back=(7-row)/7,variation=Math.sin(j*73.3);fieldDummy.position.set((-width/2+(column+.5)*width/12)*(1-back*.16)+variation*.018,back*.55*perspectiveDepth+.02,-.2+row*.035);fieldDummy.scale.set((.95-back*.16+variation*.045)*Math.min(1.3,width/5),1.14-back*.17+variation*.11,.8);fieldDummy.rotation.z=variation*.022;fieldDummy.updateMatrix();batch.setMatrixAt(j,fieldDummy.matrix);}batch.instanceMatrix.needsUpdate=true;});
   }
 
   function positionPump(){
-    const screenX=host.clientWidth*.91;pumpAnchor=(screenX/host.clientWidth*2-1)*camera.right;pumpOffset=pumpAnchor-1.37*.85;
-    for(const group of [pumpGroup,particles,dischargeGroup]){group.position.x=pumpOffset;group.scale.x=.85;}
+    const screenX=host.clientWidth*.91;pumpAnchor=(screenX/host.clientWidth*2-1)*camera.right;pumpOffset=pumpAnchor-1.37*.85*pumpSceneScale;
+    for(const group of [pumpGroup,boreGroup,particles,dischargeGroup]){group.position.x=pumpOffset;group.scale.x=.85*pumpSceneScale;group.scale.y=group===pumpGroup||group===dischargeGroup?pumpSceneScale:1;}
   }
-  function resize(){if(!renderer)return;lastPosition=null;const w=host.clientWidth,h=host.clientHeight; baseHeight=7.0;const height=baseHeight,width=height*w/h;camera.left=-width/2;camera.right=width/2;camera.top=3.95;camera.bottom=-3.05;camera.updateProjectionMatrix();renderer.setSize(w,h);positionPump();positionMarker();renderer.render(scene,camera);}
-  function positionMarker(){if(!camera)return;const label=document.getElementById('groundwater-marker'),p=V(0,waterSurface,0).project(camera);if(label)label.style.top=((1-p.y)*host.clientHeight/2)+'px';}
+  function fitCamera(top){
+    camera.top=top;camera.bottom=-top*(1-groundFraction)/groundFraction;
+    const width=(camera.top-camera.bottom)*host.clientWidth/host.clientHeight;camera.left=-width/2;camera.right=width/2;camera.updateProjectionMatrix();
+    depthCompression=-camera.bottom/3.05;underground.scale.y=depthCompression;pumpSceneScale=Math.min(1,top/3.95);
+  }
+  function resize(){if(!renderer)return;lastPosition=null;const w=host.clientWidth,h=host.clientHeight;fitCamera(camera.top||3.95);renderer.setSize(w,h);positionPump();positionMarker();renderer.render(scene,camera);}
+  function positionMarker(){if(!camera)return;const label=document.getElementById('groundwater-marker'),p=V(0,waterSurface*depthCompression,0).project(camera);if(label)label.style.top=((1-p.y)*host.clientHeight/2)+'px';}
   const ease=(value,target,dt,rate=4)=>value+(target-value)*(1-Math.exp(-dt*rate));
   const wavePoints=[];for(let i=0;i<48;i++)wavePoints.push(V(0,0,0));
   function wave(line,level,time,amplitude){const width=camera.right-camera.left;for(let i=0;i<wavePoints.length;i++){const x=-width/2+i/(wavePoints.length-1)*width;wavePoints[i].set(x,level+amplitude*(Math.sin(x*3+time*.9)+Math.sin(x*5-time*.65)*.45),1.2);}line.geometry.setFromPoints(wavePoints);}
   function update(v,{motion,time,dt,displayMode='acre',quantityMode='acre',metrics=null,paused=false}){
     if(failed||!renderer&&!initialize())return;
     const dark=document.documentElement.dataset.theme==='dark',themeKey=dark?'dark':'light';
-    if(themeSeen!==themeKey){themeSeen=themeKey;renderer.setClearColor(dark?0x14231e:0xf3f0e5,1);scene.children.filter(o=>o.isMesh&&(o.geometry.type==='PlaneGeometry'||o.userData.soil)).forEach(o=>{if(!o.userData.originalColor)o.userData.originalColor=o.material.color.clone();o.material.color.copy(o.userData.originalColor).multiplyScalar(dark?.57:1);});lastPosition=null;}
+    if(themeSeen!==themeKey){themeSeen=themeKey;renderer.setClearColor(dark?0x14231e:0xf3f0e5,1);scene.traverse(o=>{if(o.isMesh&&(o.geometry.type==='PlaneGeometry'||o.userData.soil)){if(!o.userData.originalColor)o.userData.originalColor=o.material.color.clone();o.material.color.copy(o.userData.originalColor).multiplyScalar(dark?.57:1);}});lastPosition=null;}
     if(dt>.028&&!motion)slowFrames++;else slowFrames=Math.max(0,slowFrames-1);if(slowFrames>120&&renderer.getPixelRatio()>1){renderer.setPixelRatio(1);resize();slowFrames=0;}
     if(viewMode!==displayMode||lastQuantity!==quantityMode){viewMode=displayMode;lastQuantity=quantityMode;lastPosition=null;}lastMetrics=metrics;
-    const fitTop=v.fallow?1.15:Math.max(1.3,Math.min(3.95,v.growth.height*3.25+.75));if(Math.abs(camera.top-fitTop)>.001){camera.top=fitTop;const fitWidth=(camera.top-camera.bottom)*host.clientWidth/host.clientHeight;camera.left=-fitWidth/2;camera.right=fitWidth/2;camera.updateProjectionMatrix();}cloudGroup.position.y=Math.min(0,camera.top-3.4);
+    const fitTop=v.fallow?1.2:Math.max(.55,Math.min(3.95,v.growth.height*3.3+.30));if(Math.abs(camera.top-fitTop)>.001)fitCamera(fitTop);cloudGroup.position.y=Math.min(0,camera.top-3.4);
     const oldBlend=viewBlend;viewBlend=motion?(viewMode==='acre'?1:0):ease(viewBlend,viewMode==='acre'?1:0,dt,6);
     const staticFrame=motion||paused;if(staticFrame&&lastMotion&&paused===lastPaused&&motion===lastReduced&&v.position===lastPosition&&Math.abs(viewBlend-lastViewBlend)<.00001)return;lastPosition=v.position;lastMotion=staticFrame;lastPaused=paused;lastReduced=motion;lastViewBlend=viewBlend;
     if(currentStage!==v.id)buildPlant(v.id,8);
@@ -5268,7 +5274,7 @@ const Scene3D=(()=>{
     const green=new T.Color(dark?'#95b96a':v.id==='rice'?'#668946':'#7a914e'),gold=new T.Color(dark?'#dac676':'#b8a15b');plantMaterials.forEach(m=>{if(m!==grainMaterialRef)m.color.copy(green).lerp(gold,v.growth.ripe);});grainMaterialRef.color.set('#c8b47a');grainMaterialRef.opacity=v.growth.grain;reproductiveMaterialRef.opacity=Timeline.phase(v.das,v.def.stages[5].start_das,v.def.stages[6].start_das+3);rootMat.color.set(v.fallow?'#b7a686':'#d5c39e');plant.visible=roots.visible=true;seedMesh.visible=!v.fallow&&v.das<5;
     positionPump();
     updateField(v,{motion,time,dark});
-    plant.visible=true;plant.position.z=2;plant.scale.setScalar(viewBlend>.5?.96:1.03);heroPlants.forEach((o,i)=>{o.visible=viewBlend>.04&&!v.fallow;o.position.set((i<2?-1:1)*(i%2?.73:.39)*camera.right,.015,1.9);o.scale.setScalar((.82+(i%2)*.10)*viewBlend);});seedMesh.visible=seedMesh.visible&&viewBlend<.5;roots.visible=true;roots.position.z=.3;roots.scale.setScalar(viewBlend>.5?1:1.18);
+    plant.visible=true;plant.position.z=2;plant.scale.setScalar(viewBlend>.5?.96:1.03);heroPlants.forEach((o,i)=>{o.visible=viewBlend>.04&&!v.fallow;o.position.set((i<2?-1:1)*(i%2?.73:.39)*camera.right,.015,1.9);o.scale.setScalar((.82+(i%2)*.10)*viewBlend);});seedMesh.visible=seedMesh.visible&&viewBlend<.5;roots.visible=true;roots.position.z=.3;roots.scale.setScalar(viewBlend>.5?1:1.18);roots.scale.y*=1.35;
     // All values are driven by the same continuously sampled, conserved daily ledger.
     const oldWater=waterSurface;waterGoal=-2.75+v.aquiferL/Sim.H.aquifer_capacity_L*1.05;waterSurface=(motion||paused)?waterGoal:ease(waterSurface,waterGoal,dt,7);waterDirection=Math.sign(waterSurface-oldWater);water.position.y=waterSurface-6;positionMarker();
     const moistureFraction=v.soilL/(Sim.A*Sim.H.soil_capacity_mm);soilSurface.material.color.set(dark?(moistureFraction>.75?'#705b41':'#826948'):(moistureFraction>.75?'#654930':'#795633'));moisture.material.opacity=.03+Math.min(1,moistureFraction)*.16;
@@ -5279,7 +5285,7 @@ const Scene3D=(()=>{
     infiltrationStrength=(motion||paused)?(v.flow.infiltration>0&&v.fraction>=.3&&v.fraction<.72?1:0):ease(infiltrationStrength,v.flow.infiltration>0&&v.fraction>=.3&&v.fraction<.72?1:0,dt,5);
     uptakeStrength=(motion||paused)?(v.flow.cropET>0?1:0):ease(uptakeStrength,v.flow.cropET>0?1:0,dt,3);rechargeStrength=(motion||paused)?(v.flow.recharge>0||v.flow.queuedRecharge>0&&v.fraction>.8?1:0):ease(rechargeStrength,v.flow.recharge>0||v.flow.queuedRecharge>0&&v.fraction>.8?1:0,dt,4);
     cloudGroup.children[0].children[0].material.opacity=.7*rainStrength;cloudGroup.visible=rainStrength>.03;cloudGroup.children.forEach((c,i)=>{c.position.x=c.userData.baseX+(motion?0:Math.sin(time*.18+i)*.17);});rainGroup.visible=rainStrength>.04&&!motion;rainGroup.children.forEach((p,i)=>{p.visible=i<Math.min(70,20+Math.round(v.s.rainMm));p.position.set(p.userData.x,3.2-((motion?0:time*1.1)+p.userData.phase)%1*3.2,2);});rainGroup.children[0].material.opacity=.6*rainStrength;
-    particles.visible=dischargeGroup.visible=pumpStrength>.03;particles.userData.dots.forEach(p=>{const f=((motion?0:time*.38)+p.userData.phase)%1;p.scale.setScalar(quantityMode==='bowl'?.65:1);p.position.copy(pipeCurve.getPoint(f));p.position.z=1.85;p.material.opacity=.85*pumpStrength;});dischargeGroup.userData.dots.forEach(p=>{const f=((motion?0:time*1.6)+p.userData.phase)%1;p.scale.setScalar(quantityMode==='bowl'?.65:1);p.position.copy(outletCurve.getPoint(f));p.position.y+=(surfaceHeight-.016)*(f*f);p.material.opacity=.85*pumpStrength;});
+    particles.visible=dischargeGroup.visible=pumpStrength>.03;particles.userData.dots.forEach(p=>{const f=((motion?0:time*.38)+p.userData.phase)%1;p.scale.setScalar(quantityMode==='bowl'?.65:1);p.position.copy(pipeCurve.getPoint(f));p.position.z=1.85;if(p.position.y>0)p.position.y*=pumpSceneScale;p.material.opacity=.85*pumpStrength;});dischargeGroup.userData.dots.forEach(p=>{const f=((motion?0:time*1.6)+p.userData.phase)%1;p.scale.setScalar(quantityMode==='bowl'?.65:1);p.position.copy(outletCurve.getPoint(f));p.position.y+=(surfaceHeight-.016)*(f*f);p.material.opacity=.85*pumpStrength;});
     infiltrationGroup.visible=infiltrationStrength>.04;infiltrationGroup.userData.dots.forEach((p,j)=>{const f=((motion?0:time*.38)+p.userData.phase)%1;p.position.set(-1.1+(j%11)*.21,-.04-f*.85,1.25);p.material.opacity=.55*infiltrationStrength;});
     uptakeGroup.visible=uptakeStrength>.05&&!v.fallow;uptakeGroup.userData.dots.forEach((p,j)=>{const f=((motion?0:time*.28)+p.userData.phase)%1;p.position.set(Math.sin(j*2.4)*.22*(1-f),-.55+f*.7,1.27);p.material.opacity=.6*uptakeStrength;});
     rechargeGroup.visible=rechargeStrength>.03;rechargeGroup.userData.dots.forEach((p,j)=>{const f=((motion?0:time*.27)+p.userData.phase)%1,arriving=v.flow.recharge>0,top=arriving?waterSurface+.28:-.9,bottom=arriving?waterSurface-.03:waterSurface+.15;p.position.set(-1.12+(j%9)*.23,top+(bottom-top)*f,1.3);p.material.opacity=.75*rechargeStrength;});
@@ -5292,10 +5298,10 @@ const Scene3D=(()=>{
     fireGroup.visible=burning;smokeGroup.visible=burning;const clock=motion?0:time;
     fireGroup.userData.dots.forEach((p,j)=>{const f=(clock*.9+j/42)%1;p.position.set(-1.4+(j%14)*.17+Math.sin(clock*3+j)*.025,.05+f*.42,1.8);p.scale.set((1-f)*.7,(1-f)*(1.5+Math.sin(clock*5+j)*.4),.4);p.material.opacity=.85*(1-v.residueProgress);});
     smokeGroup.userData.dots.forEach((p,j)=>{const f=(clock*.2+j/22)%1;p.position.set(-1.3+(j%7)*.32+f*.25,.3+f*1.7,1.7);p.scale.setScalar(.5+f*1.4);p.material.opacity=.13*(1-v.residueProgress);});
-    for(const group of [particles,dischargeGroup,infiltrationGroup,uptakeGroup,rechargeGroup,fertilizerGroup,strawGroup,fireGroup,smokeGroup]){if(!group.visible)continue;group.userData.dots.forEach((p,i)=>{p.updateMatrix();group.userData.batch.setMatrixAt(i,p.matrix);});group.userData.batch.instanceMatrix.needsUpdate=true;}
+    for(const group of [particles,dischargeGroup,infiltrationGroup,uptakeGroup,rechargeGroup,fertilizerGroup,strawGroup,fireGroup,smokeGroup]){if(!group.visible)continue;group.userData.dots.forEach((p,i)=>{if(p.position.y<0)p.position.y*=depthCompression;p.updateMatrix();group.userData.batch.setMatrixAt(i,p.matrix);});group.userData.batch.instanceMatrix.needsUpdate=true;}
     water.material.color.set(dark?'#42797f':v.flow.recharge>0?'#518e8a':'#548b90');wave(waterLine,waterSurface,motion?0:time,motion?0:.002);if(pond.visible)wave(poolLine,surfaceHeight+.003,motion?0:time,motion?0:.004);renderer.render(scene,camera);renderedFrames++;lastDay=v.day;
   }
-  return{update,resize,invalidate:()=>{lastPosition=null;},info:()=>({representation:viewMode==='acre'?'representative field canopy':'plant close-up',viewMode,zoomBlend:viewBlend,visiblePlantClumps:viewBlend>.5?(lastDay>=121&&lastDay<Sim.wheatStart()?0:fieldCount):1,revision:T.REVISION,locked:true,renderer:!!renderer,reduced:lastReduced,paused:lastPaused,position:lastPosition,crop:currentStage,geometryBuilds,renderedFrames,waterSurface,waterGoal,waterDirection,surfacePoolHeight:surfaceHeight,pumpStrength,rainStrength,cloudsVisible:!!cloudGroup?.visible,infiltrationAnimating:!!infiltrationGroup?.visible,uptakeAnimating:!!uptakeGroup?.visible,rechargeAnimating:!!rechargeGroup?.visible,rainAnimating:!!rainGroup?.visible,pumpAnimating:!!particles?.visible,dischargeAnimating:!!dischargeGroup?.visible,growth:uniforms.height.value,windTime:uniforms.time.value,day:lastDay,tubewellScreenX:camera?(pumpAnchor/camera.right+1)*host.clientWidth/2:null,tubewellBounds:camera?{left:(pumpOffset+.58*.85-camera.left)/(camera.right-camera.left)*host.clientWidth,right:(pumpOffset+1.70*.85-camera.left)/(camera.right-camera.left)*host.clientWidth,top:(camera.top-.61)/(camera.top-camera.bottom)*host.clientHeight,bottom:(camera.top-.02)/(camera.top-camera.bottom)*host.clientHeight}:null,tubewellOutletX:pumpOffset+.80*.85,quantityMode:lastQuantity,allocatedWaterL:lastMetrics?.pumpedL,sceneHeight:host?.clientHeight,soilScreenY:camera?(camera.top/(camera.top-camera.bottom))*host.clientHeight:null,waterScreenY:camera?((camera.top-waterSurface)/(camera.top-camera.bottom))*host.clientHeight:null,cropCenterX:plant?new T.Vector3(plant.position.x,0,0).project(camera).x:null,drawCalls:renderer?.info.render.calls,theme:themeSeen,fireVisible:!!fireGroup?.visible,residueVisible:!!strawGroup?.visible,fertilizerVisible:!!fertilizerGroup?.visible,pixelRatio:renderer?.getPixelRatio()})};
+  return{update,resize,invalidate:()=>{lastPosition=null;},info:()=>({representation:viewMode==='acre'?'representative field canopy':'plant close-up',viewMode,zoomBlend:viewBlend,visiblePlantClumps:viewBlend>.5?(lastDay>=121&&lastDay<Sim.wheatStart()?0:fieldCount):1,revision:T.REVISION,locked:true,renderer:!!renderer,reduced:lastReduced,paused:lastPaused,position:lastPosition,crop:currentStage,geometryBuilds,renderedFrames,waterSurface,waterGoal,waterDirection,surfacePoolHeight:surfaceHeight,pumpStrength,rainStrength,cloudsVisible:!!cloudGroup?.visible,infiltrationAnimating:!!infiltrationGroup?.visible,uptakeAnimating:!!uptakeGroup?.visible,rechargeAnimating:!!rechargeGroup?.visible,rainAnimating:!!rainGroup?.visible,pumpAnimating:!!particles?.visible,dischargeAnimating:!!dischargeGroup?.visible,growth:uniforms.height.value,windTime:uniforms.time.value,day:lastDay,tubewellScreenX:camera?(pumpAnchor/camera.right+1)*host.clientWidth/2:null,tubewellBounds:camera?{left:(pumpOffset+.58*.85*pumpSceneScale-camera.left)/(camera.right-camera.left)*host.clientWidth,right:(pumpOffset+1.70*.85*pumpSceneScale-camera.left)/(camera.right-camera.left)*host.clientWidth,top:(camera.top-.61*pumpSceneScale)/(camera.top-camera.bottom)*host.clientHeight,bottom:(camera.top-.02*pumpSceneScale)/(camera.top-camera.bottom)*host.clientHeight}:null,tubewellOutletX:pumpOffset+.80*.85*pumpSceneScale,quantityMode:lastQuantity,allocatedWaterL:lastMetrics?.pumpedL,sceneHeight:host?.clientHeight,soilScreenY:camera?(camera.top/(camera.top-camera.bottom))*host.clientHeight:null,depthCompression,groundFraction,displayedCropHeightPx:camera?3.12*uniforms.height.value/(camera.top-camera.bottom)*host.clientHeight:null,waterScreenY:camera?((camera.top-waterSurface*depthCompression)/(camera.top-camera.bottom))*host.clientHeight:null,cropCenterX:plant?new T.Vector3(plant.position.x,0,0).project(camera).x:null,drawCalls:renderer?.info.render.calls,theme:themeSeen,fireVisible:!!fireGroup?.visible,residueVisible:!!strawGroup?.visible,fertilizerVisible:!!fertilizerGroup?.visible,pixelRatio:renderer?.getPixelRatio()})};
 })();
 </script><script>/* Presentation quantities are read-only allocations of the same acre. */
 const Metrics=(()=>{
@@ -5493,4 +5499,59 @@ if(readPref('fasl-motion','')==='reduced')reduced=true;
 applyTheme();applyLabels();document.querySelector('.timeline').inert=true;
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(theme==='system')applyTheme();});
 requestAnimationFrame(frame);
+</script><script>/* New releases reload automatically; file:// and offline builds remain usable. */
+(()=>{
+ 'use strict';
+ const current=document.querySelector('meta[name="app-version"]')?.content;
+ if(!/^https?:$/.test(location.protocol)||!/^[a-f0-9]{64}$/.test(current||''))return;
+ const guardKey='fasl-update-attempt',retryDelay=60000;
+ let checking=false,leaving=false;
+ function readAttempt(){
+  let attempt;
+  try{attempt=JSON.parse(sessionStorage.getItem(guardKey)||'null');}catch{}
+  if(/^[a-f0-9]{64}$/.test(attempt?.version||'')&&Number.isFinite(attempt.at))return attempt;
+  // The navigation URL also guards against loops when browser storage is blocked.
+  const url=new URL(location.href),version=url.searchParams.get('_v'),at=Number(url.searchParams.get('_refresh'));
+  return /^[a-f0-9]{64}$/.test(version||'')&&at>0&&Number.isFinite(at)?{version,at}:null;
+ }
+ function clearAttempt(){try{sessionStorage.removeItem(guardKey);}catch{}}
+ if(readAttempt()?.version===current)clearAttempt();
+ async function check(){
+  if(checking||leaving||document.hidden||navigator.onLine===false)return;
+  checking=true;
+  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),10000);
+  const options={cache:'no-store',credentials:'same-origin',signal:controller.signal};
+  try{
+   const manifestURL=new URL('version.json',location.href);
+   manifestURL.searchParams.set('_check',Date.now()+'-'+Math.random().toString(36).slice(2));
+   const response=await fetch(manifestURL,options);
+   if(!response.ok)return;
+   const manifest=await response.json(),next=manifest.version;
+   if(manifest.schema!==1||!/^[a-f0-9]{64}$/.test(next||'')||next===current)return;
+   const attempt=readAttempt();
+   if(attempt?.version===next&&Date.now()-attempt.at<retryDelay)return;
+   // Confirm HTML and manifest belong to the same release before navigating.
+   const nextURL=new URL(location.href);
+   nextURL.searchParams.set('_v',next);
+   nextURL.searchParams.set('_refresh',Date.now().toString());
+   const page=await fetch(nextURL,options);
+   if(!page.ok)return;
+   const html=new DOMParser().parseFromString(await page.text(),'text/html');
+   if(html.querySelector('meta[name="app-version"]')?.content!==next)return;
+   try{sessionStorage.setItem(guardKey,JSON.stringify({version:next,at:Date.now()}));}catch{}
+   leaving=true;
+   location.replace(nextURL.href);
+  }catch{
+   // A failed check must never prevent the current offline-capable app working.
+  }finally{
+   clearTimeout(timeout);checking=false;
+  }
+ }
+ check();
+ setInterval(check,retryDelay);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)check();});
+ window.addEventListener('focus',check);
+ window.addEventListener('pageshow',check);
+ window.addEventListener('online',check);
+})();
 </script></body></html>

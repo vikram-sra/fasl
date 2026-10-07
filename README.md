@@ -24,6 +24,12 @@ The scene occupies about 79% of a 390×844 viewport. One short stage title repla
 
 Tap an input object for its product ledger or water details; tap the main metrics for population, shoots and grain definitions. Menu contains automatic-care information, straw comparisons, results, sources and preferences. Pause freezes time and event motion. Reduced motion retains static flow cues. English/Punjabi and theme preferences persist locally.
 
+## Automatic updates
+
+Hosted tabs check `version.json` on startup, every 60 seconds while visible, and when focus, visibility or connectivity returns. A new content revision reloads automatically after confirming that the deployed HTML carries the same revision. Version requests and reload URLs bypass caches; partial deployment, offline/error responses and stale navigation responses do not create rapid reload loops. Language, theme and quantity preferences persist. An older tab opened before this updater was added needs one refresh to enable future automatic updates.
+
+`build.py` generates matching HTML metadata and `version.json` from a deterministic content hash. Publish both files together. The standalone `file://` build makes no update requests.
+
 ## Evidence
 
 Defaults: Ludhiana rainfall normals, PR 126 transplanted rice, PBW 826 wheat, one acre, and equal 100 g dry-food portions. Rice means uncooked milled grain; wheat means dry grain. These are not equal cooked volumes or equal calories.
@@ -53,7 +59,7 @@ npx --yes --package @playwright/cli playwright-cli -s=acceptance open http://127
 python3 tests/run_browser.py
 ```
 
-The browser runner defaults to `tests/journey.js`. Pass `live-flow.js`, `farmer-ui.js`, `ux-metrics.js`, `acre-view.js`, `guided-playback.js`, `accessibility.js`, or `crop-first.js` to check that flow. Screenshots and reports are written under ignored `output/playwright/`. The original brief and older specifications are historical context; current behavior is described in the documents below.
+The browser runner defaults to `tests/journey.js`. Pass `live-flow.js`, `farmer-ui.js`, `ux-metrics.js`, `acre-view.js`, `guided-playback.js`, `accessibility.js`, `crop-first.js`, or `updates.js` to check that flow. Screenshots and reports are written under ignored `output/playwright/`. The original brief and older specifications are historical context; current behavior is described in the documents below.
 
 - [Build and run](docs/BUILD_AND_RUN.md)
 - [Product and visual behavior](docs/PRODUCT_AND_VISUALS.md)

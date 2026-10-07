@@ -1,4 +1,5 @@
 """Assemble the zero-dependency, file://-compatible application."""
+import hashlib
 import json
 from pathlib import Path
 root = Path(__file__).parent
@@ -12,5 +13,10 @@ html = html.replace('/* SIMULATION */', (root/'app/simulation.js').read_text())
 html = html.replace('/* TIMELINE */', (root/'app/timeline.js').read_text())
 html = html.replace('/* METRICS */', (root/'app/metrics.js').read_text())
 html = html.replace('/* APPLICATION */', (root/'app/application.js').read_text())
+html = html.replace('/* APP_UPDATES */', (root/'app/updates.js').read_text())
+# Stable content revision: identical source builds produce the same release.
+version = hashlib.sha256(html.encode()).hexdigest()
+html = html.replace('APP_VERSION', version)
 (root/'index.html').write_text(html)
+(root/'version.json').write_text(json.dumps({'schema': 1, 'version': version}, indent=2)+'\n')
 print('Built index.html — embedded art, simulation and all package data.')

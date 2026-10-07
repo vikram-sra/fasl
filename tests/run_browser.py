@@ -6,7 +6,7 @@ import sys
 
 root = Path(__file__).resolve().parent.parent
 flow = sys.argv[1] if len(sys.argv) > 1 else 'journey.js'
-allowed = {'journey.js', 'live-flow.js', 'farmer-ui.js', 'ux-metrics.js', 'acre-view.js', 'guided-playback.js', 'accessibility.js', 'crop-first.js'}
+allowed = {'journey.js', 'live-flow.js', 'farmer-ui.js', 'ux-metrics.js', 'acre-view.js', 'guided-playback.js', 'accessibility.js', 'crop-first.js', 'updates.js'}
 if flow not in allowed:
     raise SystemExit('Choose a current browser flow: ' + ', '.join(sorted(allowed)))
 cli = shutil.which('playwright-cli')

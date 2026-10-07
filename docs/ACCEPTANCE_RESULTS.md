@@ -54,3 +54,16 @@ Added 19 passing UX/metrics browser checks and a passing pure metric-allocation 
 ## Acre field visualization
 
 12 new browser checks pass for instanced field rows, smooth zoom, reversible view switching, mobile fit, wheat and reduced motion. Metric allocation and residue model tests pass. Representative plant rendering does not modify the model population or water balance.
+
+## Automatic update detection · 7 October 2026
+
+The previous Pages deployment for `fd60ff3` completed successfully, and the publicly fetched HTML matched the committed `index.html` byte for byte. The live response allowed caching for 600 seconds. A persistent old tab can also retain its already-loaded document.
+
+The new content-hash version file and embedded HTML revision are deterministic across repeated builds. 18 passing browser checks cover startup and periodic version detection, cache-busting project-relative URLs, unchanged/invalid/error responses, offline reconnect, matching HTML before reload, preserved preferences and query/hash state, stale-cache retry cooldowns, blocked session storage and the standalone file build. Version checking is silent and does not change the simulation.
+
+
+## Phone proportions · 7 October 2026
+
+The ground boundary stays at 65% of scene height across growth stages. Soil, roots and saturated ground share the remaining 35%; above-ground pump size follows the camera framing. Young field perspective depth is reduced so distant rows do not consume the crop area. The cutaway remains illustrative, not a physical depth scale.
+
+68 crop-first checks pass, including five viewport sizes, seedlings matching the reported June 21 state, both quantity modes, crop height, groundwater visibility and pump proportions. The 17 live-flow, 12 acre-view and 35 journey checks also pass. Dark phone screenshots were inspected for seedling and mature rice in both quantity modes; crop headroom is retained.

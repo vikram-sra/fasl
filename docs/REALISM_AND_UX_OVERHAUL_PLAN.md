@@ -17,7 +17,7 @@ The previous overhaul optimized narrative and control completeness before compos
 
 The crop and its underground cutaway are the experience. Text supports this scene.
 
-At ordinary text size, target 75–80% of the usable app viewport for the scene, excluding browser chrome and device safe areas. Keep the full surface-to-groundwater cross-section visible before scrolling. Reserve approximately 60% of the scene height for canopy and field surface, and 40% for roots, soil and saturated ground. Mature crops occupy 80–90% of scene width, with a narrow edge for the pump and input objects. Leave roughly 10–12% of the mature-crop scene as headroom above the grain heads, so the stage label does not crowd the canopy.
+At ordinary text size, target 75–80% of the usable app viewport for the scene, excluding browser chrome and device safe areas. Keep the full surface-to-groundwater cross-section visible before scrolling. Reserve approximately 65% of the scene height for canopy and field surface, and 35% for roots, soil and saturated ground. Mature crops occupy 80–90% of scene width, with a narrow edge for the pump and input objects. Leave roughly 10–12% of the mature-crop scene as headroom above the grain heads, so the stage label does not crowd the canopy.
 
 These are layout targets to validate in screenshots, not claims that plants fill 75% of all pixels. Seedling and post-harvest states must remain biologically honest: move closer to seedlings or show stubble and residue, rather than inventing mature crops at every date.
 
