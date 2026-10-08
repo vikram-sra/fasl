@@ -857,3 +857,108 @@ dialog button.action {
   font-family: Georgia,serif;
   font-size: 26px;
 }
+
+/* Crop choice → seed → sowing → the angled field. */
+#scene-art { pointer-events:auto; touch-action:pan-y; }
+#scene-art[data-view=field3d] { cursor:grab; }
+#scene-art[data-view=field3d]:active { cursor:grabbing; }
+.game[data-journey=welcome],.game[data-journey=seed],.game[data-journey=sowing] { grid-template-rows:1fr; min-height:400px; }
+.game[data-journey=welcome]>.header,.game[data-journey=welcome]>.timeline,
+.game[data-journey=seed]>.header,.game[data-journey=seed]>.timeline,
+.game[data-journey=sowing]>.header,.game[data-journey=sowing]>.timeline { display:none; }
+.game[data-journey=welcome] .field-scene>:not(#welcome),
+.game[data-journey=seed] .field-scene>:not(#scene-art):not(#seed-entry),
+.game[data-journey=sowing] .field-scene>:not(#scene-art):not(#seed-entry) { display:none!important; }
+.game[data-journey=welcome] .welcome { position:absolute; inset:0; display:grid; place-items:center; padding:24px; }
+.crop-choices { display:grid; grid-template-columns:1fr 1fr; gap:16px; width:100%; max-width:620px; }
+.crop-choices button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; min-height:240px; padding:24px 12px; border:1px solid var(--line); border-radius:28px; background:var(--surface); font-family:Georgia,serif; font-size:30px; box-shadow:0 12px 38px #1533230a; }
+.crop-choices button:hover { background:var(--soft); transform:translateY(-3px); }
+.crop-choices svg { width:90px; height:108px; }
+#seed-entry { display:none; position:absolute; inset:0; pointer-events:none; z-index:2; }
+.game[data-journey=seed] #seed-entry,.game[data-journey=sowing] #seed-entry { display:block; }
+#seed-back { pointer-events:auto; position:absolute; top:max(20px,env(safe-area-inset-top)); left:20px; border:1px solid var(--line); border-radius:50%; width:52px; height:52px; font-size:24px; background:var(--surface); }
+#seed-title { position:absolute; top:80px; left:16px; right:16px; text-align:center; font:400 32px Georgia,serif; }
+#sow-seed { pointer-events:auto; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:220px; height:240px; border-radius:50%; background:transparent; }
+#sow-seed span { position:absolute; top:112%; left:0; right:0; font-size:14px; color:var(--muted); white-space:nowrap; }
+.game[data-journey=sowing] #sow-seed { display:none; }
+#sowing-status { position:absolute; top:76%; left:20px; right:20px; text-align:center; font-size:16px; color:var(--muted); }
+@media(prefers-reduced-motion:reduce){.crop-choices button:hover{transform:none;}}
+
+#field-view-label { display:none; position:absolute; top:78px; left:20px; font-size:11px; color:var(--muted); pointer-events:none; z-index:2; }
+#scene-art[data-view=field3d] ~ #field-view-label { display:block; }
+
+.game[data-journey=welcome] .welcome { justify-content:stretch; }
+
+/* A short field note stays connected to its subject while the view turns. */
+#annotation-tether {position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;overflow:visible;color:var(--ink)}
+#annotation-tether path {fill:none;stroke:currentColor;stroke-width:1.5;opacity:.8}
+#annotation-tether circle {fill:var(--surface);stroke:currentColor;stroke-width:1.5}
+#annotation-card {position:absolute;z-index:6;width:min(300px,calc(100% - 24px));padding:12px 16px;border:1px solid var(--line);border-radius:18px;background:var(--surface);box-shadow:0 12px 35px #0003;color:var(--ink);text-align:left}
+#annotation-card[hidden],#annotation-tether[hidden] {display:none}
+.annotation-top {display:flex;align-items:center;justify-content:space-between;gap:8px}
+.annotation-top strong {font-size:17px}
+#annotation-close {min-width:44px;min-height:44px;padding:0;border-radius:50%}
+#annotation-card p {font-size:13px;line-height:1.55;margin:6px 0 10px}
+#annotation-details {min-height:44px;font-size:13px;text-decoration:underline}
+#groundwater-label,#field-view-label,#weather-status,#cutaway-note,#pump-label {pointer-events:auto;min-height:44px;cursor:pointer}
+#pump-label {position:absolute;right:16px;top:54%;z-index:2;background:var(--surface);font-size:11px;border-radius:8px;padding:8px 12px;display:none}
+#scene-art[data-view=field3d] ~ #pump-label {display:block}
+#field-view-label {background:var(--surface);border-radius:8px;padding:4px 10px}
+#groundwater-marker {right:auto;max-width:48%}
+#cutaway-note {padding:4px 8px}
+
+#cutaway-note {left:12px;right:auto;bottom:8px;max-width:100px;line-height:1.3}
+
+#field-zoom {display:none;position:absolute;right:16px;top:82px;z-index:3;align-items:center;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:24px}
+#scene-art[data-view=field3d] ~ #field-zoom {display:flex}
+#field-zoom button {width:44px;height:48px;padding:0;font-size:24px;border-radius:50%}
+#field-zoom button:disabled {opacity:.35;cursor:default}
+#zoom-level {font-size:11px;min-width:28px;text-align:center}
+.game:is([data-journey=guided],[data-journey=explore]) .timeline,
+.game:is([data-journey=guided],[data-journey=explore]) #field-zoom,
+.game:is([data-journey=guided],[data-journey=explore]) .input-objects,
+.game:is([data-journey=guided],[data-journey=explore]) #field-view-label {animation:controls-appear 1.8s ease both}
+.game[data-journey=guided] .input-objects {animation-delay:.3s}
+@keyframes controls-appear {from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.timeline {display:flex;flex-direction:column;gap:0;padding-top:6px}
+.playback-row {order:0;justify-content:flex-start;flex-wrap:nowrap;width:100%;gap:8px}
+.playback-row .unit-switch {flex:none;margin:0}
+#next-chapter {margin-left:auto}
+.quantity-row {order:1;justify-content:space-between;width:100%;flex-wrap:nowrap}
+.live-metrics {gap:16px;min-height:44px}
+.live-metrics strong {font-size:17px}
+.slider-wrap {order:2;width:100%}
+@media(max-width:600px){.timeline {padding:6px 12px max(2px,env(safe-area-inset-bottom))}.playback-row .unit-switch button {padding:4px 10px}.playback-row #play {min-width:76px;min-height:48px}.live-metrics strong {font-size:16px}#field-view-label{left:12px}#field-zoom{right:12px}}
+@media(prefers-reduced-motion:reduce){.game .timeline,.game #field-zoom,.game .input-objects,.game #field-view-label {animation:none!important}}
+/* Shared spacing and hierarchy for scene inspection, quantities and transport. */
+.game:is([data-journey=guided],[data-journey=explore]) .field-scene {--inspect-bottom:104px}
+.game:is([data-journey=guided],[data-journey=explore]) #soil-status,
+.game:is([data-journey=guided],[data-journey=explore]) #groundwater-marker,
+.game:is([data-journey=guided],[data-journey=explore]) #pump-label,
+.game:is([data-journey=guided],[data-journey=explore]) #cutaway-note {top:auto!important;bottom:var(--inspect-bottom);width:calc((100% - 32px)/4);max-width:none;min-height:44px;height:44px;transform:none;margin:0;background:transparent;border-radius:8px;font-size:11px;padding:4px;right:auto;text-align:center}
+.game:is([data-journey=guided],[data-journey=explore]) #soil-status {left:16px}
+.game:is([data-journey=guided],[data-journey=explore]) #groundwater-marker {left:calc(25% + 8px);justify-content:center}
+.game:is([data-journey=guided],[data-journey=explore]) #pump-label {left:50%}
+.game:is([data-journey=guided],[data-journey=explore]) #cutaway-note {left:calc(75% - 8px)}
+#groundwater-marker .water-tick {display:none}
+#groundwater-label {width:100%;background:transparent;color:var(--ink);font-size:11px;min-height:44px;padding:4px}
+.input-objects {left:16px;right:16px;bottom:16px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;width:auto;max-width:560px;margin:0 auto}
+.input-object {width:auto;min-width:0;height:82px;padding:6px 4px;border:1px solid var(--line);background:var(--surface);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.input-object svg {max-height:28px!important;max-width:24px!important;min-height:0;margin:0}
+.input-object strong {font-size:11px;line-height:1.2;white-space:nowrap}
+.input-object small {font-size:10px;line-height:1.2}
+#field-view-label {top:76px;font-size:11px;min-height:44px;padding:4px 8px;background:transparent}
+#field-zoom {top:76px}
+.event-label {top:44px!important;left:16px;min-height:28px!important;padding:0!important;font-size:11px;background:transparent!important}
+.timeline .playback-row {max-width:760px;margin:0 auto}
+.timeline .quantity-row,.timeline .slider-wrap {max-width:760px;margin:0 auto}
+.timeline #play {min-height:48px;min-width:84px;padding:4px 12px;font-size:13px;border-radius:14px}
+.timeline .unit-switch {padding:3px;border-radius:26px}
+.timeline .unit-switch button {min-height:42px;font-size:12px;padding:4px 12px}
+.timeline #next-chapter {min-height:48px;min-width:60px;border-radius:14px}
+.timeline .live-metrics strong {font-size:16px}
+.timeline .live-metrics small {font-size:9px}
+@media(min-width:700px){.game:is([data-journey=guided],[data-journey=explore]) .field-scene{--inspect-bottom:110px}.input-objects{bottom:20px}.input-object{height:84px}.input-object strong{font-size:12px}.input-object small{font-size:11px}}
+.input-object,.input-object strong,.input-object small,#cutaway-note {color:var(--ink);text-shadow:none}
+.timeline .playback-row {flex-wrap:wrap}
+.timeline .unit-switch button {min-height:44px}

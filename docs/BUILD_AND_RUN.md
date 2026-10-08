@@ -32,7 +32,7 @@ With a server running, open a CLI browser session named acceptance:
 
 ```sh
 npx --yes --package @playwright/cli playwright-cli -s=acceptance open http://127.0.0.1:8080/ --config tests/playwright.config.json
-python3 tests/run_browser.py
+python3 tests/run_browser.py seed-acre-labels.js
 python3 tests/run_browser.py live-flow.js
 python3 tests/run_browser.py farmer-ui.js
 python3 tests/run_browser.py ux-metrics.js
@@ -46,9 +46,9 @@ The runner uses a globally installed CLI when available, otherwise the cached np
 
 ## Files and release
 
-`app/simulation.js` is the deterministic model. `app/timeline.js` samples daily balances and botanical state. `app/metrics.js` allocates quantities. `app/scene3d.js` renders the field. `app/application.js` owns journey, playback, camera, units, dialogs and comparison state. Do not edit generated `index.html` directly.
+`app/simulation.js` is the deterministic model. `app/timeline.js` samples daily balances and botanical state. `app/metrics.js` allocates quantities. `app/scene3d.js` renders the representative cutaway; `app/field3d.js` owns the perspective acre, embedded models, population marks and seed transition. `app/application.js` owns journey, playback, camera, units, dialogs and comparison state. Do not edit generated `index.html` directly.
 
-GitHub Pages serves the repository root with `.nojekyll`. For release, rebuild, verify, refresh tracked-file manifest hashes, commit and publish using the project's normal process. Three.js r182 is bundled under its MIT license. This implementation has no automatic deployment step.
+GitHub Pages serves the repository root with `.nojekyll`. For release, rebuild, verify, refresh tracked-file manifest hashes, commit and publish using the project's normal process. Three.js r182 is bundled under its MIT license. Pushes to main trigger the managed Pages deployment.
 
 ## Publication and cache refresh
 

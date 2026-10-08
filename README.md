@@ -14,15 +14,17 @@ Open `http://127.0.0.1:8080/`.
 
 ## Experience
 
-The first visit starts paused with a centered plant preview and a large, enabled Play story button. **Play story** follows the rice → straw → wheat rotation in about 80 seconds, with harvest/processing/bowl reveals. **Explore** provides a paused timeline, crop navigation and chapter skips. All crop care is automatic.
+The home screen has two choices: **Rice** and **Wheat**. Choose one to see a seed, then tap it to start an eight-second sowing and camera transition into the selected season. Playback starts automatically. Reduced motion shortens the transition.
 
-Straw is retained as the baseline disclosed in Menu. **Menu → Compare straw choices** shows season-end projections for retaining or burning straw using identical rain and care. You can watch either path or change it at the current date. Wheat navigation works immediately; it does not require a management decision.
+**Field** shows a perspective view of a 4,046.8564224 m² acre. Drag or use the left/right arrows to turn; **+ / −** zoom from the full acre to 6×. Play sits beside Field / 100 g in the bottom dock. Controls fade in as the growing season begins.
 
-**Field / 100 g** coordinates the crop view and quantities. Field shows 96 varied clumps with detailed foreground plants; 100 g shows a large representative plant. Both retain the underground cutaway and preserve date and model history. Container sizes and fills change together: water, fertilizer, weed care and pest care show cumulative allocated quantities. Their capacities differ between modes, and small allocations are magnified illustrations, not a common physical scale.
+The modeled population is approximately 269,790 rice seedlings (20 × 15 cm hills, two seedlings each) or 1,011,714 wheat plants (an illustrative 250 plants/m²). A GPU canopy mark represents each plant at acre distance, with up to 96 embedded GLB instances replacing marks. Model heights are illustrative 0.82 m rice / 1.12 m wheat, not variety measurements. The tubewell stands outside the planted boundary. Soil layers and the water table remain illustrative. No new textures are used.
 
-The active scene occupies about 75% of a 390×844 viewport. One short stage title replaces the narrative strip, while a compact dock holds quantities and playback. Roots, soil horizons, saturated ground and a motor/pump assembly with connected bore piping stay visible. The camera moves closer to seedlings and the residue-covered surface between seasons. A small harvest reference opens results on tap.
+**100 g** shows the representative plant cutaway and allocates quantities to 100 g of final dry food. View changes preserve the date and model history. Containers are magnified quantity illustrations, not objects at field scale.
 
-Tap an input object for its product ledger or water details; tap the main metrics for population, shoots and grain definitions. Menu contains automatic-care information, straw comparisons, results, sources and preferences. Pause freezes time and event motion. Reduced motion retains static flow cues. English/Punjabi and theme preferences persist locally.
+Tap soil, groundwater, the field, tubewell, weather, cutaway or an input container for a short floating note with a connector to its subject. Notes pause playback, follow the camera, dismiss with Escape, and offer full details. English/Punjabi and theme preferences persist locally.
+
+Straw remains the disclosed mulch baseline. Menu provides straw comparisons, crop-care ledgers, results, sources and preferences. This is an educational model; density, growth and asset proportions are not a measured field survey.
 
 ## Automatic updates
 

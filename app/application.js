@@ -11,6 +11,8 @@ let residueStrategy='mulch',residueExplicit=false,result=Sim.ideal({residueStrat
 const maxDay=result.snapshots.length,chapters=[0,3,27,45,75,105,122,Sim.wheatStart(),Sim.wheatStart()+25,Sim.wheatStart()+80,Sim.wheatStart()+120,maxDay];
 const comparisonCache={mulch:result},planned={};
 let position=0,target=0,playing=false,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,viewMode=displayMode,journey='welcome',lastTime=0,uiTime=0,current,animationTime=0,orientationElapsed=0,harvestHold=null,seenHarvest=new Set(),drawerKind=null,dialogTrigger=null;
+let selectedCrop='rice',sowingElapsed=0,entryTime=0;
+const sowingDuration=8;
 const speed=1.5,guidedSpeed=4.5,game=document.querySelector('.game');
 function refreshPlanned(){for(const id of ['rice','wheat']){planned[id]={};for(const cat of ['fertilizer','herbicide','pest_control'])planned[id][cat]=result.state.cropStates[id].products.filter(p=>p.category===cat).reduce((n,p)=>n+p.quantity,0);}}
 refreshPlanned();
@@ -18,7 +20,9 @@ const monthMarks=[];let month=new Date(Sim.dateAt(0)+'T00:00:00Z'),first=month;m
 $('timeline-slider').max=maxDay;$('month-list').innerHTML=monthMarks.map(m=>`<span style="left:${m.day/maxDay*100}%" data-month="${m.key}"></span>`).join('');
 const grainRandom=Sim.random(4282);$('bowl-grains').innerHTML=Array.from({length:160},(_,i)=>{const x=40+grainRandom()*160,y=48+grainRandom()*48;return `<ellipse cx="${x}" cy="${y}" rx="3.6" ry="1.3" transform="rotate(${grainRandom()*170},${x},${y})" fill="${['#f8f3df','#ece3c8','#fff9ea'][i%3]}"/>`;}).join('');
 function liters(n){return fmt(n,n<10?1:0)+' L';}
-function begin(mode){journey=mode;game.dataset.journey=mode;$('welcome').hidden=true;document.querySelector('.timeline').inert=false;position=target=0;harvestHold=null;seenHarvest.clear();orientationElapsed=0;$('orientation').hidden=false;playing=mode==='guided';uiTime=0;$('play').focus();}
+function begin(mode){journey=mode;game.dataset.journey=mode;$('welcome').hidden=true;document.querySelector('.timeline').inert=false;position=target=selectedCrop==='wheat'?Sim.wheatStart():0;harvestHold=null;seenHarvest.clear();orientationElapsed=0;$('orientation').hidden=false;playing=mode==='guided';uiTime=0;$('play').focus();}
+function chooseCrop(id){selectedCrop=id;journey='seed';game.dataset.journey=journey;playing=false;position=target=id==='wheat'?Sim.wheatStart():0;displayMode=viewMode='acre';$('welcome').hidden=true;entryTime=0;sowingElapsed=0;uiTime=0;$('seed-title').textContent=tr(id==='rice'?'Rice':'Wheat',id==='rice'?'ਝੋਨਾ':'ਕਣਕ');$('sow-seed').setAttribute('aria-label',tr('Sow the '+id+' seed',id==='rice'?'ਝੋਨੇ ਦਾ ਬੀਜ ਬੀਜੋ':'ਕਣਕ ਦਾ ਬੀਜ ਬੀਜੋ'));$('sow-seed').disabled=false;$('sowing-status').textContent='';$('sow-seed').focus();}
+function returnHome(){playing=false;journey='welcome';game.dataset.journey=journey;$('welcome').hidden=false;harvestHold=null;sowingElapsed=0;entryTime=0;position=target=0;uiTime=0;}
 function jump(value){if(journey==='welcome')begin('explore');playing=false;harvestHold=null;target=Math.max(0,Math.min(maxDay,value));position=target;uiTime=0;$('orientation').hidden=true;}
 function nextChapter(){const n=chapters.find(d=>d>target+.5);if(n!==undefined)jump(n);}
 function stageLabel(v){
@@ -60,8 +64,8 @@ function updateUI(v){
  $('play').firstElementChild.textContent=playing?'Ⅱ':'▷';$('play-label').textContent=tr(playing?'Pause':position>=maxDay?'Replay':'Play',playing?'ਰੋਕੋ':position>=maxDay?'ਦੁਬਾਰਾ':'ਚਲਾਓ');$('play').setAttribute('aria-label',tr(playing?'Pause simulation':'Play simulation',playing?'ਸਿਮੂਲੇਸ਼ਨ ਰੋਕੋ':'ਸਿਮੂਲੇਸ਼ਨ ਚਲਾਓ'));
  $('next-chapter').disabled=position>=maxDay;$('playback-context').textContent=tr(journey==='guided'?'Guided story · time accelerated':'Explore · care is automatic',journey==='guided'?'ਕਹਾਣੀ · ਸਮਾਂ ਤੇਜ਼ ਚੱਲਦਾ ਹੈ':'ਖੋਜੋ · ਦੇਖਭਾਲ ਆਪਣੇ ਆਪ');
  $('baseline-note').textContent=residueStrategy==='mulch'?tr(residueExplicit?'Straw kept as mulch · your choice':'Straw kept as mulch · baseline',residueExplicit?'ਪਰਾਲੀ ਮਲਚ ਵਜੋਂ · ਤੁਹਾਡੀ ਚੋਣ':'ਪਰਾਲੀ ਮਲਚ ਵਜੋਂ · ਮੂਲ ਰਾਹ'):tr('Straw burned · your choice','ਪਰਾਲੀ ਸਾੜੀ · ਤੁਹਾਡੀ ਚੋਣ');
- $('soil-status').textContent=tr('Soil & roots ↗','ਮਿੱਟੀ ਤੇ ਜੜ੍ਹਾਂ ↗');
- const diff=v.aquiferL-v.previous.aquifer;$('groundwater-label').textContent=(Math.abs(diff)<.5?'↔':diff>0?'↑':'↓')+' '+tr('Groundwater','ਧਰਤੀ ਹੇਠਲਾ ਪਾਣੀ');
+ $('soil-status').textContent=tr('Soil & roots','ਮਿੱਟੀ ਤੇ ਜੜ੍ਹਾਂ');
+ const diff=v.aquiferL-v.previous.aquifer;$('groundwater-label').textContent=(Math.abs(diff)<.5?'↔':diff>0?'↑':'↓')+' '+tr('Water','ਪਾਣੀ');
  const effects=Scene3D.info();$('weather-status').textContent=v.flow.rain>0&&v.fraction<.4?tr('Rain wets the field','ਮੀਂਹ ਖੇਤ ਨੂੰ ਗਿੱਲਾ ਕਰਦਾ ਹੈ'):v.flow.pumped>0&&v.fraction<.4?tr('Underground water → field','ਧਰਤੀ ਹੇਠੋਂ ਪਾਣੀ → ਖੇਤ'):effects.infiltrationAnimating?tr('Water seeps into the soil','ਪਾਣੀ ਮਿੱਟੀ ਵਿੱਚ ਰਿਸਦਾ ਹੈ'):v.flow.recharge>0?tr('Delayed water returns underground','ਦੇਰੀ ਨਾਲ ਪਾਣੀ ਧਰਤੀ ਹੇਠ ਵਾਪਸ ਜਾਂਦਾ ਹੈ'):'';
  updateHarvest(v);updateInputObjects(v,m);
 }
@@ -69,9 +73,9 @@ function applyTheme(){document.documentElement.dataset.theme=theme==='system'?(m
 function applyLabels(){
  document.documentElement.lang=language;
  const labels={
-  'welcome-kicker':['A SMALL STORY ABOUT WHAT FEEDS US','ਸਾਡੇ ਭੋਜਨ ਦੀ ਇੱਕ ਛੋਟੀ ਕਹਾਣੀ'], 'welcome-copy':['Follow rice and wheat from seed to food—and see the water used along the way.','ਝੋਨੇ ਅਤੇ ਕਣਕ ਨੂੰ ਬੀਜ ਤੋਂ ਭੋਜਨ ਤੱਕ ਦੇਖੋ—ਅਤੇ ਰਾਹ ਵਿੱਚ ਵਰਤਿਆ ਪਾਣੀ ਸਮਝੋ।'], 'welcome-note':['About 80 seconds · pause or skip ahead anytime','ਲਗਭਗ 80 ਸਕਿੰਟ · ਕਦੇ ਵੀ ਰੋਕੋ ਜਾਂ ਅੱਗੇ ਜਾਓ'], 'start-story':['▶ Play story','▶ ਕਹਾਣੀ ਚਲਾਓ'], 'explore':['Explore','ਆਪਣੇ ਤਰੀਕੇ ਨਾਲ ਖੋਜੋ'], 'care-label':['How this field is cared for','ਖੇਤ ਦੀ ਦੇਖਭਾਲ ਕਿਵੇਂ ਹੁੰਦੀ ਹੈ'], 'representation-label':['Representative plants · enlarged roots','ਨੁਮਾਇੰਦਾ ਪੌਦੇ · ਵੱਡੀਆਂ ਜੜ੍ਹਾਂ'], 'cutaway-note':['Illustrative cutaway','ਧਰਤੀ ਹੇਠਲਾ ਦ੍ਰਿਸ਼ · ਅਸਲ ਪੈਮਾਨਾ ਨਹੀਂ'], 'orientation-copy':['Above: the crop. Below: roots, soil and water. Crop care happens automatically.','ਉੱਪਰ: ਫ਼ਸਲ। ਹੇਠਾਂ: ਜੜ੍ਹਾਂ, ਮਿੱਟੀ ਅਤੇ ਪਾਣੀ। ਦੇਖਭਾਲ ਆਪਣੇ ਆਪ ਹੁੰਦੀ ਹੈ।'], 'next-chapter':['Next →','ਅਗਲਾ ਪੜਾਅ →'], 'compare-straw-footer':['Compare straw choices','ਪਰਾਲੀ ਦੇ ਰਾਹਾਂ ਦੀ ਤੁਲਨਾ'], 'estimates-link':['About these estimates','ਇਨ੍ਹਾਂ ਅੰਦਾਜ਼ਿਆਂ ਬਾਰੇ'], 'harvest-results':['Harvest ↗','ਇਹ ਵਾਢੀ ਦੇਖੋ ↗'], 'finish-kicker':['THE FIELD KEEPS ITS HISTORY','ਖੇਤ ਦਾ ਇਤਿਹਾਸ ਅੱਗੇ ਚੱਲਦਾ ਹੈ'], 'finish-title':['Two harvests. One shared source.','ਦੋ ਵਾਢੀਆਂ। ਇੱਕ ਸਾਂਝਾ ਸਰੋਤ।'], 'compare-crops':['Results ↗','ਝੋਨੇ ਅਤੇ ਕਣਕ ਦੀ ਤੁਲਨਾ'], 'replay':['Replay ↻','ਦੁਬਾਰਾ ਦੇਖੋ ↻'], 'try-straw':['Try the other straw choice ↗','ਪਰਾਲੀ ਦਾ ਦੂਜਾ ਰਾਹ ਅਜ਼ਮਾਓ ↗']
+  'welcome-kicker':['A SMALL STORY ABOUT WHAT FEEDS US','ਸਾਡੇ ਭੋਜਨ ਦੀ ਇੱਕ ਛੋਟੀ ਕਹਾਣੀ'], 'welcome-copy':['Follow rice and wheat from seed to food—and see the water used along the way.','ਝੋਨੇ ਅਤੇ ਕਣਕ ਨੂੰ ਬੀਜ ਤੋਂ ਭੋਜਨ ਤੱਕ ਦੇਖੋ—ਅਤੇ ਰਾਹ ਵਿੱਚ ਵਰਤਿਆ ਪਾਣੀ ਸਮਝੋ।'], 'welcome-note':['About 80 seconds · pause or skip ahead anytime','ਲਗਭਗ 80 ਸਕਿੰਟ · ਕਦੇ ਵੀ ਰੋਕੋ ਜਾਂ ਅੱਗੇ ਜਾਓ'], 'start-story':['▶ Play story','▶ ਕਹਾਣੀ ਚਲਾਓ'], 'explore':['Explore','ਆਪਣੇ ਤਰੀਕੇ ਨਾਲ ਖੋਜੋ'], 'care-label':['How this field is cared for','ਖੇਤ ਦੀ ਦੇਖਭਾਲ ਕਿਵੇਂ ਹੁੰਦੀ ਹੈ'], 'representation-label':['Representative plants · enlarged roots','ਨੁਮਾਇੰਦਾ ਪੌਦੇ · ਵੱਡੀਆਂ ਜੜ੍ਹਾਂ'], 'cutaway-note':['Cutaway ⓘ','ਹੇਠਲਾ ਦ੍ਰਿਸ਼ ⓘ'], 'orientation-copy':['Above: the crop. Below: roots, soil and water. Crop care happens automatically.','ਉੱਪਰ: ਫ਼ਸਲ। ਹੇਠਾਂ: ਜੜ੍ਹਾਂ, ਮਿੱਟੀ ਅਤੇ ਪਾਣੀ। ਦੇਖਭਾਲ ਆਪਣੇ ਆਪ ਹੁੰਦੀ ਹੈ।'], 'next-chapter':['Next →','ਅਗਲਾ ਪੜਾਅ →'], 'compare-straw-footer':['Compare straw choices','ਪਰਾਲੀ ਦੇ ਰਾਹਾਂ ਦੀ ਤੁਲਨਾ'], 'estimates-link':['About these estimates','ਇਨ੍ਹਾਂ ਅੰਦਾਜ਼ਿਆਂ ਬਾਰੇ'], 'harvest-results':['Harvest ↗','ਇਹ ਵਾਢੀ ਦੇਖੋ ↗'], 'finish-kicker':['THE FIELD KEEPS ITS HISTORY','ਖੇਤ ਦਾ ਇਤਿਹਾਸ ਅੱਗੇ ਚੱਲਦਾ ਹੈ'], 'finish-title':['Two harvests. One shared source.','ਦੋ ਵਾਢੀਆਂ। ਇੱਕ ਸਾਂਝਾ ਸਰੋਤ।'], 'compare-crops':['Results ↗','ਝੋਨੇ ਅਤੇ ਕਣਕ ਦੀ ਤੁਲਨਾ'], 'replay':['Replay ↻','ਦੁਬਾਰਾ ਦੇਖੋ ↻'], 'try-straw':['Try the other straw choice ↗','ਪਰਾਲੀ ਦਾ ਦੂਜਾ ਰਾਹ ਅਜ਼ਮਾਓ ↗']
  };for(const [id,pair] of Object.entries(labels))if($(id))$(id).textContent=tr(...pair);
- $('welcome-title').innerHTML=tr('One field. Two harvests.','ਇੱਕ ਖੇਤ।<br>ਦੋ ਵਾਢੀਆਂ।');
+ $('pump-label').textContent=tr('Tubewell','ਟਿਊਬਵੈੱਲ');$('zoom-in').setAttribute('aria-label',tr('Zoom in','ਨੇੜੇ ਕਰੋ'));$('zoom-out').setAttribute('aria-label',tr('Zoom out','ਦੂਰ ਕਰੋ'));$('welcome-title').textContent=tr('Choose a crop','ਫ਼ਸਲ ਚੁਣੋ');document.querySelector('[data-choose=rice] span').textContent=tr('Rice','ਝੋਨਾ');document.querySelector('[data-choose=wheat] span').textContent=tr('Wheat','ਕਣਕ');$('sow-seed').querySelector('span').textContent=tr('Tap the seed to plant','ਬੀਜ ਬੀਜਣ ਲਈ ਛੂਹੋ');$('field-view-label').textContent=tr('1 acre · Drag to turn','1 ਏਕੜ · ਘੁਮਾਉਣ ਲਈ ਖਿੱਚੋ');
  $('home').setAttribute('aria-label',tr('Return to the introduction','ਜਾਣ-ਪਛਾਣ ਵੱਲ ਵਾਪਸ'));
  $('language-toggle').textContent=tr('ਪੰਜਾਬੀ','English');$('language-toggle').lang=language==='en'?'pa':'en';$('language-toggle').setAttribute('aria-label',tr('Switch to Punjabi','Switch to English'));
  document.querySelector('.menu').textContent=tr('Menu','ਮੀਨੂ');document.querySelector('.menu').setAttribute('aria-label',tr('Settings and information','ਸੈਟਿੰਗਾਂ ਅਤੇ ਜਾਣਕਾਰੀ'));
@@ -107,14 +111,23 @@ function toggleLanguage(){language=language==='en'?'pa':'en';savePref('fasl-lang
 function downloadData(){const blob=new Blob([JSON.stringify({mode:'managed_rotation',modelVersion:2,displayMode,viewMode,residueStrategy,soil:result.state.soil,seed:result.seed,scenario:result.scenario,assumptions:result.cfg,automaticPolicy:Sim.AUTO_CONFIG,decisions:result.actions,waterLedger:result.state.water,cropStates:result.state.cropStates},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='fasl-rotation.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 $('timeline-slider').addEventListener('input',e=>jump(Number(e.target.value)));
 $('timeline-slider').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End','PageUp','PageDown'].includes(e.key))return;e.preventDefault();const step=e.shiftKey?7:1;jump(e.key==='Home'?0:e.key==='End'?maxDay:target+(['ArrowLeft','PageDown'].includes(e.key)?-1:1)*(e.key.startsWith('Page')?14:step));});
-$('home').addEventListener('click',e=>{e.preventDefault();playing=false;journey='welcome';game.dataset.journey=journey;$('welcome').hidden=false;$('orientation').hidden=true;document.querySelector('.timeline').inert=false;harvestHold=null;position=target=0;uiTime=0;});
+$('home').addEventListener('click',e=>{e.preventDefault();returnHome();});
 function restoreFocus(fallback){requestAnimationFrame(()=>{if(!$('drawer').open&&!$('residue-dialog').open){const trigger=dialogTrigger?.isConnected&&!dialogTrigger.closest('dialog')?dialogTrigger:$(fallback);trigger?.focus();}});}
 $('drawer').addEventListener('close',()=>{if(!$('drawer').open)drawerKind=null;restoreFocus('language-toggle');});$('residue-dialog').addEventListener('close',()=>restoreFocus('language-toggle'));
 // All mutations are explicit controls; changing view or units never touches the reducer.
  document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.id==='zoom-in'||b.id==='zoom-out'){FieldPlot3D.changeZoom(b.id==='zoom-in'?1.4:1/1.4);return;}
+ if(b.id==='annotation-close'){closeAnnotation(true);return;}
+ if(b.id==='annotation-details'){const kind=annotation?.details,trigger=annotation?.trigger;closeAnnotation();if(kind){openDrawer(kind);dialogTrigger=trigger;};return;}
+ if(b.dataset.annotation){openAnnotation(b.dataset.annotation,b);return;}
+ if(b.dataset.drawer&&b.closest('.field-scene')&&!b.closest('#harvest-reveal,#story-finish')){openAnnotation(b.dataset.drawer,b);return;}
+ if(!b.closest('#annotation-card'))closeAnnotation();
+ if(b.dataset.choose){chooseCrop(b.dataset.choose);return;}
+ if(b.id==='seed-back'){returnHome();return;}
+ if(b.id==='sow-seed'&&journey==='seed'){journey='sowing';game.dataset.journey=journey;sowingElapsed=0;b.disabled=true;return;}
  if(b.dataset.unit){displayMode=b.dataset.unit;viewMode=displayMode;savePref('fasl-units',displayMode);uiTime=0;return;}
 
- if(b.dataset.scene){jump(b.dataset.scene==='rice'?0:Sim.wheatStart());return;}
+ if(b.dataset.scene){selectedCrop=b.dataset.scene;jump(b.dataset.scene==='rice'?0:Sim.wheatStart());return;}
  if(b.dataset.drawer){openDrawer(b.dataset.drawer);return;}
  if(b.dataset.residue){setResidue(b.dataset.residue);return;}
  if(b.dataset.watch){if($('drawer').open)$('drawer').close();setResidue(b.dataset.watch);journey='explore';game.dataset.journey=journey;jump(121);playing=true;return;}
@@ -125,7 +138,42 @@ $('drawer').addEventListener('close',()=>{if(!$('drawer').open)drawerKind=null;r
  if(b.id==='change-residue'){chooseResidue();return;}if(b.id==='theme'){theme=theme==='system'?'light':theme==='light'?'dark':'system';savePref('fasl-theme',theme);applyTheme();openDrawer('about');return;}
  if(b.id==='motion'){reduced=!reduced;if(reduced)playing=false;savePref('fasl-motion',reduced?'reduced':'full');$('drawer').close();uiTime=0;return;}if(b.id==='export')downloadData();
  });
+let annotation=null;
+function closeAnnotation(focus=false){if(!annotation)return;const trigger=annotation.trigger;trigger.setAttribute('aria-expanded','false');annotation=null;$('annotation-card').hidden=true;$('annotation-tether').setAttribute('hidden','');if(focus&&trigger.isConnected)trigger.focus();}
+function openAnnotation(kind,trigger){
+ if(annotation?.trigger===trigger){closeAnnotation(true);return;}closeAnnotation();playing=false;uiTime=0;
+ const v=current,m=Metrics.sample(result,v,displayMode),plot=FieldPlot3D.info();
+ const notes={
+  soil:[tr('Soil & roots','ਮਿੱਟੀ ਤੇ ਜੜ੍ਹਾਂ'),tr('Roots take up water and nutrients. Retained straw covers the surface and gradually returns organic matter.','ਜੜ੍ਹਾਂ ਪਾਣੀ ਅਤੇ ਪੌਸ਼ਟਿਕ ਤੱਤ ਲੈਂਦੀਆਂ ਹਨ। ਪਰਾਲੀ ਮਿੱਟੀ ਨੂੰ ਢੱਕਦੀ ਹੈ ਅਤੇ ਜੈਵਿਕ ਪਦਾਰਥ ਵਾਪਸ ਕਰਦੀ ਹੈ।'),'soil'],
+  water:[tr('Groundwater','ਧਰਤੀ ਹੇਠਲਾ ਪਾਣੀ'),tr('The tubewell draws from shared underground water. Rain and drainage replenish it over time. The blue layer is an illustration, not a measured water-table depth.','ਟਿਊਬਵੈੱਲ ਧਰਤੀ ਹੇਠੋਂ ਪਾਣੀ ਲੈਂਦਾ ਹੈ। ਮੀਂਹ ਅਤੇ ਰਿਸਾਅ ਇਸ ਨੂੰ ਭਰਦੇ ਹਨ। ਨੀਲੀ ਪਰਤ ਪਾਣੀ ਦੀ ਅਸਲ ਡੂੰਘਾਈ ਦਾ ਮਾਪ ਨਹੀਂ ਹੈ।'),'water'],
+  pump:[tr('Tubewell','ਟਿਊਬਵੈੱਲ'),tr('Outside the planted acre. Water is pumped into the field when the modeled crop needs it.','ਲਗਾਏ ਏਕੜ ਤੋਂ ਬਾਹਰ। ਮਾਡਲ ਵਿੱਚ ਫ਼ਸਲ ਨੂੰ ਲੋੜ ਹੋਣ ਉੱਤੇ ਪਾਣੀ ਖੇਤ ਵਿੱਚ ਆਉਂਦਾ ਹੈ।'),'water'],
+  crop:[tr('One planted acre','ਇੱਕ ਲਗਾਇਆ ਏਕੜ'),tr('63.6 × 63.6 m. '+count(m.plants)+' standing plants in the model. '+(v.id==='rice'?'Rice: 20 × 15 cm hills, two seedlings each.':'Wheat: an illustrative 250 plants/m².')+' At this distance, each plant is a small canopy mark. Heights are illustrative model proportions.','63.6 × 63.6 ਮੀਟਰ। ਮਾਡਲ ਵਿੱਚ '+count(m.plants)+' ਪੌਦੇ। ਇਹ ਪੌਦਿਆਂ ਦੀ ਗਿਣਤੀ ਅਤੇ ਉਚਾਈ ਦੇ ਅੰਦਾਜ਼ੇ ਹਨ।'),'metrics'],
+  weather:[tr('Weather','ਮੌਸਮ'),tr('Rain adds water to the field. The animation follows the modeled day; it is not a live forecast.','ਮੀਂਹ ਖੇਤ ਨੂੰ ਪਾਣੀ ਦਿੰਦਾ ਹੈ। ਇਹ ਮਾਡਲ ਦਾ ਮੌਸਮ ਹੈ, ਲਾਈਵ ਭਵਿੱਖਬਾਣੀ ਨਹੀਂ।'),'water'],
+  cutaway:[tr('Below the surface','ਸਤ੍ਹਾ ਦੇ ਹੇਠਾਂ'),tr('The section reveals soil, roots and stored water. Soil layers and groundwater depth are illustrative; the planted footprint is one acre.','ਇਹ ਦ੍ਰਿਸ਼ ਮਿੱਟੀ, ਜੜ੍ਹਾਂ ਅਤੇ ਪਾਣੀ ਦਿਖਾਉਂਦਾ ਹੈ। ਪਰਤਾਂ ਦੀ ਡੂੰਘਾਈ ਅੰਦਾਜ਼ਨ ਹੈ; ਖੇਤ ਇੱਕ ਏਕੜ ਹੈ।'),'soil'],
+  fertilizer:[tr('Fertilizer','ਖਾਦ'),tr('Nutrition applied so far. The container shows cumulative quantity for the selected Field or 100 g basis.','ਹੁਣ ਤੱਕ ਵਰਤੀ ਖਾਦ। ਭਾਂਡਾ ਚੁਣੇ ਖੇਤ ਜਾਂ 100 g ਲਈ ਕੁੱਲ ਮਾਤਰਾ ਦਿਖਾਉਂਦਾ ਹੈ।'),'fertilizer'],
+  herbicide:[tr('Weed care','ਨਦੀਨਾਂ ਦੀ ਦੇਖਭਾਲ'),tr('Recorded weed-care inputs through this day. Tap More details for products and quantities.','ਇਸ ਦਿਨ ਤੱਕ ਨਦੀਨਾਂ ਦੀ ਦੇਖਭਾਲ। ਉਤਪਾਦਾਂ ਅਤੇ ਮਾਤਰਾ ਲਈ ਹੋਰ ਵੇਰਵੇ ਦੇਖੋ।'),'herbicide'],
+  pest_control:[tr('Pest care','ਕੀਟਾਂ ਦੀ ਦੇਖਭਾਲ'),tr('Treatments appear only when the model records an application. The container is a quantity illustration.','ਮਾਡਲ ਵਿੱਚ ਵਰਤੋਂ ਦਰਜ ਹੋਣ ਉੱਤੇ ਹੀ ਇਲਾਜ ਦਿਖਦਾ ਹੈ। ਭਾਂਡਾ ਮਾਤਰਾ ਦਾ ਚਿੱਤਰ ਹੈ।'),'pest_control'],
+  care:[tr('Crop care','ਫ਼ਸਲ ਦੀ ਦੇਖਭਾਲ'),tr('Water and crop care happen automatically as the season plays. Tap each input to inspect its amount.','ਮੌਸਮ ਚੱਲਣ ਨਾਲ ਸਿੰਚਾਈ ਅਤੇ ਦੇਖਭਾਲ ਆਪਣੇ ਆਪ ਹੁੰਦੀ ਹੈ। ਮਾਤਰਾ ਲਈ ਹਰ ਸਾਧਨ ਛੂਹੋ।'),'care']
+ };
+ const note=notes[kind]||notes.crop;annotation={kind,trigger,details:note[2]};trigger.setAttribute('aria-expanded','true');trigger.setAttribute('aria-controls','annotation-card');
+ $('annotation-title').textContent=note[0];$('annotation-copy').textContent=note[1];$('annotation-details').textContent=tr('More details ↗','ਹੋਰ ਵੇਰਵੇ ↗');$('annotation-close').setAttribute('aria-label',tr('Close field note','ਵੇਰਵਾ ਬੰਦ ਕਰੋ'));
+ $('annotation-card').hidden=false;$('annotation-tether').removeAttribute('hidden');positionAnnotation();$('annotation-close').focus({preventScroll:true});
+}
+function positionAnnotation(){
+ if(!annotation)return;const host=document.querySelector('.field-scene'),r=host.getBoundingClientRect(),card=$('annotation-card'),trigger=annotation.trigger.getBoundingClientRect();
+ if(!trigger.width||journey==='welcome'||journey==='seed'||journey==='sowing'){closeAnnotation();return;}
+ const anchors=viewMode==='acre'?FieldPlot3D.info().anchors:null,key={cutaway:'soil',weather:'crop',care:'crop'}[annotation.kind]||annotation.kind;
+ const point=annotation.trigger.classList.contains('input-object')?null:anchors?.[key];
+ const x=Math.max(8,Math.min(r.width-8,point?.x??trigger.x+trigger.width/2-r.x)),y=Math.max(8,Math.min(r.height-8,point?.y??trigger.y+trigger.height/2-r.y));
+ const left=Math.max(12,Math.min(r.width-card.offsetWidth-12,x-card.offsetWidth/2));
+ const top=Math.max(108,Math.min(r.height-card.offsetHeight-16,y-card.offsetHeight-65));card.style.left=left+'px';card.style.top=top+'px';
+ const sx=Math.max(left+18,Math.min(left+card.offsetWidth-18,x)),sy=top+card.offsetHeight;
+ const svg=$('annotation-tether');svg.setAttribute('viewBox',`0 0 ${r.width} ${r.height}`);svg.querySelector('path').setAttribute('d',`M ${sx} ${sy} Q ${sx} ${(sy+y)/2} ${x} ${y}`);svg.querySelector('circle').setAttribute('cx',x);svg.querySelector('circle').setAttribute('cy',y);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&annotation){e.preventDefault();closeAnnotation(true);}});
 function frame(time){requestAnimationFrame(frame);const dt=lastTime?Math.min(.1,(time-lastTime)/1000):0;lastTime=time;if(document.hidden)return;
+ if(journey==='seed'||journey==='sowing')entryTime+=dt;
+ if(journey==='sowing'){sowingElapsed+=dt;const p=sowingElapsed/(reduced?.8:sowingDuration);$('sowing-status').textContent=p<.42?tr('Sowing the seed…','ਬੀਜ ਬੀਜ ਰਹੇ ਹਾਂ…'):tr('One seed. One acre.','ਇੱਕ ਬੀਜ। ਇੱਕ ਏਕੜ।');if(p>=1){begin('guided');displayMode=viewMode='acre';}}
  if(playing){animationTime+=dt;orientationElapsed+=dt;if(orientationElapsed>8)$('orientation').hidden=true;
   if(harvestHold){harvestHold.elapsed+=dt;if(harvestHold.elapsed>=8){seenHarvest.add(harvestHold.id);harvestHold=null;if(target>=maxDay)playing=false;}}
   else{const next=Math.min(maxDay,target+dt*(journey==='guided'?guidedSpeed:speed)),checkpoint=journey==='guided'?[{id:'rice',day:122},{id:'wheat',day:maxDay}].find(h=>!seenHarvest.has(h.id)&&target<h.day&&next>=h.day):null;
@@ -134,11 +182,12 @@ function frame(time){requestAnimationFrame(frame);const dt=lastTime?Math.min(.1,
  }
  position=target;current=Timeline.sample(result,flows,position);
  const welcome=journey==='welcome',sceneSample=welcome?Timeline.sample(result,flows,78):current;
- Scene3D.update(sceneSample,{motion:reduced,time:animationTime,dt,displayMode:welcome?'bowl':viewMode,quantityMode:displayMode,metrics:Metrics.sample(result,sceneSample,displayMode),intro:welcome,paused:!playing||!!harvestHold||welcome});
+ if(!welcome)Scene3D.update(sceneSample,{entry:journey==='seed'||journey==='sowing'?{phase:journey,progress:journey==='sowing'?(reduced?1:Math.min(1,sowingElapsed/sowingDuration)):0}:null,motion:reduced,time:journey==='seed'||journey==='sowing'?entryTime:animationTime,dt,displayMode:welcome?'bowl':viewMode,quantityMode:displayMode,metrics:Metrics.sample(result,sceneSample,displayMode),intro:welcome,paused:!playing||!!harvestHold||welcome});
+ positionAnnotation();
  if(time-uiTime>100||uiTime===0){updateUI(current);uiTime=time;if(!Scene3D.info().renderer){const fallback=document.querySelector('.webgl-fallback');if(fallback)fallback.innerHTML='<strong>'+tr('The story is still here.','ਕਹਾਣੀ ਅਜੇ ਵੀ ਇੱਥੇ ਹੈ।')+'</strong>'+tr('This device cannot draw the field. Follow the chapter descriptions, water totals and harvest bowl using the controls below.','ਇਹ ਜੰਤਰ ਖੇਤ ਦਾ ਦ੍ਰਿਸ਼ ਨਹੀਂ ਬਣਾ ਸਕਦਾ। ਹੇਠਲੇ ਬਟਨਾਂ ਨਾਲ ਕਹਾਣੀ, ਪਾਣੀ ਦੇ ਅੰਕੜੇ ਅਤੇ ਵਾਢੀ ਦੀ ਕੌਲੀ ਦੇਖੋ।');}}
 }
 // Exact model history and a read-only presentation snapshot remain available to verification tools.
-window.Fieldnotes={Sim,Timeline,Metrics,Scene3D,getResult:()=>result,getTimeline:()=>({position,target,playing,mode:'managed_rotation',residueStrategy,residueExplicit,displayMode,viewMode,journey,reduced,harvestHold:harvestHold?{...harvestHold}:null,metrics:current?Metrics.sample(result,current,displayMode):null,sample:current}),planned};
+window.Fieldnotes={Sim,Timeline,Metrics,Scene3D,getResult:()=>result,getTimeline:()=>({position,target,playing,mode:'managed_rotation',residueStrategy,residueExplicit,displayMode,viewMode,journey,selectedCrop,sowingElapsed,reduced,harvestHold:harvestHold?{...harvestHold}:null,metrics:current?Metrics.sample(result,current,displayMode):null,sample:current}),planned};
 
 function count(n){return n>=1000000?fmt(n/1000000,2)+'M':n>=10000?fmt(n/1000,1)+'k':fmt(n,n<10?1:0);}
 function mass(kg){return displayMode==='bowl'?fmt(kg*1000,1)+' g':fmt(kg,kg<10?1:0)+' kg';}

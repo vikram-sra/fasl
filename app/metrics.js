@@ -9,7 +9,7 @@ const Metrics=(()=>{
   const tillers=plants*(1+(pop.max_shoots_per_plant[v.id]-1)*Timeline.phase(v.das,v.id==='rice'?27:15,v.id==='rice'?62:55));
   const formed=edibleKg*v.growth.grain,grain=v.fallow?edibleKg:formed;
   const productTotals={};for(const category of ['fertilizer','herbicide','pest_control']){productTotals[category]={};const c=v.s.cropStates[v.id],before=v.previous.cropStates[v.id];for(const unit of ['kg','g','mL']){const sum=c=>c.products.filter(p=>p.category===category&&p.unit===unit).reduce((n,p)=>n+p.quantity,0);const f=Timeline.phase(v.fraction,0,.3);productTotals[category][unit]=(sum(before)+(sum(c)-sum(before))*f)*scale;}}
-  return {mode,scale,edibleKg,plants:plants*scale,shoots:tillers*scale,pumpedL:v.water.pumped*scale,rainL:v.water.rain*scale,etL:v.water.et*scale,grainKg:grain*scale,harvested:harvest>=.999||v.fallow,products:productTotals,water:Object.fromEntries(Object.entries(v.rotationWater).map(([k,n])=>[k,n*scale]))};
+  return {mode,scale,edibleKg,targetPopulation:target,plants:plants*scale,shoots:tillers*scale,pumpedL:v.water.pumped*scale,rainL:v.water.rain*scale,etL:v.water.et*scale,grainKg:grain*scale,harvested:harvest>=.999||v.fallow,products:productTotals,water:Object.fromEntries(Object.entries(v.rotationWater).map(([k,n])=>[k,n*scale]))};
  }
  return {sample};
 })();

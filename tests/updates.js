@@ -55,7 +55,7 @@ async page=>{
   }finally{await blocked.close();}
   // file:// must not request a network version or reload itself.
   const file=await context.newPage();let versionFetches=0;file.on('request',r=>{if(r.url().includes('version.json'))versionFetches++;});try{
-   await file.goto('file:///Users/vikramsra/Desktop/Duar%20Projects/fasl/index.html');await file.waitForFunction(()=>window.Fieldnotes?.Scene3D.info().renderer);await file.waitForTimeout(150);ok(versionFetches===0,'The standalone file build works without update-network requests');
+   await file.goto('file:///Users/vikramsra/Desktop/Duar%20Projects/fasl/index.html');await file.locator('[data-choose=rice]').click();await file.waitForFunction(()=>window.Fieldnotes?.Scene3D.info().renderer);await file.waitForTimeout(150);ok(versionFetches===0,'The standalone file build works without update-network requests');
   }finally{await file.close();}
   ok(errors.length===0,'No browser JavaScript errors during update handling');return{passed:checks.length,checks};
  }catch(e){throw Error('After "'+checks.at(-1)+'": '+e.message);}finally{await context.close();}

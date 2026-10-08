@@ -6,7 +6,7 @@ async page=>{
   // A controlled 10 fps clock verifies the full journey without rendering 5,000 synthetic frames.
   await guided.addInitScript(()=>{window.requestAnimationFrame=cb=>setTimeout(()=>cb(performance.now()),100);});
   await guided.goto('http://127.0.0.1:8080/');await guided.clock.pauseAt(new Date(start.getTime()+2000));await guided.clock.runFor(64);
-  await guided.evaluate(()=>document.querySelector('#start-story').click());await guided.clock.runFor(28000);
+  await guided.evaluate(()=>document.querySelector('[data-choose=rice]').click());await guided.clock.runFor(200);await guided.evaluate(()=>document.querySelector('#sow-seed').click());await guided.clock.runFor(36000);
   ok(await guided.evaluate(()=>Fieldnotes.getTimeline().harvestHold?.id==='rice'&&Fieldnotes.getTimeline().position===122),'Guided story holds at rice harvest');
   ok(await guided.locator('#harvest-reveal').isVisible(),'Rice processing and bowl are visible');await guided.clock.runFor(3000);
   const processing=await guided.locator('#processing-label').textContent();ok(processing.includes('SEPARATING')||processing.includes('REMOVING'),'Rice processing advances through threshing and husk removal');
