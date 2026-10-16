@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "license": "CC0 1.0 (public domain) — ambientCG.com, HDRI by Greg Zaal via Poly Haven",
+  "materials": [
+    {"id": "tex-soil-dry",   "src": "Ground103", "size": 1024},
+    {"id": "tex-mud-wet",    "src": "Ground109", "size": 1024, "killGreen": true, "roughnessScale": 0.45, "darken": 0.82},
+    {"id": "tex-loam-damp",  "src": "Ground106", "size": 512,  "killGreen": true, "darken": 0.7, "roughnessScale": 0.8},
+    {"id": "tex-straw-mulch","src": "ThatchedRoof001A", "size": 1024, "tint": [1.28, 1.12, 0.78]},
+    {"id": "tex-ash-burnt",  "src": "Gravel043", "size": 512, "darken": 0.55},
+    {"id": "tex-bund-grass", "src": "Ground037", "size": 512},
+    {"id": "tex-sand-wet",   "src": "Ground054", "size": 512, "killGreen": true, "darken": 0.62, "roughnessScale": 0.6},
+    {"id": "tex-kankar",     "src": "Ground079S", "size": 512},
+    {"id": "tex-brick",      "src": "Bricks097", "size": 512},
+    {"id": "tex-plaster",    "src": "Concrete034", "size": 512},
+    {"id": "tex-steel-blue", "src": "PaintedMetal004", "size": 512, "swapRB": true},
+    {"id": "tex-pp-sack",    "src": "Fabric085", "size": 512, "desaturate": 0.9, "brighten": 1.55}
+  ],
+  "composed": [
+    {"id": "tex-cutaway-strip", "size": 1024, "tile": "x",
+     "bands": [["tex-mud-wet", 0.62, 0.00, 0.10], ["tex-mud-wet", 1.0, 0.10, 0.32], ["tex-kankar", 1.0, 0.32, 0.50],
+               ["tex-loam-damp", 1.0, 0.50, 0.68], ["tex-sand-wet", 1.0, 0.68, 1.00]],
+     "note": "bands: [material, brightness, top, bottom] as fractions of height, soft 4% blends; top is the surface"}
+  ],
+  "hdri": [{"id": "sky-dry-field", "file": "hdri/dry_field_1k.hdr", "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/dry_field_1k.hdr", "note": "Dry Field by Greg Zaal, polyhaven.com/a/dry_field, CC0"}],
+  "downloads": "https://ambientcg.com/get?file=<src>_1K-JPG.zip (keep *_Color, *_NormalGL, *_Roughness, *_AmbientOcclusion jpgs in assets/src/cc0/<src>/)"
+}

@@ -6,3 +6,9 @@ output/
 assets/reference-only/
 .env
 .env.*
+assets/src/generated/
+assets/src/selected/*selftest*
+assets/build/*selftest*
+assets/build/*.png
+assets/src/cc0/
+assets/build/*.webp

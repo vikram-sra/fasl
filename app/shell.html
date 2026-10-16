@@ -1,37 +1,50 @@
 <!doctype html>
 <html lang="en"><head><meta name="app-version" content="APP_VERSION"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f3f0e5"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ctext y=%2726%27 font-size=%2726%27%3E🌾%3C/text%3E%3C/svg%3E"><title>One field. Two harvests. · A Bowl Across Two Seasons</title><style>/* APP_CSS */</style></head><body>
-<main class="game" data-journey="welcome" aria-label="A Bowl Across Two Seasons">
- <header class="header">
-  <a class="brand" href="#" id="home" aria-label="Return to the introduction"><svg viewBox="0 0 30 40" aria-hidden="true"><path d="M15 37V4M15 12Q2 12 4 3Q15 4 15 12M15 21Q2 21 4 12Q15 13 15 21M15 30Q2 30 4 21Q15 22 15 30M15 16Q28 16 26 7Q15 8 15 16M15 25Q28 25 26 16Q15 17 15 25" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>A BOWL ACROSS<br>TWO SEASONS</span></a>
-  <div class="seasons" role="group" aria-label="Crop chapters"><button data-scene="rice" aria-pressed="true">Rice</button><button data-scene="wheat" aria-pressed="false">Wheat</button></div>
-  <div class="header-actions"><button id="language-toggle" lang="pa" aria-label="Switch to Punjabi">ਪੰਜਾਬੀ</button><button class="menu" data-drawer="about">About</button></div>
+<main class="app" id="app" data-view="field" data-journey="welcome" data-sheet="closed" aria-label="A Bowl Across Two Seasons">
+ <header class="topbar">
+  <a class="brand" href="#" id="home" aria-label="Return to the introduction"><svg viewBox="0 0 30 40" aria-hidden="true"><path d="M15 37V4M15 12Q2 12 4 3Q15 4 15 12M15 21Q2 21 4 12Q15 13 15 21M15 30Q2 30 4 21Q15 22 15 30M15 16Q28 16 26 7Q15 8 15 16M15 25Q28 25 26 16Q15 17 15 25" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>A Bowl Across<br>Two Seasons</span></a>
+  <div class="segmented" role="group" aria-label="Crop chapters" id="crop-toggle"><button data-scene="rice" aria-pressed="true">Rice</button><button data-scene="wheat" aria-pressed="false">Wheat</button></div>
+  <div class="top-actions"><button id="language-toggle" lang="pa" aria-label="Switch to Punjabi">ਪੰਜਾਬੀ</button><button id="menu" data-sheet="about">Menu</button></div>
  </header>
- <section class="field-scene" aria-label="Field and soil cutaway">
-  <div id="scene-art" role="img" aria-label="Representative crops above soil, roots and illustrative groundwater"></div>
- <section class="narrative" aria-label="The story so far">
-  <div class="scene-heading"><div class="eyebrow"><span id="chapter-label">PUNJAB · ONE FIELD</span><span id="current-date"></span></div><h1 id="stage-title" aria-live="polite" aria-atomic="true">One field. Two harvests.</h1><p id="story-caption"></p></div>
-  <button class="care-button" data-drawer="care"><span class="care-dot" aria-hidden="true"></span><span id="care-label">How this field is cared for</span><span aria-hidden="true">↗</span></button>
- </section>
-
-
-  <div id="welcome" class="welcome"><span class="eyebrow" id="welcome-kicker">A SMALL STORY ABOUT WHAT FEEDS US</span><h2 id="welcome-title">One field.<br>Two harvests.</h2><p id="welcome-copy">Follow rice and wheat from seed to food—and see the water used along the way.</p><small id="welcome-note">About 80 seconds · pause or skip ahead anytime</small></div>
-  <div id="orientation" class="orientation" hidden><p id="orientation-copy">Above: the crop. Below: roots, soil and water. Crop care happens automatically.</p></div>
-  <span id="weather-status" class="event-label"></span>
-  <button id="soil-status" data-drawer="soil">Soil at the start</button>
-  <div id="groundwater-marker"><span class="water-tick" aria-hidden="true"></span><span id="groundwater-label">Illustrative groundwater</span></div>
-  <span id="cutaway-note" class="cutaway-note">Underground cutaway · not to scale</span>
-  <div id="harvest-reveal" class="harvest-reveal" hidden aria-label="Harvest and dry food"><svg id="food-bowl" viewBox="0 0 240 148" aria-hidden="true"><defs><linearGradient id="ceramic" x2="0" y2="1"><stop stop-color="#faf5e8"/><stop offset="1" stop-color="#c9bb9c"/></linearGradient><clipPath id="bowl-clip"><ellipse cx="120" cy="72" rx="83" ry="25"/></clipPath></defs><ellipse cx="120" cy="132" rx="63" ry="8" fill="#213c2b" opacity=".09"/><path d="M32 72Q40 132 120 134Q200 132 208 72Z" fill="url(#ceramic)" stroke="#99886a" stroke-width="1.5"/><ellipse cx="120" cy="72" rx="88" ry="28" fill="#e0d5bb" stroke="#99886a" stroke-width="1.5"/><g id="bowl-grains" clip-path="url(#bowl-clip)"></g><ellipse cx="120" cy="72" rx="88" ry="28" fill="none" stroke="#fdf9ed" stroke-width="4"/></svg><span class="eyebrow" id="processing-label"></span><strong id="bowl-title">From this field to your bowl</strong><span id="bowl-note">100 g dry food</span><button class="text-button" data-drawer="results" id="harvest-results">See this harvest ↗</button></div>
-  <div id="story-finish" class="story-finish" hidden><span class="eyebrow" id="finish-kicker">THE FIELD KEEPS ITS HISTORY</span><h2 id="finish-title">Two harvests. One shared source.</h2><p id="finish-copy"></p><div class="finish-actions"><button class="primary" data-drawer="results" id="compare-crops">Compare rice & wheat</button><button class="text-button" id="replay">Replay ↻</button></div><button class="text-button" data-drawer="comparison" id="try-straw">Try the other straw choice ↗</button></div>
-  <div id="input-objects" class="input-objects" aria-label="Cumulative water and crop inputs"></div>
- </section>
- <footer class="timeline">
-  <div class="welcome-actions"><button class="primary" id="start-story">Start the story <span aria-hidden="true">→</span></button><button class="text-button" id="explore">Explore freely</button></div>
-  <div class="quantity-row"><div class="unit-switch" role="group" aria-label="Quantity basis"><button data-unit="acre" aria-pressed="true">Whole field</button><button data-unit="bowl" aria-pressed="false">Per 100 g dry food</button></div><button data-drawer="metrics" class="live-metrics" aria-label="Water and harvest details"><span><strong id="metric-water">0 L</strong><small id="label-water">Water drawn underground</small></span><span><strong id="metric-grain">0 kg</strong><small id="label-grain">Grain has not formed yet</small></span><span class="metrics-arrow" aria-hidden="true">↗</span></button></div>
-  <div class="playback-row"><button id="play" aria-label="Play simulation"><span aria-hidden="true">▷</span><span id="play-label">Play</span></button><span id="timeline-caption">Rice · June</span><span class="timeline-speed" id="playback-context">Explore at your pace</span><button id="next-chapter">Next chapter <span aria-hidden="true">→</span></button></div>
-  <div class="slider-wrap"><input id="timeline-slider" type="range" min="0" max="304" step="0.01" value="0" aria-label="Crop growing timeline"></div><div id="month-list" aria-label="Season months"></div>
-  <div class="timeline-note"><span id="baseline-note">Straw kept as mulch · baseline</span><button data-drawer="comparison" id="compare-straw-footer">Compare straw choices</button><button data-drawer="evidence" id="estimates-link">About these estimates</button></div>
+ <div class="stage">
+  <section class="scene" aria-label="Field and soil cutaway">
+   <div id="scene-art" role="img" aria-label="Representative crops above soil, roots and illustrative groundwater"></div>
+   <div class="scene-ui">
+    <div class="stage-chip" id="stage-chip"><span class="meta"><span id="chapter-label"></span><span id="current-date"></span></span><h1 id="stage-title" aria-live="polite" aria-atomic="true">One field. Two harvests.</h1><p class="caption" id="story-caption"></p></div>
+    <span id="weather-status" class="event-label" role="status"></span>
+    <div id="groundwater-marker" class="annotation" data-kind="groundwater"><span class="tick" aria-hidden="true"></span><button class="label" data-sheet="water" id="groundwater-label">Groundwater</button></div>
+    <div id="plant-note" class="annotation" data-kind="plant" hidden><span class="label" id="plant-note-label"></span></div>
+    <span id="cutaway-note">Illustrative cutaway</span>
+    <div id="welcome" class="welcome"><span class="eyebrow" id="welcome-kicker">A SMALL STORY ABOUT WHAT FEEDS US</span><h2 id="welcome-title">One field.<br>Two harvests.</h2><p id="welcome-copy">Follow rice and wheat from seed to food—and see the water used along the way.</p></div>
+    <div class="welcome-actions"><button class="primary" id="start-story">▶ Play story</button><button class="secondary" id="explore">Explore</button></div>
+    <div id="chapter-card" class="chapter-card" role="status" aria-live="polite" hidden><span class="step" id="chapter-step"></span><strong id="chapter-title"></strong><p id="chapter-copy"></p><div class="actions"><button id="chapter-prev" aria-label="Previous chapter">‹</button><button id="chapter-next" aria-label="Next chapter">›</button></div><div class="bar"><i id="chapter-bar"></i></div></div>
+    <button id="resume-story" class="primary resume" hidden>Resume story</button>
+    <div id="harvest-reveal" class="harvest-reveal" hidden aria-label="Harvest and dry food"><svg id="food-bowl" viewBox="0 0 240 148" aria-hidden="true"><defs><linearGradient id="ceramic" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fdfaf0"/><stop offset=".45" stop-color="#e8dec6"/><stop offset="1" stop-color="#b5a382"/></linearGradient><radialGradient id="bowl-inner" cx=".5" cy=".4" r=".55"><stop offset="0" stop-color="#efe6d0"/><stop offset="1" stop-color="#c4b393"/></radialGradient><clipPath id="bowl-clip"><ellipse cx="120" cy="72" rx="83" ry="25"/></clipPath></defs><ellipse cx="120" cy="133" rx="68" ry="9" fill="#182a1e" opacity=".18"/><path d="M32 72Q40 132 120 134Q200 132 208 72Z" fill="url(#ceramic)" stroke="#8b795b" stroke-width="1.5"/><path d="M46 84Q56 124 114 128" fill="none" stroke="#ffffff" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"/><ellipse cx="120" cy="72" rx="88" ry="28" fill="url(#bowl-inner)" stroke="#8b795b" stroke-width="1.5"/><g id="bowl-grains" clip-path="url(#bowl-clip)"></g><ellipse cx="120" cy="72" rx="88" ry="28" fill="none" stroke="#fefbf2" stroke-width="3.5" opacity=".88"/></svg><span class="eyebrow" id="processing-label"></span><strong id="bowl-title">From this field to your bowl</strong><span id="bowl-note">100 g dry food</span><button class="text-button" data-sheet="results" id="harvest-results">See this harvest ↗</button></div>
+    <div id="story-finish" class="story-finish" hidden><span class="eyebrow" id="finish-kicker">THE FIELD KEEPS ITS HISTORY</span><h2 id="finish-title">Two harvests. One shared source.</h2><p id="finish-copy"></p><div class="finish-actions"><button class="primary" data-sheet="results" id="compare-crops">Compare rice &amp; wheat</button><button class="text-button" id="replay">Replay ↻</button></div><button class="text-button" data-sheet="comparison" id="try-straw">Try the other straw choice ↗</button></div>
+   </div>
+  </section>
+  <aside id="sheet" class="sheet" role="dialog" aria-modal="false" aria-labelledby="sheet-title" hidden>
+   <div class="sheet-handle" id="sheet-handle" aria-hidden="true"></div>
+   <div class="sheet-head"><h2 id="sheet-title"></h2><button id="close-sheet" aria-label="Close details">✕</button></div>
+   <div class="sheet-content" id="sheet-content"></div>
+  </aside>
+ </div>
+ <footer class="dock" id="dock">
+  <nav class="views" role="group" aria-label="View" id="views">
+   <button data-view="field" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 18h20M4 18V9m4 9V6m4 12V8m4 10V6m4 12V9"/></svg><span>Field</span></button>
+   <button data-view="plant" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V8M12 14c-5 0-7-3-7-6 4 0 7 2 7 6M12 11c4 0 6-2.500 6-5-3.500 0-6 1.500-6 5"/></svg><span>Plant</span></button>
+   <button data-view="underground" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M12 7v6m0 0-3 4m3-4 3 4M3 20c3-2 6-2 9 0s6 2 9 0"/></svg><span>Underground</span></button>
+   <button data-view="ledger" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM9 9h6M9 13h6M9 17h3"/></svg><span>Ledger</span></button>
+  </nav>
+  <div class="transport">
+   <button id="play" class="play" aria-label="Play simulation"><svg viewBox="0 0 16 16" aria-hidden="true"><path id="play-icon" d="M4 2l10 6-10 6z"/></svg><span id="play-label">Play</span></button>
+   <div class="scrub" id="scrub"><div class="scrub-bands" id="scrub-bands" aria-hidden="true"></div><input id="timeline-slider" type="range" min="0" max="304" step="0.01" value="0" aria-label="Crop growing timeline"><div class="scrub-markers" id="scrub-markers"></div><div class="scrub-months" id="month-list" aria-hidden="true"></div></div>
+   <span class="date-readout" id="timeline-caption">Jun</span>
+  </div>
+  <div class="readout">
+   <button class="metrics" data-sheet="metrics" id="metrics-button" aria-label="Water and harvest details"><span class="water"><strong id="metric-water">0 L</strong><small id="label-water">Pumped water</small></span><span class="grain"><strong id="metric-grain">0 kg</strong><small id="label-grain">Dry grain</small></span><span class="chev" aria-hidden="true">↗</span></button>
+   <div class="segmented compact units" role="group" aria-label="Quantity basis" id="unit-switch"><button data-unit="acre" aria-pressed="true">Acre</button><button data-unit="bowl" aria-pressed="false">100 g</button></div>
+  </div>
  </footer>
 </main>
-<dialog id="residue-dialog" aria-labelledby="residue-title"><div class="drawer-top"><span id="residue-kicker">TRY A DIFFERENT PATH</span><button id="close-residue" aria-label="Close straw choices">✕</button></div><h2 id="residue-title"></h2><p id="residue-description"></p><button class="residue-option" data-residue="mulch"></button><button class="residue-option" data-residue="burn"></button><p id="residue-note"></p></dialog>
-<dialog id="drawer" aria-labelledby="drawer-title"><div class="drawer-top"><span>FIELD NOTES</span><button id="close-drawer" aria-label="Close details">✕</button></div><h2 id="drawer-title"></h2><div id="drawer-content"></div></dialog>
-<script>/* THREE */</script><script>/* PACKAGE_DATA */</script><script>/* SIMULATION */</script><script>/* TIMELINE */</script><script>/* SCENE_3D */</script><script>/* METRICS */</script><script>/* APPLICATION */</script><script>/* APP_UPDATES */</script></body></html>
+<script>/* THREE */</script><script>/* ASSET_PACK */</script><script>/* PACKAGE_DATA */</script><script>/* SIMULATION */</script><script>/* TIMELINE */</script><script>/* SCENE_3D */</script><script>/* METRICS */</script><script>/* STATE */</script><script>/* STORY */</script><script>/* DETAILS */</script><script>/* UI */</script><script>/* APPLICATION */</script><script>/* APP_UPDATES */</script></body></html>

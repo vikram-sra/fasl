@@ -17,8 +17,11 @@ const Timeline=(()=>{
   const i=Math.max(0,points.findLastIndex(k=>das>=k.day)),a=points[i],b=points[Math.min(i+1,points.length-1)],t=a===b?0:clamp((das-a.day)/(b.day-a.day));
   const c=s.cropStates[id],prior=prev.cropStates[id],water={},rotationWater={},allocationPhase=k=>['pumped','rain','spray','conveyance'].includes(k)?rainPhase:['recharge','overflow'].includes(k)?arrivePhase:k==='et'?etPhase:k==='runoff'?seepPhase:k==='deep'?drainPhase:f;for(const k of Object.keys(c.water)){water[k]=lerp(prior.water[k],c.water[k],allocationPhase(k));rotationWater[k]=lerp(prev.water[k],s.water[k],allocationPhase(k));}
   const totals={};for(const cat of ['fertilizer','herbicide','pest_control']){const sum=c=>c.products.filter(q=>q.category===cat).reduce((n,q)=>n+q.quantity,0);totals[cat]=lerp(sum(prior),sum(c),rainPhase);}
+  const seasonAngle=Math.cos((p-13)/365*Math.PI*2),diurnal=Math.sin(f*Math.PI),winterMist=phase(p,160,188)*(1-phase(p,218,246)),monsoonHumidity=phase(p,14,42)*(1-phase(p,96,118));
+  const dayPhase=f<.3?'morning':f<.65?'midday':f<.9?'afternoon':'evening';
   return{position:p,day,fraction:f,s,previous:prev,id,das,stage,def,flow,pondL:Math.max(0,pond),soilL:Math.max(0,soil),aquiferL:Math.max(0,aquifer),pondDepthMm:Math.max(0,pond)/Sim.A,water,rotationWater,totals,
    soil:{...s.soil,...Object.fromEntries(['fertilizerN','residueKg','residueNReturned','residueNRemoved'].map(k=>[k,lerp(prev.soil?.[k]||0,s.soil[k],k==='fertilizerN'?rainPhase:f)]))},residueStrategy:result.residueStrategy,residueProgress:phase(p,121,125),residueCover:result.residueStrategy==='mulch'?phase(p,121,125)*Math.exp(-Math.max(0,p-121)/result.cfg.residue.decay_days):0,
+   solar:{seasonAngle,diurnal,winterMist,monsoonHumidity,dayPhase},
    growth:{height:lerp(a.height,b.height,phase(t,0,1))/2.82,root:lerp(a.root,b.root,phase(t,0,1))/1.12,spread:lerp(.1,1,phase(das,0,55)),grain:phase(das,def.stages[6].start_das,def.stages[8].start_das),ripe:phase(das,def.stages[7].start_das,def.harvest_das),harvest:phase(das,def.harvest_das-1,def.harvest_das+1)},fallow:s.cropId==='fallow'};
  }
  return{prepare,sample,phase};

@@ -14,15 +14,18 @@ Open `http://127.0.0.1:8080/`.
 
 ## Experience
 
-The first visit starts paused with a centered plant preview and a large, enabled Play story button. **Play story** follows the rice → straw → wheat rotation in about 80 seconds, with harvest/processing/bowl reveals. **Explore** provides a paused timeline, crop navigation and chapter skips. All crop care is automatic.
+The first visit shows a plant preview and two choices: **Play story** (about 80 seconds, nine chapters, each with its own view and one line of copy) or **Explore**. Touching any view, the timeline or a sheet pauses the story and offers **Resume story**.
 
-Straw is retained as the baseline disclosed in Menu. **Menu → Compare straw choices** shows season-end projections for retaining or burning straw using identical rain and care. You can watch either path or change it at the current date. Wheat navigation works immediately; it does not require a management decision.
+**Views** change where you look; date, crop and straw choice are shared by all of them:
 
-**Field / 100 g** coordinates the crop view and quantities. Field shows 96 varied clumps with detailed foreground plants; 100 g shows a large representative plant. Both retain the underground cutaway and preserve date and model history. Container sizes and fills change together: water, fertilizer, weed care and pest care show cumulative allocated quantities. Their capacities differ between modes, and small allocations are magnified illustrations, not a common physical scale.
+- **Field**: a real 3D paddy or wheat field in perspective, with flood water, soil, straw mulch, ash and fire on the burn path, rain, haze and a distant windbreak. Drag to orbit, scroll or pinch to zoom.
+- **Plant**: a close-up of one plant standing on open soil with the field behind it, and a label on its grain head.
+- **Underground**: the sectional cutaway of roots, soil horizons, the tubewell and groundwater (illustrative, not to scale).
+- **Ledger**: cumulative water and inputs, in a bottom sheet on phones and a side panel on wide screens. Unlike units are never added together.
 
-The active scene occupies about 75% of a 390×844 viewport. One short stage title replaces the narrative strip, while a compact dock holds quantities and playback. Roots, soil horizons, saturated ground and a motor/pump assembly with connected bore piping stay visible. The camera moves closer to seedlings and the residue-covered surface between seasons. A small harvest reference opens results on tap.
+**Acre / 100 g** changes only the quantity basis everywhere; it never moves the camera. The timeline shows season bands (rice, between seasons, wheat) and event markers for sowing, irrigation, rain, fertilizer, weed and pest care, harvest and straw handling; tapping a marker jumps to it and opens its details. Arrow keys step a day, PageUp/PageDown a chapter, Home/End the season.
 
-Tap an input object for its product ledger or water details; tap the main metrics for population, shoots and grain definitions. Menu contains automatic-care information, straw comparisons, results, sources and preferences. Pause freezes time and event motion. Reduced motion retains static flow cues. English/Punjabi and theme preferences persist locally.
+Details open in the sheet: crop care, sources, straw comparison, results and settings. Pause freezes time and event motion. Reduced motion removes camera easing and ambient motion. English/Punjabi (with an embedded Gurmukhi font) and theme preferences persist locally.
 
 ## Automatic updates
 
@@ -56,14 +59,19 @@ Browser checks use the Playwright CLI, with a local server running:
 
 ```sh
 npx --yes --package @playwright/cli playwright-cli -s=acceptance open http://127.0.0.1:8080/ --config tests/playwright.config.json
-python3 tests/run_browser.py
+python3 tests/run_browser.py ui-overhaul.js
+python3 tests/run_browser.py updates.js
 ```
 
-The browser runner defaults to `tests/journey.js`. Pass `live-flow.js`, `farmer-ui.js`, `ux-metrics.js`, `acre-view.js`, `guided-playback.js`, `accessibility.js`, `crop-first.js`, or `updates.js`, or `touch-ux.js` to check that flow. Screenshots and reports are written under ignored `output/playwright/`. The original brief and older specifications are historical context; current behavior is described in the documents below.
+`ui-overhaul.js` covers layout at four viewports, the view and unit controls, sheet focus handling, the ledger, timeline markers, the story and Punjabi. The earlier flows are kept in `tests/legacy/` for reference; they target the previous interface and no longer run.
+
+Source layout: `app/css/` (tokens, layout, components), `app/state.js` (helpers and store), `app/story.js` (chapters), `app/details.js` (sheet content), `app/ui.js` (rendering and controls), `app/application.js` (playback and frame loop), `app/scene3d.js` (renderer). Texture and model pipelines are in `assets/src/`.
 
 - [Build and run](docs/BUILD_AND_RUN.md)
 - [Product and visual behavior](docs/PRODUCT_AND_VISUALS.md)
 - [Farmer interface and straw model](docs/FARMER_UI_AND_RESIDUE.md)
 - [Quantity definitions](docs/UX_AUDIT.md)
 - [Overhaul plan](docs/REALISM_AND_UX_OVERHAUL_PLAN.md)
+- [Realism plan](docs/HYPERREALISM_PLAN.md)
+- [Experience and UI overhaul](docs/EXPERIENCE_AND_UI_OVERHAUL_PLAN.md)
 - [Acceptance results](docs/ACCEPTANCE_RESULTS.md)
